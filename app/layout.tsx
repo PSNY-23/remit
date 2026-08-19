@@ -17,7 +17,7 @@ export default async function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <Head />
 
-      <body>
+      <body suppressHydrationWarning>
         <Layout
           navbar={<Navbar logo={<b>Remit</b>} />}
           pageMap={await getPageMap()}
