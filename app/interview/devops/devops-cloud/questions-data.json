@@ -1,0 +1,134 @@
+[
+  {
+    "title": "What is CI/CD?",
+    "slug": "what-is-ci-cd",
+    "category": "DevOps & Cloud",
+    "content": "# What is CI/CD?\n\n## Cloud & DevOps Architecture\n\nInfrastructure as Code (IaC), containerization, and zero-downtime deployment pipelines for **What is CI/CD?**.\n\n---\n\n## Docker / Kubernetes / CI Configuration\n```yaml\n# Production configuration for What is CI/CD?\n```\n\n---\n\n## Reliability & Disaster Recovery\n- Automated health checks, rollbacks, and multi-region failover.\n"
+  },
+  {
+    "title": "Explain a typical CI/CD pipeline.",
+    "slug": "explain-a-typical-ci-cd-pipeline",
+    "category": "DevOps & Cloud",
+    "content": "# Explain a typical CI/CD pipeline.\n\n## Cloud & DevOps Architecture\n\nInfrastructure as Code (IaC), containerization, and zero-downtime deployment pipelines for **Explain a typical CI/CD pipeline.**.\n\n---\n\n## Docker / Kubernetes / CI Configuration\n```yaml\n# Production configuration for Explain a typical CI/CD pipeline.\n```\n\n---\n\n## Reliability & Disaster Recovery\n- Automated health checks, rollbacks, and multi-region failover.\n"
+  },
+  {
+    "title": "What happens when code is pushed to Git?",
+    "slug": "what-happens-when-code-is-pushed-to-git",
+    "category": "DevOps & Cloud",
+    "content": "# What happens when code is pushed to Git?\n\n## Cloud & DevOps Architecture\n\nInfrastructure as Code (IaC), containerization, and zero-downtime deployment pipelines for **What happens when code is pushed to Git?**.\n\n---\n\n## Docker / Kubernetes / CI Configuration\n```yaml\n# Production configuration for What happens when code is pushed to Git?\n```\n\n---\n\n## Reliability & Disaster Recovery\n- Automated health checks, rollbacks, and multi-region failover.\n"
+  },
+  {
+    "title": "How would you deploy a Node.js application?",
+    "slug": "how-would-you-deploy-a-node-js-application",
+    "category": "DevOps & Cloud",
+    "content": "# How would you deploy a Node.js application?\n\n## Cloud & DevOps Architecture\n\nInfrastructure as Code (IaC), containerization, and zero-downtime deployment pipelines for **How would you deploy a Node.js application?**.\n\n---\n\n## Docker / Kubernetes / CI Configuration\n```yaml\n# Production configuration for How would you deploy a Node.js application?\n```\n\n---\n\n## Reliability & Disaster Recovery\n- Automated health checks, rollbacks, and multi-region failover.\n"
+  },
+  {
+    "title": "What is Docker?",
+    "slug": "what-is-docker",
+    "category": "DevOps & Cloud",
+    "content": "# What is Docker?\n\n## Cloud & DevOps Architecture\n\nInfrastructure as Code (IaC), containerization, and zero-downtime deployment pipelines for **What is Docker?**.\n\n---\n\n## Docker / Kubernetes / CI Configuration\n```yaml\n# Production configuration for What is Docker?\n```\n\n---\n\n## Reliability & Disaster Recovery\n- Automated health checks, rollbacks, and multi-region failover.\n"
+  },
+  {
+    "title": "Container vs virtual machine?",
+    "slug": "container-vs-virtual-machine",
+    "category": "DevOps & Cloud",
+    "content": "# Container vs virtual machine?\n\n## Cloud & DevOps Architecture\n\nInfrastructure as Code (IaC), containerization, and zero-downtime deployment pipelines for **Container vs virtual machine?**.\n\n---\n\n## Docker / Kubernetes / CI Configuration\n```yaml\n# Production configuration for Container vs virtual machine?\n```\n\n---\n\n## Reliability & Disaster Recovery\n- Automated health checks, rollbacks, and multi-region failover.\n"
+  },
+  {
+    "title": "What belongs in a Dockerfile?",
+    "slug": "what-belongs-in-a-dockerfile",
+    "category": "DevOps & Cloud",
+    "content": "# What belongs in a Dockerfile?\n\n## Cloud & DevOps Architecture\n\nInfrastructure as Code (IaC), containerization, and zero-downtime deployment pipelines for **What belongs in a Dockerfile?**.\n\n---\n\n## Docker / Kubernetes / CI Configuration\n```yaml\n# Production configuration for What belongs in a Dockerfile?\n```\n\n---\n\n## Reliability & Disaster Recovery\n- Automated health checks, rollbacks, and multi-region failover.\n"
+  },
+  {
+    "title": "How would you optimize a Docker image?",
+    "slug": "how-would-you-optimize-a-docker-image",
+    "category": "DevOps & Cloud",
+    "content": "# How would you optimize a Docker image?\n\n## Cloud & DevOps Architecture\n\nInfrastructure as Code (IaC), containerization, and zero-downtime deployment pipelines for **How would you optimize a Docker image?**.\n\n---\n\n## Docker / Kubernetes / CI Configuration\n```yaml\n# Production configuration for How would you optimize a Docker image?\n```\n\n---\n\n## Reliability & Disaster Recovery\n- Automated health checks, rollbacks, and multi-region failover.\n"
+  },
+  {
+    "title": "What is Kubernetes?",
+    "slug": "what-is-kubernetes",
+    "category": "DevOps & Cloud",
+    "content": "# What is Kubernetes?\n\n## Cloud & DevOps Architecture\n\nInfrastructure as Code (IaC), containerization, and zero-downtime deployment pipelines for **What is Kubernetes?**.\n\n---\n\n## Docker / Kubernetes / CI Configuration\n```yaml\n# Production configuration for What is Kubernetes?\n```\n\n---\n\n## Reliability & Disaster Recovery\n- Automated health checks, rollbacks, and multi-region failover.\n"
+  },
+  {
+    "title": "When would you use Kubernetes?",
+    "slug": "when-would-you-use-kubernetes",
+    "category": "DevOps & Cloud",
+    "content": "# When would you use Kubernetes?\n\n## Cloud & DevOps Architecture\n\nInfrastructure as Code (IaC), containerization, and zero-downtime deployment pipelines for **When would you use Kubernetes?**.\n\n---\n\n## Docker / Kubernetes / CI Configuration\n```yaml\n# Production configuration for When would you use Kubernetes?\n```\n\n---\n\n## Reliability & Disaster Recovery\n- Automated health checks, rollbacks, and multi-region failover.\n"
+  },
+  {
+    "title": "What is horizontal scaling?",
+    "slug": "what-is-horizontal-scaling",
+    "category": "DevOps & Cloud",
+    "content": "# What is horizontal scaling?\n\n## Cloud & DevOps Architecture\n\nInfrastructure as Code (IaC), containerization, and zero-downtime deployment pipelines for **What is horizontal scaling?**.\n\n---\n\n## Docker / Kubernetes / CI Configuration\n```yaml\n# Production configuration for What is horizontal scaling?\n```\n\n---\n\n## Reliability & Disaster Recovery\n- Automated health checks, rollbacks, and multi-region failover.\n"
+  },
+  {
+    "title": "What is autoscaling?",
+    "slug": "what-is-autoscaling",
+    "category": "DevOps & Cloud",
+    "content": "# What is autoscaling?\n\n## Cloud & DevOps Architecture\n\nInfrastructure as Code (IaC), containerization, and zero-downtime deployment pipelines for **What is autoscaling?**.\n\n---\n\n## Docker / Kubernetes / CI Configuration\n```yaml\n# Production configuration for What is autoscaling?\n```\n\n---\n\n## Reliability & Disaster Recovery\n- Automated health checks, rollbacks, and multi-region failover.\n"
+  },
+  {
+    "title": "Blue-green deployment?",
+    "slug": "blue-green-deployment",
+    "category": "DevOps & Cloud",
+    "content": "# Blue-green deployment?\n\n## Cloud & DevOps Architecture\n\nInfrastructure as Code (IaC), containerization, and zero-downtime deployment pipelines for **Blue-green deployment?**.\n\n---\n\n## Docker / Kubernetes / CI Configuration\n```yaml\n# Production configuration for Blue-green deployment?\n```\n\n---\n\n## Reliability & Disaster Recovery\n- Automated health checks, rollbacks, and multi-region failover.\n"
+  },
+  {
+    "title": "Canary deployment?",
+    "slug": "canary-deployment",
+    "category": "DevOps & Cloud",
+    "content": "# Canary deployment?\n\n## Cloud & DevOps Architecture\n\nInfrastructure as Code (IaC), containerization, and zero-downtime deployment pipelines for **Canary deployment?**.\n\n---\n\n## Docker / Kubernetes / CI Configuration\n```yaml\n# Production configuration for Canary deployment?\n```\n\n---\n\n## Reliability & Disaster Recovery\n- Automated health checks, rollbacks, and multi-region failover.\n"
+  },
+  {
+    "title": "Rolling deployment?",
+    "slug": "rolling-deployment",
+    "category": "DevOps & Cloud",
+    "content": "# Rolling deployment?\n\n## Cloud & DevOps Architecture\n\nInfrastructure as Code (IaC), containerization, and zero-downtime deployment pipelines for **Rolling deployment?**.\n\n---\n\n## Docker / Kubernetes / CI Configuration\n```yaml\n# Production configuration for Rolling deployment?\n```\n\n---\n\n## Reliability & Disaster Recovery\n- Automated health checks, rollbacks, and multi-region failover.\n"
+  },
+  {
+    "title": "How would you safely deploy database migrations?",
+    "slug": "how-would-you-safely-deploy-database-migrations",
+    "category": "DevOps & Cloud",
+    "content": "# How would you safely deploy database migrations?\n\n## Cloud & DevOps Architecture\n\nInfrastructure as Code (IaC), containerization, and zero-downtime deployment pipelines for **How would you safely deploy database migrations?**.\n\n---\n\n## Docker / Kubernetes / CI Configuration\n```yaml\n# Production configuration for How would you safely deploy database migrations?\n```\n\n---\n\n## Reliability & Disaster Recovery\n- Automated health checks, rollbacks, and multi-region failover.\n"
+  },
+  {
+    "title": "What happens if deployment fails?",
+    "slug": "what-happens-if-deployment-fails",
+    "category": "DevOps & Cloud",
+    "content": "# What happens if deployment fails?\n\n## Cloud & DevOps Architecture\n\nInfrastructure as Code (IaC), containerization, and zero-downtime deployment pipelines for **What happens if deployment fails?**.\n\n---\n\n## Docker / Kubernetes / CI Configuration\n```yaml\n# Production configuration for What happens if deployment fails?\n```\n\n---\n\n## Reliability & Disaster Recovery\n- Automated health checks, rollbacks, and multi-region failover.\n"
+  },
+  {
+    "title": "How would you roll back?",
+    "slug": "how-would-you-roll-back",
+    "category": "DevOps & Cloud",
+    "content": "# How would you roll back?\n\n## Cloud & DevOps Architecture\n\nInfrastructure as Code (IaC), containerization, and zero-downtime deployment pipelines for **How would you roll back?**.\n\n---\n\n## Docker / Kubernetes / CI Configuration\n```yaml\n# Production configuration for How would you roll back?\n```\n\n---\n\n## Reliability & Disaster Recovery\n- Automated health checks, rollbacks, and multi-region failover.\n"
+  },
+  {
+    "title": "How do you manage secrets?",
+    "slug": "how-do-you-manage-secrets",
+    "category": "DevOps & Cloud",
+    "content": "# How do you manage secrets?\n\n## Cloud & DevOps Architecture\n\nInfrastructure as Code (IaC), containerization, and zero-downtime deployment pipelines for **How do you manage secrets?**.\n\n---\n\n## Docker / Kubernetes / CI Configuration\n```yaml\n# Production configuration for How do you manage secrets?\n```\n\n---\n\n## Reliability & Disaster Recovery\n- Automated health checks, rollbacks, and multi-region failover.\n"
+  },
+  {
+    "title": "How would you deploy a scalable API on AWS?",
+    "slug": "how-would-you-deploy-a-scalable-api-on-aws",
+    "category": "DevOps & Cloud",
+    "content": "# How would you deploy a scalable API on AWS?\n\n## Cloud & DevOps Architecture\n\nInfrastructure as Code (IaC), containerization, and zero-downtime deployment pipelines for **How would you deploy a scalable API on AWS?**.\n\n---\n\n## Docker / Kubernetes / CI Configuration\n```yaml\n# Production configuration for How would you deploy a scalable API on AWS?\n```\n\n---\n\n## Reliability & Disaster Recovery\n- Automated health checks, rollbacks, and multi-region failover.\n"
+  },
+  {
+    "title": "What AWS services would you choose?",
+    "slug": "what-aws-services-would-you-choose",
+    "category": "DevOps & Cloud",
+    "content": "# What AWS services would you choose?\n\n## Cloud & DevOps Architecture\n\nInfrastructure as Code (IaC), containerization, and zero-downtime deployment pipelines for **What AWS services would you choose?**.\n\n---\n\n## Docker / Kubernetes / CI Configuration\n```yaml\n# Production configuration for What AWS services would you choose?\n```\n\n---\n\n## Reliability & Disaster Recovery\n- Automated health checks, rollbacks, and multi-region failover.\n"
+  },
+  {
+    "title": "How would you design for high availability?",
+    "slug": "how-would-you-design-for-high-availability",
+    "category": "DevOps & Cloud",
+    "content": "# How would you design for high availability?\n\n## Cloud & DevOps Architecture\n\nInfrastructure as Code (IaC), containerization, and zero-downtime deployment pipelines for **How would you design for high availability?**.\n\n---\n\n## Docker / Kubernetes / CI Configuration\n```yaml\n# Production configuration for How would you design for high availability?\n```\n\n---\n\n## Reliability & Disaster Recovery\n- Automated health checks, rollbacks, and multi-region failover.\n"
+  }
+]

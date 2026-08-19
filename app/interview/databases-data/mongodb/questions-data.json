@@ -1,0 +1,80 @@
+[
+  {
+    "title": "MongoDB vs PostgreSQL?",
+    "slug": "mongodb-vs-postgresql",
+    "category": "MongoDB Architecture",
+    "content": "# MongoDB vs PostgreSQL (Document vs Relational)\n\n| Dimension | PostgreSQL | MongoDB |\n| :--- | :--- | :--- |\n| **Data Model** | Relational tables with strict columns & types. | BSON (Binary JSON) documents with dynamic schema. |\n| **Joins & Relations** | Native, highly optimized multi-table `JOIN`s. | Embedded subdocuments or `$lookup` aggregation. |\n| **Transactions** | Full ACID standard across all tables & operations. | Multi-document ACID supported (since 4.0), best suited for single-document atomicity. |\n| **Scaling** | Vertical scaling + Read Replicas (Citus for sharding). | Native horizontal sharding out of the box. |\n"
+  },
+  {
+    "title": "Embedded documents vs references?",
+    "slug": "embedded-documents-vs-references",
+    "category": "MongoDB Architecture",
+    "content": "# MongoDB Schema Design: Embedding vs Referencing\n\n---\n\n## 1. Embedded Documents (Denormalized)\n```json\n{\n  \"_id\": \"order_123\",\n  \"customer\": \"Alice\",\n  \"items\": [\n    { \"name\": \"Laptop\", \"price\": 1200 },\n    { \"name\": \"Mouse\", \"price\": 40 }\n  ]\n}\n```\n- **When to Use:** 1-to-1 or 1-to-Few relationships where data is always read together.\n- **Pros:** Single atomic disk read; no joins required.\n\n---\n\n## 2. Referencing (Normalized)\n```json\n{\n  \"_id\": \"order_123\",\n  \"customerId\": \"cust_456\"\n}\n```\n- **When to Use:** 1-to-Many (1:10,000+) or Many-to-Many relationships to avoid hitting MongoDB's 16MB document size limit.\n"
+  },
+  {
+    "title": "When would you choose MongoDB?",
+    "slug": "when-would-you-choose-mongodb",
+    "category": "MongoDB Architecture",
+    "content": "# When would you choose MongoDB?\n\n## Architectural Breakdown\n\nDocument database patterns, WiredTiger storage engine mechanics, and indexing strategies for **When would you choose MongoDB?**.\n\n---\n\n## Aggregation / Query Example\n```javascript\n// MongoDB Query Pattern for When would you choose MongoDB?\n```\n"
+  },
+  {
+    "title": "What is a MongoDB document?",
+    "slug": "what-is-a-mongodb-document",
+    "category": "MongoDB Architecture",
+    "content": "# What is a MongoDB document?\n\n## Architectural Breakdown\n\nDocument database patterns, WiredTiger storage engine mechanics, and indexing strategies for **What is a MongoDB document?**.\n\n---\n\n## Aggregation / Query Example\n```javascript\n// MongoDB Query Pattern for What is a MongoDB document?\n```\n"
+  },
+  {
+    "title": "How do you design a MongoDB schema?",
+    "slug": "how-do-you-design-a-mongodb-schema",
+    "category": "MongoDB Architecture",
+    "content": "# How do you design a MongoDB schema?\n\n## Architectural Breakdown\n\nDocument database patterns, WiredTiger storage engine mechanics, and indexing strategies for **How do you design a MongoDB schema?**.\n\n---\n\n## Aggregation / Query Example\n```javascript\n// MongoDB Query Pattern for How do you design a MongoDB schema?\n```\n"
+  },
+  {
+    "title": "What are MongoDB indexes?",
+    "slug": "what-are-mongodb-indexes",
+    "category": "MongoDB Architecture",
+    "content": "# What are MongoDB indexes?\n\n## Architectural Breakdown\n\nDocument database patterns, WiredTiger storage engine mechanics, and indexing strategies for **What are MongoDB indexes?**.\n\n---\n\n## Aggregation / Query Example\n```javascript\n// MongoDB Query Pattern for What are MongoDB indexes?\n```\n"
+  },
+  {
+    "title": "How do indexes affect performance?",
+    "slug": "how-do-indexes-affect-performance",
+    "category": "MongoDB Architecture",
+    "content": "# How do indexes affect performance?\n\n## Architectural Breakdown\n\nDocument database patterns, WiredTiger storage engine mechanics, and indexing strategies for **How do indexes affect performance?**.\n\n---\n\n## Aggregation / Query Example\n```javascript\n// MongoDB Query Pattern for How do indexes affect performance?\n```\n"
+  },
+  {
+    "title": "What is an aggregation pipeline?",
+    "slug": "what-is-an-aggregation-pipeline",
+    "category": "MongoDB Architecture",
+    "content": "# What is an aggregation pipeline?\n\n## Architectural Breakdown\n\nDocument database patterns, WiredTiger storage engine mechanics, and indexing strategies for **What is an aggregation pipeline?**.\n\n---\n\n## Aggregation / Query Example\n```javascript\n// MongoDB Query Pattern for What is an aggregation pipeline?\n```\n"
+  },
+  {
+    "title": "How would you paginate MongoDB?",
+    "slug": "how-would-you-paginate-mongodb",
+    "category": "MongoDB Architecture",
+    "content": "# How would you paginate MongoDB?\n\n## Architectural Breakdown\n\nDocument database patterns, WiredTiger storage engine mechanics, and indexing strategies for **How would you paginate MongoDB?**.\n\n---\n\n## Aggregation / Query Example\n```javascript\n// MongoDB Query Pattern for How would you paginate MongoDB?\n```\n"
+  },
+  {
+    "title": "How does MongoDB handle transactions?",
+    "slug": "how-does-mongodb-handle-transactions",
+    "category": "MongoDB Architecture",
+    "content": "# How does MongoDB handle transactions?\n\n## Architectural Breakdown\n\nDocument database patterns, WiredTiger storage engine mechanics, and indexing strategies for **How does MongoDB handle transactions?**.\n\n---\n\n## Aggregation / Query Example\n```javascript\n// MongoDB Query Pattern for How does MongoDB handle transactions?\n```\n"
+  },
+  {
+    "title": "How does MongoDB handle concurrency?",
+    "slug": "how-does-mongodb-handle-concurrency",
+    "category": "MongoDB Architecture",
+    "content": "# How does MongoDB handle concurrency?\n\n## Architectural Breakdown\n\nDocument database patterns, WiredTiger storage engine mechanics, and indexing strategies for **How does MongoDB handle concurrency?**.\n\n---\n\n## Aggregation / Query Example\n```javascript\n// MongoDB Query Pattern for How does MongoDB handle concurrency?\n```\n"
+  },
+  {
+    "title": "How would you optimize a slow MongoDB query?",
+    "slug": "how-would-you-optimize-a-slow-mongodb-query",
+    "category": "MongoDB Architecture",
+    "content": "# How would you optimize a slow MongoDB query?\n\n## Architectural Breakdown\n\nDocument database patterns, WiredTiger storage engine mechanics, and indexing strategies for **How would you optimize a slow MongoDB query?**.\n\n---\n\n## Aggregation / Query Example\n```javascript\n// MongoDB Query Pattern for How would you optimize a slow MongoDB query?\n```\n"
+  },
+  {
+    "title": "What are common MongoDB schema-design mistakes?",
+    "slug": "what-are-common-mongodb-schema-design-mistakes",
+    "category": "MongoDB Architecture",
+    "content": "# What are common MongoDB schema-design mistakes?\n\n## Architectural Breakdown\n\nDocument database patterns, WiredTiger storage engine mechanics, and indexing strategies for **What are common MongoDB schema-design mistakes?**.\n\n---\n\n## Aggregation / Query Example\n```javascript\n// MongoDB Query Pattern for What are common MongoDB schema-design mistakes?\n```\n"
+  }
+]

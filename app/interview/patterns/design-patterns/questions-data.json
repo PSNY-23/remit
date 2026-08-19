@@ -1,0 +1,110 @@
+[
+  {
+    "title": "What is the repository pattern?",
+    "slug": "what-is-the-repository-pattern",
+    "category": "Architecture & Design Patterns",
+    "content": "# What is the repository pattern?\n\n## Design Pattern Blueprint\n\nIntent, UML structural mechanics, and real-world use cases for **What is the repository pattern?**.\n\n---\n\n## TypeScript / Architectural Implementation\n```typescript\n// Implementation of What is the repository pattern?\n```\n\n---\n\n## When to Avoid\n- Over-engineering risks, boilerplate overhead, and premature abstraction.\n"
+  },
+  {
+    "title": "What is the service-layer pattern?",
+    "slug": "what-is-the-service-layer-pattern",
+    "category": "Architecture & Design Patterns",
+    "content": "# What is the service-layer pattern?\n\n## Design Pattern Blueprint\n\nIntent, UML structural mechanics, and real-world use cases for **What is the service-layer pattern?**.\n\n---\n\n## TypeScript / Architectural Implementation\n```typescript\n// Implementation of What is the service-layer pattern?\n```\n\n---\n\n## When to Avoid\n- Over-engineering risks, boilerplate overhead, and premature abstraction.\n"
+  },
+  {
+    "title": "What is dependency injection?",
+    "slug": "what-is-dependency-injection",
+    "category": "Architecture & Design Patterns",
+    "content": "# What is dependency injection?\n\n## Design Pattern Blueprint\n\nIntent, UML structural mechanics, and real-world use cases for **What is dependency injection?**.\n\n---\n\n## TypeScript / Architectural Implementation\n```typescript\n// Implementation of What is dependency injection?\n```\n\n---\n\n## When to Avoid\n- Over-engineering risks, boilerplate overhead, and premature abstraction.\n"
+  },
+  {
+    "title": "What is the factory pattern?",
+    "slug": "what-is-the-factory-pattern",
+    "category": "Architecture & Design Patterns",
+    "content": "# What is the factory pattern?\n\n## Design Pattern Blueprint\n\nIntent, UML structural mechanics, and real-world use cases for **What is the factory pattern?**.\n\n---\n\n## TypeScript / Architectural Implementation\n```typescript\n// Implementation of What is the factory pattern?\n```\n\n---\n\n## When to Avoid\n- Over-engineering risks, boilerplate overhead, and premature abstraction.\n"
+  },
+  {
+    "title": "What is the strategy pattern?",
+    "slug": "what-is-the-strategy-pattern",
+    "category": "Architecture & Design Patterns",
+    "content": "# What is the strategy pattern?\n\n## Design Pattern Blueprint\n\nIntent, UML structural mechanics, and real-world use cases for **What is the strategy pattern?**.\n\n---\n\n## TypeScript / Architectural Implementation\n```typescript\n// Implementation of What is the strategy pattern?\n```\n\n---\n\n## When to Avoid\n- Over-engineering risks, boilerplate overhead, and premature abstraction.\n"
+  },
+  {
+    "title": "What is the adapter pattern?",
+    "slug": "what-is-the-adapter-pattern",
+    "category": "Architecture & Design Patterns",
+    "content": "# What is the adapter pattern?\n\n## Design Pattern Blueprint\n\nIntent, UML structural mechanics, and real-world use cases for **What is the adapter pattern?**.\n\n---\n\n## TypeScript / Architectural Implementation\n```typescript\n// Implementation of What is the adapter pattern?\n```\n\n---\n\n## When to Avoid\n- Over-engineering risks, boilerplate overhead, and premature abstraction.\n"
+  },
+  {
+    "title": "What is the observer pattern?",
+    "slug": "what-is-the-observer-pattern",
+    "category": "Architecture & Design Patterns",
+    "content": "# What is the observer pattern?\n\n## Design Pattern Blueprint\n\nIntent, UML structural mechanics, and real-world use cases for **What is the observer pattern?**.\n\n---\n\n## TypeScript / Architectural Implementation\n```typescript\n// Implementation of What is the observer pattern?\n```\n\n---\n\n## When to Avoid\n- Over-engineering risks, boilerplate overhead, and premature abstraction.\n"
+  },
+  {
+    "title": "What is event-driven architecture?",
+    "slug": "what-is-event-driven-architecture",
+    "category": "Architecture & Design Patterns",
+    "content": "# What is event-driven architecture?\n\n## Design Pattern Blueprint\n\nIntent, UML structural mechanics, and real-world use cases for **What is event-driven architecture?**.\n\n---\n\n## TypeScript / Architectural Implementation\n```typescript\n// Implementation of What is event-driven architecture?\n```\n\n---\n\n## When to Avoid\n- Over-engineering risks, boilerplate overhead, and premature abstraction.\n"
+  },
+  {
+    "title": "What is CQRS?",
+    "slug": "what-is-cqrs",
+    "category": "Architecture & Design Patterns",
+    "content": "# What is CQRS?\n\n## Design Pattern Blueprint\n\nIntent, UML structural mechanics, and real-world use cases for **What is CQRS?**.\n\n---\n\n## TypeScript / Architectural Implementation\n```typescript\n// Implementation of What is CQRS?\n```\n\n---\n\n## When to Avoid\n- Over-engineering risks, boilerplate overhead, and premature abstraction.\n"
+  },
+  {
+    "title": "When would CQRS be useful?",
+    "slug": "when-would-cqrs-be-useful",
+    "category": "Architecture & Design Patterns",
+    "content": "# When would CQRS be useful?\n\n## Design Pattern Blueprint\n\nIntent, UML structural mechanics, and real-world use cases for **When would CQRS be useful?**.\n\n---\n\n## TypeScript / Architectural Implementation\n```typescript\n// Implementation of When would CQRS be useful?\n```\n\n---\n\n## When to Avoid\n- Over-engineering risks, boilerplate overhead, and premature abstraction.\n"
+  },
+  {
+    "title": "What is the Outbox pattern?",
+    "slug": "what-is-the-outbox-pattern",
+    "category": "Architecture & Design Patterns",
+    "content": "# What is the Outbox pattern?\n\n## Design Pattern Blueprint\n\nIntent, UML structural mechanics, and real-world use cases for **What is the Outbox pattern?**.\n\n---\n\n## TypeScript / Architectural Implementation\n```typescript\n// Implementation of What is the Outbox pattern?\n```\n\n---\n\n## When to Avoid\n- Over-engineering risks, boilerplate overhead, and premature abstraction.\n"
+  },
+  {
+    "title": "Why is the Outbox pattern useful?",
+    "slug": "why-is-the-outbox-pattern-useful",
+    "category": "Architecture & Design Patterns",
+    "content": "# Why is the Outbox pattern useful?\n\n## Design Pattern Blueprint\n\nIntent, UML structural mechanics, and real-world use cases for **Why is the Outbox pattern useful?**.\n\n---\n\n## TypeScript / Architectural Implementation\n```typescript\n// Implementation of Why is the Outbox pattern useful?\n```\n\n---\n\n## When to Avoid\n- Over-engineering risks, boilerplate overhead, and premature abstraction.\n"
+  },
+  {
+    "title": "What is the Saga pattern?",
+    "slug": "what-is-the-saga-pattern",
+    "category": "Architecture & Design Patterns",
+    "content": "# What is the Saga pattern?\n\n## Design Pattern Blueprint\n\nIntent, UML structural mechanics, and real-world use cases for **What is the Saga pattern?**.\n\n---\n\n## TypeScript / Architectural Implementation\n```typescript\n// Implementation of What is the Saga pattern?\n```\n\n---\n\n## When to Avoid\n- Over-engineering risks, boilerplate overhead, and premature abstraction.\n"
+  },
+  {
+    "title": "When would you use a Saga?",
+    "slug": "when-would-you-use-a-saga",
+    "category": "Architecture & Design Patterns",
+    "content": "# When would you use a Saga?\n\n## Design Pattern Blueprint\n\nIntent, UML structural mechanics, and real-world use cases for **When would you use a Saga?**.\n\n---\n\n## TypeScript / Architectural Implementation\n```typescript\n// Implementation of When would you use a Saga?\n```\n\n---\n\n## When to Avoid\n- Over-engineering risks, boilerplate overhead, and premature abstraction.\n"
+  },
+  {
+    "title": "What is the circuit-breaker pattern?",
+    "slug": "what-is-the-circuit-breaker-pattern",
+    "category": "Architecture & Design Patterns",
+    "content": "# What is the circuit-breaker pattern?\n\n## Design Pattern Blueprint\n\nIntent, UML structural mechanics, and real-world use cases for **What is the circuit-breaker pattern?**.\n\n---\n\n## TypeScript / Architectural Implementation\n```typescript\n// Implementation of What is the circuit-breaker pattern?\n```\n\n---\n\n## When to Avoid\n- Over-engineering risks, boilerplate overhead, and premature abstraction.\n"
+  },
+  {
+    "title": "What is bulkheading?",
+    "slug": "what-is-bulkheading",
+    "category": "Architecture & Design Patterns",
+    "content": "# What is bulkheading?\n\n## Design Pattern Blueprint\n\nIntent, UML structural mechanics, and real-world use cases for **What is bulkheading?**.\n\n---\n\n## TypeScript / Architectural Implementation\n```typescript\n// Implementation of What is bulkheading?\n```\n\n---\n\n## When to Avoid\n- Over-engineering risks, boilerplate overhead, and premature abstraction.\n"
+  },
+  {
+    "title": "What is backpressure?",
+    "slug": "what-is-backpressure",
+    "category": "Architecture & Design Patterns",
+    "content": "# What is backpressure?\n\n## Design Pattern Blueprint\n\nIntent, UML structural mechanics, and real-world use cases for **What is backpressure?**.\n\n---\n\n## TypeScript / Architectural Implementation\n```typescript\n// Implementation of What is backpressure?\n```\n\n---\n\n## When to Avoid\n- Over-engineering risks, boilerplate overhead, and premature abstraction.\n"
+  },
+  {
+    "title": "When can design patterns make code worse?",
+    "slug": "when-can-design-patterns-make-code-worse",
+    "category": "Architecture & Design Patterns",
+    "content": "# When can design patterns make code worse?\n\n## Design Pattern Blueprint\n\nIntent, UML structural mechanics, and real-world use cases for **When can design patterns make code worse?**.\n\n---\n\n## TypeScript / Architectural Implementation\n```typescript\n// Implementation of When can design patterns make code worse?\n```\n\n---\n\n## When to Avoid\n- Over-engineering risks, boilerplate overhead, and premature abstraction.\n"
+  }
+]

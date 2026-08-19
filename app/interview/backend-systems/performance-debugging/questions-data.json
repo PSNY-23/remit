@@ -1,0 +1,134 @@
+[
+  {
+    "title": "Your API suddenly becomes slow. How do you investigate?",
+    "slug": "your-api-suddenly-becomes-slow-how-do-you-investigate",
+    "category": "Performance & Debugging",
+    "content": "# Your API suddenly becomes slow. How do you investigate?\n\n## Production Debugging & Incident Response\n\nSystematic RCA (Root Cause Analysis), flame graph profiling, and latency reduction for **Your API suddenly becomes slow. How do you investigate?**.\n\n---\n\n## Investigation Framework (Top-Down Diagnostics)\n1. **Golden Signals Check:** Latency (P95/P99), Traffic (RPS), Errors (5xx), Saturation (CPU/RAM/I-O).\n2. **Tracing & Profiling:** Inspecting OpenTelemetry traces and heap snapshots.\n\n---\n\n## Actionable Mitigation Plan\n- Circuit breakers, query indexes, and horizontal auto-scaling.\n"
+  },
+  {
+    "title": "How do you determine whether the database is the bottleneck?",
+    "slug": "how-do-you-determine-whether-the-database-is-the-bottleneck",
+    "category": "Performance & Debugging",
+    "content": "# How do you determine whether the database is the bottleneck?\n\n## Production Debugging & Incident Response\n\nSystematic RCA (Root Cause Analysis), flame graph profiling, and latency reduction for **How do you determine whether the database is the bottleneck?**.\n\n---\n\n## Investigation Framework (Top-Down Diagnostics)\n1. **Golden Signals Check:** Latency (P95/P99), Traffic (RPS), Errors (5xx), Saturation (CPU/RAM/I-O).\n2. **Tracing & Profiling:** Inspecting OpenTelemetry traces and heap snapshots.\n\n---\n\n## Actionable Mitigation Plan\n- Circuit breakers, query indexes, and horizontal auto-scaling.\n"
+  },
+  {
+    "title": "How do you diagnose high CPU usage?",
+    "slug": "how-do-you-diagnose-high-cpu-usage",
+    "category": "Performance & Debugging",
+    "content": "# How do you diagnose high CPU usage?\n\n## Production Debugging & Incident Response\n\nSystematic RCA (Root Cause Analysis), flame graph profiling, and latency reduction for **How do you diagnose high CPU usage?**.\n\n---\n\n## Investigation Framework (Top-Down Diagnostics)\n1. **Golden Signals Check:** Latency (P95/P99), Traffic (RPS), Errors (5xx), Saturation (CPU/RAM/I-O).\n2. **Tracing & Profiling:** Inspecting OpenTelemetry traces and heap snapshots.\n\n---\n\n## Actionable Mitigation Plan\n- Circuit breakers, query indexes, and horizontal auto-scaling.\n"
+  },
+  {
+    "title": "How do you diagnose high memory usage?",
+    "slug": "how-do-you-diagnose-high-memory-usage",
+    "category": "Performance & Debugging",
+    "content": "# How do you diagnose high memory usage?\n\n## Production Debugging & Incident Response\n\nSystematic RCA (Root Cause Analysis), flame graph profiling, and latency reduction for **How do you diagnose high memory usage?**.\n\n---\n\n## Investigation Framework (Top-Down Diagnostics)\n1. **Golden Signals Check:** Latency (P95/P99), Traffic (RPS), Errors (5xx), Saturation (CPU/RAM/I-O).\n2. **Tracing & Profiling:** Inspecting OpenTelemetry traces and heap snapshots.\n\n---\n\n## Actionable Mitigation Plan\n- Circuit breakers, query indexes, and horizontal auto-scaling.\n"
+  },
+  {
+    "title": "How do you find a Node.js memory leak?",
+    "slug": "how-do-you-find-a-node-js-memory-leak",
+    "category": "Performance & Debugging",
+    "content": "# How do you find a Node.js memory leak?\n\n## Production Debugging & Incident Response\n\nSystematic RCA (Root Cause Analysis), flame graph profiling, and latency reduction for **How do you find a Node.js memory leak?**.\n\n---\n\n## Investigation Framework (Top-Down Diagnostics)\n1. **Golden Signals Check:** Latency (P95/P99), Traffic (RPS), Errors (5xx), Saturation (CPU/RAM/I-O).\n2. **Tracing & Profiling:** Inspecting OpenTelemetry traces and heap snapshots.\n\n---\n\n## Actionable Mitigation Plan\n- Circuit breakers, query indexes, and horizontal auto-scaling.\n"
+  },
+  {
+    "title": "How do you detect event-loop blocking?",
+    "slug": "how-do-you-detect-event-loop-blocking",
+    "category": "Performance & Debugging",
+    "content": "# How do you detect event-loop blocking?\n\n## Production Debugging & Incident Response\n\nSystematic RCA (Root Cause Analysis), flame graph profiling, and latency reduction for **How do you detect event-loop blocking?**.\n\n---\n\n## Investigation Framework (Top-Down Diagnostics)\n1. **Golden Signals Check:** Latency (P95/P99), Traffic (RPS), Errors (5xx), Saturation (CPU/RAM/I-O).\n2. **Tracing & Profiling:** Inspecting OpenTelemetry traces and heap snapshots.\n\n---\n\n## Actionable Mitigation Plan\n- Circuit breakers, query indexes, and horizontal auto-scaling.\n"
+  },
+  {
+    "title": "How would you optimize a slow database query?",
+    "slug": "how-would-you-optimize-a-slow-database-query",
+    "category": "Performance & Debugging",
+    "content": "# How would you optimize a slow database query?\n\n## Production Debugging & Incident Response\n\nSystematic RCA (Root Cause Analysis), flame graph profiling, and latency reduction for **How would you optimize a slow database query?**.\n\n---\n\n## Investigation Framework (Top-Down Diagnostics)\n1. **Golden Signals Check:** Latency (P95/P99), Traffic (RPS), Errors (5xx), Saturation (CPU/RAM/I-O).\n2. **Tracing & Profiling:** Inspecting OpenTelemetry traces and heap snapshots.\n\n---\n\n## Actionable Mitigation Plan\n- Circuit breakers, query indexes, and horizontal auto-scaling.\n"
+  },
+  {
+    "title": "How would you reduce API latency?",
+    "slug": "how-would-you-reduce-api-latency",
+    "category": "Performance & Debugging",
+    "content": "# How would you reduce API latency?\n\n## Production Debugging & Incident Response\n\nSystematic RCA (Root Cause Analysis), flame graph profiling, and latency reduction for **How would you reduce API latency?**.\n\n---\n\n## Investigation Framework (Top-Down Diagnostics)\n1. **Golden Signals Check:** Latency (P95/P99), Traffic (RPS), Errors (5xx), Saturation (CPU/RAM/I-O).\n2. **Tracing & Profiling:** Inspecting OpenTelemetry traces and heap snapshots.\n\n---\n\n## Actionable Mitigation Plan\n- Circuit breakers, query indexes, and horizontal auto-scaling.\n"
+  },
+  {
+    "title": "How would you optimize a React application?",
+    "slug": "how-would-you-optimize-a-react-application",
+    "category": "Performance & Debugging",
+    "content": "# How would you optimize a React application?\n\n## Production Debugging & Incident Response\n\nSystematic RCA (Root Cause Analysis), flame graph profiling, and latency reduction for **How would you optimize a React application?**.\n\n---\n\n## Investigation Framework (Top-Down Diagnostics)\n1. **Golden Signals Check:** Latency (P95/P99), Traffic (RPS), Errors (5xx), Saturation (CPU/RAM/I-O).\n2. **Tracing & Profiling:** Inspecting OpenTelemetry traces and heap snapshots.\n\n---\n\n## Actionable Mitigation Plan\n- Circuit breakers, query indexes, and horizontal auto-scaling.\n"
+  },
+  {
+    "title": "How would you optimize a large list?",
+    "slug": "how-would-you-optimize-a-large-list",
+    "category": "Performance & Debugging",
+    "content": "# How would you optimize a large list?\n\n## Production Debugging & Incident Response\n\nSystematic RCA (Root Cause Analysis), flame graph profiling, and latency reduction for **How would you optimize a large list?**.\n\n---\n\n## Investigation Framework (Top-Down Diagnostics)\n1. **Golden Signals Check:** Latency (P95/P99), Traffic (RPS), Errors (5xx), Saturation (CPU/RAM/I-O).\n2. **Tracing & Profiling:** Inspecting OpenTelemetry traces and heap snapshots.\n\n---\n\n## Actionable Mitigation Plan\n- Circuit breakers, query indexes, and horizontal auto-scaling.\n"
+  },
+  {
+    "title": "How would you handle a slow external API?",
+    "slug": "how-would-you-handle-a-slow-external-api",
+    "category": "Performance & Debugging",
+    "content": "# How would you handle a slow external API?\n\n## Production Debugging & Incident Response\n\nSystematic RCA (Root Cause Analysis), flame graph profiling, and latency reduction for **How would you handle a slow external API?**.\n\n---\n\n## Investigation Framework (Top-Down Diagnostics)\n1. **Golden Signals Check:** Latency (P95/P99), Traffic (RPS), Errors (5xx), Saturation (CPU/RAM/I-O).\n2. **Tracing & Profiling:** Inspecting OpenTelemetry traces and heap snapshots.\n\n---\n\n## Actionable Mitigation Plan\n- Circuit breakers, query indexes, and horizontal auto-scaling.\n"
+  },
+  {
+    "title": "How would you handle a downstream service timeout?",
+    "slug": "how-would-you-handle-a-downstream-service-timeout",
+    "category": "Performance & Debugging",
+    "content": "# How would you handle a downstream service timeout?\n\n## Production Debugging & Incident Response\n\nSystematic RCA (Root Cause Analysis), flame graph profiling, and latency reduction for **How would you handle a downstream service timeout?**.\n\n---\n\n## Investigation Framework (Top-Down Diagnostics)\n1. **Golden Signals Check:** Latency (P95/P99), Traffic (RPS), Errors (5xx), Saturation (CPU/RAM/I-O).\n2. **Tracing & Profiling:** Inspecting OpenTelemetry traces and heap snapshots.\n\n---\n\n## Actionable Mitigation Plan\n- Circuit breakers, query indexes, and horizontal auto-scaling.\n"
+  },
+  {
+    "title": "What metrics would you monitor?",
+    "slug": "what-metrics-would-you-monitor",
+    "category": "Performance & Debugging",
+    "content": "# What metrics would you monitor?\n\n## Production Debugging & Incident Response\n\nSystematic RCA (Root Cause Analysis), flame graph profiling, and latency reduction for **What metrics would you monitor?**.\n\n---\n\n## Investigation Framework (Top-Down Diagnostics)\n1. **Golden Signals Check:** Latency (P95/P99), Traffic (RPS), Errors (5xx), Saturation (CPU/RAM/I-O).\n2. **Tracing & Profiling:** Inspecting OpenTelemetry traces and heap snapshots.\n\n---\n\n## Actionable Mitigation Plan\n- Circuit breakers, query indexes, and horizontal auto-scaling.\n"
+  },
+  {
+    "title": "What is throughput?",
+    "slug": "what-is-throughput",
+    "category": "Performance & Debugging",
+    "content": "# What is throughput?\n\n## Production Debugging & Incident Response\n\nSystematic RCA (Root Cause Analysis), flame graph profiling, and latency reduction for **What is throughput?**.\n\n---\n\n## Investigation Framework (Top-Down Diagnostics)\n1. **Golden Signals Check:** Latency (P95/P99), Traffic (RPS), Errors (5xx), Saturation (CPU/RAM/I-O).\n2. **Tracing & Profiling:** Inspecting OpenTelemetry traces and heap snapshots.\n\n---\n\n## Actionable Mitigation Plan\n- Circuit breakers, query indexes, and horizontal auto-scaling.\n"
+  },
+  {
+    "title": "What is latency?",
+    "slug": "what-is-latency",
+    "category": "Performance & Debugging",
+    "content": "# What is latency?\n\n## Production Debugging & Incident Response\n\nSystematic RCA (Root Cause Analysis), flame graph profiling, and latency reduction for **What is latency?**.\n\n---\n\n## Investigation Framework (Top-Down Diagnostics)\n1. **Golden Signals Check:** Latency (P95/P99), Traffic (RPS), Errors (5xx), Saturation (CPU/RAM/I-O).\n2. **Tracing & Profiling:** Inspecting OpenTelemetry traces and heap snapshots.\n\n---\n\n## Actionable Mitigation Plan\n- Circuit breakers, query indexes, and horizontal auto-scaling.\n"
+  },
+  {
+    "title": "What are p50, p95 and p99?",
+    "slug": "what-are-p50-p95-and-p99",
+    "category": "Performance & Debugging",
+    "content": "# What are p50, p95 and p99?\n\n## Production Debugging & Incident Response\n\nSystematic RCA (Root Cause Analysis), flame graph profiling, and latency reduction for **What are p50, p95 and p99?**.\n\n---\n\n## Investigation Framework (Top-Down Diagnostics)\n1. **Golden Signals Check:** Latency (P95/P99), Traffic (RPS), Errors (5xx), Saturation (CPU/RAM/I-O).\n2. **Tracing & Profiling:** Inspecting OpenTelemetry traces and heap snapshots.\n\n---\n\n## Actionable Mitigation Plan\n- Circuit breakers, query indexes, and horizontal auto-scaling.\n"
+  },
+  {
+    "title": "What is error rate?",
+    "slug": "what-is-error-rate",
+    "category": "Performance & Debugging",
+    "content": "# What is error rate?\n\n## Production Debugging & Incident Response\n\nSystematic RCA (Root Cause Analysis), flame graph profiling, and latency reduction for **What is error rate?**.\n\n---\n\n## Investigation Framework (Top-Down Diagnostics)\n1. **Golden Signals Check:** Latency (P95/P99), Traffic (RPS), Errors (5xx), Saturation (CPU/RAM/I-O).\n2. **Tracing & Profiling:** Inspecting OpenTelemetry traces and heap snapshots.\n\n---\n\n## Actionable Mitigation Plan\n- Circuit breakers, query indexes, and horizontal auto-scaling.\n"
+  },
+  {
+    "title": "What is a bottleneck?",
+    "slug": "what-is-a-bottleneck",
+    "category": "Performance & Debugging",
+    "content": "# What is a bottleneck?\n\n## Production Debugging & Incident Response\n\nSystematic RCA (Root Cause Analysis), flame graph profiling, and latency reduction for **What is a bottleneck?**.\n\n---\n\n## Investigation Framework (Top-Down Diagnostics)\n1. **Golden Signals Check:** Latency (P95/P99), Traffic (RPS), Errors (5xx), Saturation (CPU/RAM/I-O).\n2. **Tracing & Profiling:** Inspecting OpenTelemetry traces and heap snapshots.\n\n---\n\n## Actionable Mitigation Plan\n- Circuit breakers, query indexes, and horizontal auto-scaling.\n"
+  },
+  {
+    "title": "What is distributed tracing?",
+    "slug": "what-is-distributed-tracing",
+    "category": "Performance & Debugging",
+    "content": "# What is distributed tracing?\n\n## Production Debugging & Incident Response\n\nSystematic RCA (Root Cause Analysis), flame graph profiling, and latency reduction for **What is distributed tracing?**.\n\n---\n\n## Investigation Framework (Top-Down Diagnostics)\n1. **Golden Signals Check:** Latency (P95/P99), Traffic (RPS), Errors (5xx), Saturation (CPU/RAM/I-O).\n2. **Tracing & Profiling:** Inspecting OpenTelemetry traces and heap snapshots.\n\n---\n\n## Actionable Mitigation Plan\n- Circuit breakers, query indexes, and horizontal auto-scaling.\n"
+  },
+  {
+    "title": "How would you investigate a production incident?",
+    "slug": "how-would-you-investigate-a-production-incident",
+    "category": "Performance & Debugging",
+    "content": "# How would you investigate a production incident?\n\n## Production Debugging & Incident Response\n\nSystematic RCA (Root Cause Analysis), flame graph profiling, and latency reduction for **How would you investigate a production incident?**.\n\n---\n\n## Investigation Framework (Top-Down Diagnostics)\n1. **Golden Signals Check:** Latency (P95/P99), Traffic (RPS), Errors (5xx), Saturation (CPU/RAM/I-O).\n2. **Tracing & Profiling:** Inspecting OpenTelemetry traces and heap snapshots.\n\n---\n\n## Actionable Mitigation Plan\n- Circuit breakers, query indexes, and horizontal auto-scaling.\n"
+  },
+  {
+    "title": "How would you perform root-cause analysis?",
+    "slug": "how-would-you-perform-root-cause-analysis",
+    "category": "Performance & Debugging",
+    "content": "# How would you perform root-cause analysis?\n\n## Production Debugging & Incident Response\n\nSystematic RCA (Root Cause Analysis), flame graph profiling, and latency reduction for **How would you perform root-cause analysis?**.\n\n---\n\n## Investigation Framework (Top-Down Diagnostics)\n1. **Golden Signals Check:** Latency (P95/P99), Traffic (RPS), Errors (5xx), Saturation (CPU/RAM/I-O).\n2. **Tracing & Profiling:** Inspecting OpenTelemetry traces and heap snapshots.\n\n---\n\n## Actionable Mitigation Plan\n- Circuit breakers, query indexes, and horizontal auto-scaling.\n"
+  },
+  {
+    "title": "How would you prevent the same incident from happening again?",
+    "slug": "how-would-you-prevent-the-same-incident-from-happening-again",
+    "category": "Performance & Debugging",
+    "content": "# How would you prevent the same incident from happening again?\n\n## Production Debugging & Incident Response\n\nSystematic RCA (Root Cause Analysis), flame graph profiling, and latency reduction for **How would you prevent the same incident from happening again?**.\n\n---\n\n## Investigation Framework (Top-Down Diagnostics)\n1. **Golden Signals Check:** Latency (P95/P99), Traffic (RPS), Errors (5xx), Saturation (CPU/RAM/I-O).\n2. **Tracing & Profiling:** Inspecting OpenTelemetry traces and heap snapshots.\n\n---\n\n## Actionable Mitigation Plan\n- Circuit breakers, query indexes, and horizontal auto-scaling.\n"
+  }
+]

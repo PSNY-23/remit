@@ -1,0 +1,92 @@
+[
+  {
+    "title": "Unit vs integration vs E2E tests?",
+    "slug": "unit-vs-integration-vs-e2e-tests",
+    "category": "Testing",
+    "content": "# Unit vs integration vs E2E tests?\n\n## Testing Strategy & Quality Assurance\n\nThe Testing Pyramid, contract testing, and test automation strategies for **Unit vs integration vs E2E tests?**.\n\n---\n\n## Test Implementation Example\n```typescript\n// Vitest / Jest / Supertest example for Unit vs integration vs E2E tests?\n```\n\n---\n\n## Senior Testing Philosophy\n- Fast feedback loops, hermetic integration test environments (Testcontainers), and avoiding brittle mocks.\n"
+  },
+  {
+    "title": "What should you unit test?",
+    "slug": "what-should-you-unit-test",
+    "category": "Testing",
+    "content": "# What should you unit test?\n\n## Testing Strategy & Quality Assurance\n\nThe Testing Pyramid, contract testing, and test automation strategies for **What should you unit test?**.\n\n---\n\n## Test Implementation Example\n```typescript\n// Vitest / Jest / Supertest example for What should you unit test?\n```\n\n---\n\n## Senior Testing Philosophy\n- Fast feedback loops, hermetic integration test environments (Testcontainers), and avoiding brittle mocks.\n"
+  },
+  {
+    "title": "What should you integration test?",
+    "slug": "what-should-you-integration-test",
+    "category": "Testing",
+    "content": "# What should you integration test?\n\n## Testing Strategy & Quality Assurance\n\nThe Testing Pyramid, contract testing, and test automation strategies for **What should you integration test?**.\n\n---\n\n## Test Implementation Example\n```typescript\n// Vitest / Jest / Supertest example for What should you integration test?\n```\n\n---\n\n## Senior Testing Philosophy\n- Fast feedback loops, hermetic integration test environments (Testcontainers), and avoiding brittle mocks.\n"
+  },
+  {
+    "title": "How would you test a REST API?",
+    "slug": "how-would-you-test-a-rest-api",
+    "category": "Testing",
+    "content": "# How would you test a REST API?\n\n## Testing Strategy & Quality Assurance\n\nThe Testing Pyramid, contract testing, and test automation strategies for **How would you test a REST API?**.\n\n---\n\n## Test Implementation Example\n```typescript\n// Vitest / Jest / Supertest example for How would you test a REST API?\n```\n\n---\n\n## Senior Testing Philosophy\n- Fast feedback loops, hermetic integration test environments (Testcontainers), and avoiding brittle mocks.\n"
+  },
+  {
+    "title": "How would you test React components?",
+    "slug": "how-would-you-test-react-components",
+    "category": "Testing",
+    "content": "# How would you test React components?\n\n## Testing Strategy & Quality Assurance\n\nThe Testing Pyramid, contract testing, and test automation strategies for **How would you test React components?**.\n\n---\n\n## Test Implementation Example\n```typescript\n// Vitest / Jest / Supertest example for How would you test React components?\n```\n\n---\n\n## Senior Testing Philosophy\n- Fast feedback loops, hermetic integration test environments (Testcontainers), and avoiding brittle mocks.\n"
+  },
+  {
+    "title": "What is mocking?",
+    "slug": "what-is-mocking",
+    "category": "Testing",
+    "content": "# What is mocking?\n\n## Testing Strategy & Quality Assurance\n\nThe Testing Pyramid, contract testing, and test automation strategies for **What is mocking?**.\n\n---\n\n## Test Implementation Example\n```typescript\n// Vitest / Jest / Supertest example for What is mocking?\n```\n\n---\n\n## Senior Testing Philosophy\n- Fast feedback loops, hermetic integration test environments (Testcontainers), and avoiding brittle mocks.\n"
+  },
+  {
+    "title": "When should you avoid mocking?",
+    "slug": "when-should-you-avoid-mocking",
+    "category": "Testing",
+    "content": "# When should you avoid mocking?\n\n## Testing Strategy & Quality Assurance\n\nThe Testing Pyramid, contract testing, and test automation strategies for **When should you avoid mocking?**.\n\n---\n\n## Test Implementation Example\n```typescript\n// Vitest / Jest / Supertest example for When should you avoid mocking?\n```\n\n---\n\n## Senior Testing Philosophy\n- Fast feedback loops, hermetic integration test environments (Testcontainers), and avoiding brittle mocks.\n"
+  },
+  {
+    "title": "What is dependency injection useful for in testing?",
+    "slug": "what-is-dependency-injection-useful-for-in-testing",
+    "category": "Testing",
+    "content": "# What is dependency injection useful for in testing?\n\n## Testing Strategy & Quality Assurance\n\nThe Testing Pyramid, contract testing, and test automation strategies for **What is dependency injection useful for in testing?**.\n\n---\n\n## Test Implementation Example\n```typescript\n// Vitest / Jest / Supertest example for What is dependency injection useful for in testing?\n```\n\n---\n\n## Senior Testing Philosophy\n- Fast feedback loops, hermetic integration test environments (Testcontainers), and avoiding brittle mocks.\n"
+  },
+  {
+    "title": "How would you test database transactions?",
+    "slug": "how-would-you-test-database-transactions",
+    "category": "Testing",
+    "content": "# How would you test database transactions?\n\n## Testing Strategy & Quality Assurance\n\nThe Testing Pyramid, contract testing, and test automation strategies for **How would you test database transactions?**.\n\n---\n\n## Test Implementation Example\n```typescript\n// Vitest / Jest / Supertest example for How would you test database transactions?\n```\n\n---\n\n## Senior Testing Philosophy\n- Fast feedback loops, hermetic integration test environments (Testcontainers), and avoiding brittle mocks.\n"
+  },
+  {
+    "title": "How would you test race conditions?",
+    "slug": "how-would-you-test-race-conditions",
+    "category": "Testing",
+    "content": "# How would you test race conditions?\n\n## Testing Strategy & Quality Assurance\n\nThe Testing Pyramid, contract testing, and test automation strategies for **How would you test race conditions?**.\n\n---\n\n## Test Implementation Example\n```typescript\n// Vitest / Jest / Supertest example for How would you test race conditions?\n```\n\n---\n\n## Senior Testing Philosophy\n- Fast feedback loops, hermetic integration test environments (Testcontainers), and avoiding brittle mocks.\n"
+  },
+  {
+    "title": "How would you test an idempotent API?",
+    "slug": "how-would-you-test-an-idempotent-api",
+    "category": "Testing",
+    "content": "# How would you test an idempotent API?\n\n## Testing Strategy & Quality Assurance\n\nThe Testing Pyramid, contract testing, and test automation strategies for **How would you test an idempotent API?**.\n\n---\n\n## Test Implementation Example\n```typescript\n// Vitest / Jest / Supertest example for How would you test an idempotent API?\n```\n\n---\n\n## Senior Testing Philosophy\n- Fast feedback loops, hermetic integration test environments (Testcontainers), and avoiding brittle mocks.\n"
+  },
+  {
+    "title": "How would you test retries?",
+    "slug": "how-would-you-test-retries",
+    "category": "Testing",
+    "content": "# How would you test retries?\n\n## Testing Strategy & Quality Assurance\n\nThe Testing Pyramid, contract testing, and test automation strategies for **How would you test retries?**.\n\n---\n\n## Test Implementation Example\n```typescript\n// Vitest / Jest / Supertest example for How would you test retries?\n```\n\n---\n\n## Senior Testing Philosophy\n- Fast feedback loops, hermetic integration test environments (Testcontainers), and avoiding brittle mocks.\n"
+  },
+  {
+    "title": "How would you test a queue consumer?",
+    "slug": "how-would-you-test-a-queue-consumer",
+    "category": "Testing",
+    "content": "# How would you test a queue consumer?\n\n## Testing Strategy & Quality Assurance\n\nThe Testing Pyramid, contract testing, and test automation strategies for **How would you test a queue consumer?**.\n\n---\n\n## Test Implementation Example\n```typescript\n// Vitest / Jest / Supertest example for How would you test a queue consumer?\n```\n\n---\n\n## Senior Testing Philosophy\n- Fast feedback loops, hermetic integration test environments (Testcontainers), and avoiding brittle mocks.\n"
+  },
+  {
+    "title": "How would you test distributed systems?",
+    "slug": "how-would-you-test-distributed-systems",
+    "category": "Testing",
+    "content": "# How would you test distributed systems?\n\n## Testing Strategy & Quality Assurance\n\nThe Testing Pyramid, contract testing, and test automation strategies for **How would you test distributed systems?**.\n\n---\n\n## Test Implementation Example\n```typescript\n// Vitest / Jest / Supertest example for How would you test distributed systems?\n```\n\n---\n\n## Senior Testing Philosophy\n- Fast feedback loops, hermetic integration test environments (Testcontainers), and avoiding brittle mocks.\n"
+  },
+  {
+    "title": "How do you decide what deserves a test?",
+    "slug": "how-do-you-decide-what-deserves-a-test",
+    "category": "Testing",
+    "content": "# How do you decide what deserves a test?\n\n## Testing Strategy & Quality Assurance\n\nThe Testing Pyramid, contract testing, and test automation strategies for **How do you decide what deserves a test?**.\n\n---\n\n## Test Implementation Example\n```typescript\n// Vitest / Jest / Supertest example for How do you decide what deserves a test?\n```\n\n---\n\n## Senior Testing Philosophy\n- Fast feedback loops, hermetic integration test environments (Testcontainers), and avoiding brittle mocks.\n"
+  }
+]

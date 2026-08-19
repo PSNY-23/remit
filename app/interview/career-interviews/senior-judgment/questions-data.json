@@ -1,0 +1,98 @@
+[
+  {
+    "title": "How do you choose between two architectural approaches?",
+    "slug": "how-do-you-choose-between-two-architectural-approaches",
+    "category": "Senior Judgment & Tradeoffs",
+    "content": "# How do you choose between two architectural approaches?\n\n## Senior Engineering Judgment\n\nTrade-off evaluation framework and decision matrices for **How do you choose between two architectural approaches?**.\n\n---\n\n## Decision Framework\n- Cost of Complexity vs Business Velocity.\n- Reversibility of decisions (Type 1 vs Type 2 decisions).\n\n---\n\n## How to Articulate to Leadership\n- Framing decisions around ROI, customer impact, operational burden, and risk mitigation.\n"
+  },
+  {
+    "title": "How do you balance simplicity and scalability?",
+    "slug": "how-do-you-balance-simplicity-and-scalability",
+    "category": "Senior Judgment & Tradeoffs",
+    "content": "# How do you balance simplicity and scalability?\n\n## Senior Engineering Judgment\n\nTrade-off evaluation framework and decision matrices for **How do you balance simplicity and scalability?**.\n\n---\n\n## Decision Framework\n- Cost of Complexity vs Business Velocity.\n- Reversibility of decisions (Type 1 vs Type 2 decisions).\n\n---\n\n## How to Articulate to Leadership\n- Framing decisions around ROI, customer impact, operational burden, and risk mitigation.\n"
+  },
+  {
+    "title": "When should you optimize?",
+    "slug": "when-should-you-optimize",
+    "category": "Senior Judgment & Tradeoffs",
+    "content": "# When should you optimize?\n\n## Senior Engineering Judgment\n\nTrade-off evaluation framework and decision matrices for **When should you optimize?**.\n\n---\n\n## Decision Framework\n- Cost of Complexity vs Business Velocity.\n- Reversibility of decisions (Type 1 vs Type 2 decisions).\n\n---\n\n## How to Articulate to Leadership\n- Framing decisions around ROI, customer impact, operational burden, and risk mitigation.\n"
+  },
+  {
+    "title": "How do you decide whether a performance optimization is worthwhile?",
+    "slug": "how-do-you-decide-whether-a-performance-optimization-is-worthwhile",
+    "category": "Senior Judgment & Tradeoffs",
+    "content": "# How do you decide whether a performance optimization is worthwhile?\n\n## Senior Engineering Judgment\n\nTrade-off evaluation framework and decision matrices for **How do you decide whether a performance optimization is worthwhile?**.\n\n---\n\n## Decision Framework\n- Cost of Complexity vs Business Velocity.\n- Reversibility of decisions (Type 1 vs Type 2 decisions).\n\n---\n\n## How to Articulate to Leadership\n- Framing decisions around ROI, customer impact, operational burden, and risk mitigation.\n"
+  },
+  {
+    "title": "When should you introduce a microservice?",
+    "slug": "when-should-you-introduce-a-microservice",
+    "category": "Senior Judgment & Tradeoffs",
+    "content": "# When should you introduce a microservice?\n\n## Senior Engineering Judgment\n\nTrade-off evaluation framework and decision matrices for **When should you introduce a microservice?**.\n\n---\n\n## Decision Framework\n- Cost of Complexity vs Business Velocity.\n- Reversibility of decisions (Type 1 vs Type 2 decisions).\n\n---\n\n## How to Articulate to Leadership\n- Framing decisions around ROI, customer impact, operational burden, and risk mitigation.\n"
+  },
+  {
+    "title": "When should you keep a monolith?",
+    "slug": "when-should-you-keep-a-monolith",
+    "category": "Senior Judgment & Tradeoffs",
+    "content": "# When should you keep a monolith?\n\n## Senior Engineering Judgment\n\nTrade-off evaluation framework and decision matrices for **When should you keep a monolith?**.\n\n---\n\n## Decision Framework\n- Cost of Complexity vs Business Velocity.\n- Reversibility of decisions (Type 1 vs Type 2 decisions).\n\n---\n\n## How to Articulate to Leadership\n- Framing decisions around ROI, customer impact, operational burden, and risk mitigation.\n"
+  },
+  {
+    "title": "How do you handle technical debt?",
+    "slug": "how-do-you-handle-technical-debt",
+    "category": "Senior Judgment & Tradeoffs",
+    "content": "# How do you handle technical debt?\n\n## Senior Engineering Judgment\n\nTrade-off evaluation framework and decision matrices for **How do you handle technical debt?**.\n\n---\n\n## Decision Framework\n- Cost of Complexity vs Business Velocity.\n- Reversibility of decisions (Type 1 vs Type 2 decisions).\n\n---\n\n## How to Articulate to Leadership\n- Framing decisions around ROI, customer impact, operational burden, and risk mitigation.\n"
+  },
+  {
+    "title": "How do you decide whether to rewrite a system?",
+    "slug": "how-do-you-decide-whether-to-rewrite-a-system",
+    "category": "Senior Judgment & Tradeoffs",
+    "content": "# How do you decide whether to rewrite a system?\n\n## Senior Engineering Judgment\n\nTrade-off evaluation framework and decision matrices for **How do you decide whether to rewrite a system?**.\n\n---\n\n## Decision Framework\n- Cost of Complexity vs Business Velocity.\n- Reversibility of decisions (Type 1 vs Type 2 decisions).\n\n---\n\n## How to Articulate to Leadership\n- Framing decisions around ROI, customer impact, operational burden, and risk mitigation.\n"
+  },
+  {
+    "title": "How do you make a system backward compatible?",
+    "slug": "how-do-you-make-a-system-backward-compatible",
+    "category": "Senior Judgment & Tradeoffs",
+    "content": "# How do you make a system backward compatible?\n\n## Senior Engineering Judgment\n\nTrade-off evaluation framework and decision matrices for **How do you make a system backward compatible?**.\n\n---\n\n## Decision Framework\n- Cost of Complexity vs Business Velocity.\n- Reversibility of decisions (Type 1 vs Type 2 decisions).\n\n---\n\n## How to Articulate to Leadership\n- Framing decisions around ROI, customer impact, operational burden, and risk mitigation.\n"
+  },
+  {
+    "title": "How do you design for failure?",
+    "slug": "how-do-you-design-for-failure",
+    "category": "Senior Judgment & Tradeoffs",
+    "content": "# How do you design for failure?\n\n## Senior Engineering Judgment\n\nTrade-off evaluation framework and decision matrices for **How do you design for failure?**.\n\n---\n\n## Decision Framework\n- Cost of Complexity vs Business Velocity.\n- Reversibility of decisions (Type 1 vs Type 2 decisions).\n\n---\n\n## How to Articulate to Leadership\n- Framing decisions around ROI, customer impact, operational burden, and risk mitigation.\n"
+  },
+  {
+    "title": "How do you identify the biggest system bottleneck?",
+    "slug": "how-do-you-identify-the-biggest-system-bottleneck",
+    "category": "Senior Judgment & Tradeoffs",
+    "content": "# How do you identify the biggest system bottleneck?\n\n## Senior Engineering Judgment\n\nTrade-off evaluation framework and decision matrices for **How do you identify the biggest system bottleneck?**.\n\n---\n\n## Decision Framework\n- Cost of Complexity vs Business Velocity.\n- Reversibility of decisions (Type 1 vs Type 2 decisions).\n\n---\n\n## How to Articulate to Leadership\n- Framing decisions around ROI, customer impact, operational burden, and risk mitigation.\n"
+  },
+  {
+    "title": "How do you make a system observable?",
+    "slug": "how-do-you-make-a-system-observable",
+    "category": "Senior Judgment & Tradeoffs",
+    "content": "# How do you make a system observable?\n\n## Senior Engineering Judgment\n\nTrade-off evaluation framework and decision matrices for **How do you make a system observable?**.\n\n---\n\n## Decision Framework\n- Cost of Complexity vs Business Velocity.\n- Reversibility of decisions (Type 1 vs Type 2 decisions).\n\n---\n\n## How to Articulate to Leadership\n- Framing decisions around ROI, customer impact, operational burden, and risk mitigation.\n"
+  },
+  {
+    "title": "How do you make a system resilient?",
+    "slug": "how-do-you-make-a-system-resilient",
+    "category": "Senior Judgment & Tradeoffs",
+    "content": "# How do you make a system resilient?\n\n## Senior Engineering Judgment\n\nTrade-off evaluation framework and decision matrices for **How do you make a system resilient?**.\n\n---\n\n## Decision Framework\n- Cost of Complexity vs Business Velocity.\n- Reversibility of decisions (Type 1 vs Type 2 decisions).\n\n---\n\n## How to Articulate to Leadership\n- Framing decisions around ROI, customer impact, operational burden, and risk mitigation.\n"
+  },
+  {
+    "title": "How do you make a system maintainable?",
+    "slug": "how-do-you-make-a-system-maintainable",
+    "category": "Senior Judgment & Tradeoffs",
+    "content": "# How do you make a system maintainable?\n\n## Senior Engineering Judgment\n\nTrade-off evaluation framework and decision matrices for **How do you make a system maintainable?**.\n\n---\n\n## Decision Framework\n- Cost of Complexity vs Business Velocity.\n- Reversibility of decisions (Type 1 vs Type 2 decisions).\n\n---\n\n## How to Articulate to Leadership\n- Framing decisions around ROI, customer impact, operational burden, and risk mitigation.\n"
+  },
+  {
+    "title": "How do you handle ambiguous requirements?",
+    "slug": "how-do-you-handle-ambiguous-requirements",
+    "category": "Senior Judgment & Tradeoffs",
+    "content": "# How do you handle ambiguous requirements?\n\n## Senior Engineering Judgment\n\nTrade-off evaluation framework and decision matrices for **How do you handle ambiguous requirements?**.\n\n---\n\n## Decision Framework\n- Cost of Complexity vs Business Velocity.\n- Reversibility of decisions (Type 1 vs Type 2 decisions).\n\n---\n\n## How to Articulate to Leadership\n- Framing decisions around ROI, customer impact, operational burden, and risk mitigation.\n"
+  },
+  {
+    "title": "How do you communicate technical tradeoffs?",
+    "slug": "how-do-you-communicate-technical-tradeoffs",
+    "category": "Senior Judgment & Tradeoffs",
+    "content": "# How do you communicate technical tradeoffs?\n\n## Senior Engineering Judgment\n\nTrade-off evaluation framework and decision matrices for **How do you communicate technical tradeoffs?**.\n\n---\n\n## Decision Framework\n- Cost of Complexity vs Business Velocity.\n- Reversibility of decisions (Type 1 vs Type 2 decisions).\n\n---\n\n## How to Articulate to Leadership\n- Framing decisions around ROI, customer impact, operational burden, and risk mitigation.\n"
+  }
+]

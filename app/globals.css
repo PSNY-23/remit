@@ -24,3 +24,68 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Interview Article Links Styling */
+a.interview-article-link {
+  color: #2563eb !important; /* Rich Blue */
+  text-decoration: underline !important;
+  text-decoration-color: rgba(37, 99, 235, 0.45) !important;
+  text-underline-offset: 3px !important;
+  font-weight: 500 !important;
+  transition: all 0.15s ease-in-out !important;
+}
+
+a.interview-article-link:hover {
+  color: #1d4ed8 !important; /* Deeper Blue */
+  text-decoration-color: #1d4ed8 !important;
+}
+
+/* Dark Mode link adjustments */
+.dark a.interview-article-link,
+[data-theme="dark"] a.interview-article-link {
+  color: #60a5fa !important; /* Bright Sky Blue */
+  text-decoration-color: rgba(96, 165, 250, 0.45) !important;
+}
+
+.dark a.interview-article-link:hover,
+[data-theme="dark"] a.interview-article-link:hover {
+  color: #93c5fd !important;
+  text-decoration-color: #93c5fd !important;
+}
+
+@keyframes fadeInCard {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.article-preview-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.article-preview-scroll::-webkit-scrollbar-track {
+  background: rgba(125, 125, 125, 0.05);
+}
+
+.article-preview-scroll::-webkit-scrollbar-thumb {
+  background: rgba(59, 130, 246, 0.4);
+  border-radius: 4px;
+}
+
+.article-preview-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(59, 130, 246, 0.7);
+}

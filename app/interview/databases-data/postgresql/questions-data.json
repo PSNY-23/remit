@@ -1,0 +1,332 @@
+[
+  {
+    "title": "What is a relational database?",
+    "slug": "what-is-a-relational-database",
+    "category": "1. Fundamentals",
+    "content": "# What is a Relational Database (RDBMS)?\n\nA **Relational Database Management System (RDBMS)** organizes data into structured tables composed of rows (records/tuples) and columns (attributes). It enforces mathematical relational algebra and strict schemas governed by primary and foreign keys.\n\n---\n\n## Core Characteristics:\n1. **Structured Schema:** Predefined column data types and constraints (`NOT NULL`, `CHECK`, `UNIQUE`).\n2. **ACID Guarantees:** Atomic, Consistent, Isolated, and Durable transactions.\n3. **Declarative Querying:** Powered by Structured Query Language (SQL).\n"
+  },
+  {
+    "title": "What is normalization?",
+    "slug": "what-is-normalization",
+    "category": "1. Fundamentals",
+    "content": "# Database Normalization (1NF, 2NF, 3NF, BCNF)\n\n**Normalization** is the systematic database design technique of organizing table columns and relationships to **eliminate data redundancy** and avoid update/delete anomalies.\n\n---\n\n## Normal Forms Summary:\n\n1. **1NF (First Normal Form):**\n   - Each column contains atomic (indivisible) values.\n   - Each record is unique (Primary Key defined). No repeating groups/arrays.\n2. **2NF (Second Normal Form):**\n   - Meets 1NF.\n   - **No Partial Dependencies:** Every non-key column must depend on the *whole* primary key (relevant for composite keys).\n3. **3NF (Third Normal Form):**\n   - Meets 2NF.\n   - **No Transitive Dependencies:** Non-key columns must not depend on other non-key columns (`A -> B -> C`).\n"
+  },
+  {
+    "title": "When would you denormalize?",
+    "slug": "when-would-you-denormalize",
+    "category": "1. Fundamentals",
+    "content": "# When to Denormalize a Relational Database\n\n**Denormalization** deliberately adds redundant data or aggregates into tables to **optimize read performance** at the cost of write overhead and increased storage.\n\n---\n\n## Valid Scenarios for Denormalization:\n1. **High-Traffic Read-Heavy Workloads:** Avoiding expensive multi-table 6-way `JOIN`s on hot user dashboard queries.\n2. **Precomputed Aggregations:** Storing `total_order_count` or `account_balance` directly on the `users` table rather than running `COUNT(*)` or `SUM()` across millions of transaction rows.\n3. **Historical Snapshots:** Storing the product price and billing address *inside* the `order_items` table at the time of purchase so future catalog price changes do not distort historic order records.\n"
+  },
+  {
+    "title": "What is a database index?",
+    "slug": "what-is-a-database-index",
+    "category": "2. Indexes & Performance",
+    "content": "# Database Indexes: B-Tree Internals & Performance\n\nA **Database Index** is an auxiliary data structure (most commonly a self-balancing **B-Tree**) that allows the database engine to find specific rows in **O(log N)** time rather than performing a sequential Full Table Scan in **O(N)** time.\n\n---\n\n## B-Tree Index Structure:\n\n```\n                       [ Root Node (50) ]\n                     /                    \\\n        [ Branch (20, 35) ]          [ Branch (65, 80) ]\n        /        |        \\          /        |        \\\n   [Leaf 1]  [Leaf 2]  [Leaf 3]  [Leaf 4]  [Leaf 5]  [Leaf 6]\n   (Points to physical table heap pages on disk)\n```\n\n---\n\n## When Indexes Hurt Performance:\n- **Write Amplification:** Every `INSERT`, `UPDATE`, or `DELETE` must also synchronously update every single index on that table.\n- **Memory Consumption:** Indexes must fit into the PostgreSQL Buffer Pool (RAM) for optimal speed.\n"
+  },
+  {
+    "title": "What is EXPLAIN ANALYZE?",
+    "slug": "what-is-explain-analyze",
+    "category": "2. Indexes & Performance",
+    "content": "# EXPLAIN vs EXPLAIN ANALYZE in PostgreSQL\n\n- **`EXPLAIN`**: Shows the **Query Planner's estimated cost** and execution strategy without actually executing the query.\n- **`EXPLAIN ANALYZE`**: **Executes the query for real**, discarded output, and measures the **exact actual time spent (ms)**, buffer hits, and rows returned per execution node.\n\n---\n\n## Key Execution Nodes to Watch:\n1. **`Seq Scan` (Sequential Scan):** Full table scan. (Alert if table has 100K+ rows).\n2. **`Index Scan` / `Index Only Scan`:** Fast index seek.\n3. **`Bitmap Index Scan`:** Merges multiple index conditions before accessing table heap.\n"
+  },
+  {
+    "title": "Explain ACID.",
+    "slug": "explain-acid",
+    "category": "3. Transactions & ACID",
+    "content": "# ACID Properties in Database Transactions\n\nACID guarantees that database transactions are processed reliably:\n\n---\n\n## 1. Atomicity (\"All or Nothing\")\nEvery statement in a transaction succeeds, or the entire transaction is rolled back. If a server crashes midway through debiting Account A and crediting Account B, neither mutation persists.\n\n## 2. Consistency\nTransactions transition the database from one valid state to another valid state, enforcing all schema constraints, foreign keys, and unique checks.\n\n## 3. Isolation\nConcurrent transactions execute without interfering with one another, preventing dirty reads and race conditions depending on the chosen isolation level.\n\n## 4. Durability\nOnce a transaction commits, its changes are guaranteed to survive server crashes or power failures via the **Write-Ahead Log (WAL)** written to disk.\n"
+  },
+  {
+    "title": "What is MVCC?",
+    "slug": "what-is-mvcc",
+    "category": "4. Concurrency & Locks",
+    "content": "# Multi-Version Concurrency Control (MVCC) in PostgreSQL\n\nPostgreSQL achieves high concurrency through **MVCC**: **\"Readers never block writers, and writers never block readers.\"**\n\n---\n\n## How MVCC Works Internally:\n- Every table row has hidden system columns: `xmin` (creation transaction ID) and `xmax` (deletion transaction ID).\n- When a row is updated, PostgreSQL does **NOT** overwrite the physical row in place.\n- It inserts a **new version of the row** with current `xmin`, and marks the old row's `xmax` as deleted.\n- Each transaction sees a point-in-time snapshot of the database matching its snapshot horizon.\n\n> **Maintenance Requirement:** Old dead tuple versions must be cleaned up periodically by the background **VACUUM / AUTOVACUUM** process to prevent table bloat.\n"
+  },
+  {
+    "title": "Two users try to purchase the last item simultaneously. What happens?",
+    "slug": "two-users-try-to-purchase-the-last-item-simultaneously-what-happens",
+    "category": "5. Production Scenarios",
+    "content": "# High-Concurrency Race Condition: Last Item Purchase\n\nWhen two concurrent requests execute:\n```sql\n-- Step 1: Check stock\nSELECT stock FROM products WHERE id = 1; -- Returns 1 for both!\n\n-- Step 2: Decrement\nUPDATE products SET stock = stock - 1 WHERE id = 1;\n```\nBoth see `stock = 1` and both decrement, resulting in **overselling (stock = -1)**!\n\n---\n\n## Production Solutions:\n\n### Option 1: Atomic Database Constraint + Conditional Update (Recommended)\n```sql\nUPDATE products \nSET stock = stock - 1 \nWHERE id = 1 AND stock > 0;\n```\nCheck affected rows: If `0`, the item was already sold out.\n\n### Option 2: Pessimistic Row Locking (`SELECT FOR UPDATE`)\n```sql\nBEGIN;\nSELECT stock FROM products WHERE id = 1 FOR UPDATE; -- Acquires exclusive row lock\n-- Second transaction blocks and waits until first transaction COMMITS\nUPDATE products SET stock = stock - 1 WHERE id = 1;\nCOMMIT;\n```\n"
+  },
+  {
+    "title": "Primary key vs unique constraint?",
+    "slug": "primary-key-vs-unique-constraint",
+    "category": "1. Fundamentals",
+    "content": "# Primary key vs unique constraint?\n\n## Deep Technical Analysis\n\nIn-depth architectural mechanics, PostgreSQL engine behavior, and query patterns for **Primary key vs unique constraint?**.\n\n---\n\n## Key SQL Blueprint & Internal Mechanics\n```sql\n-- PostgreSQL Pattern for Primary key vs unique constraint?\n```\n\n---\n\n## Production Trade-offs & Best Practices\n- Lock contention, WAL write overhead, and connection pool sizing.\n"
+  },
+  {
+    "title": "What is a foreign key?",
+    "slug": "what-is-a-foreign-key",
+    "category": "1. Fundamentals",
+    "content": "# What is a foreign key?\n\n## Deep Technical Analysis\n\nIn-depth architectural mechanics, PostgreSQL engine behavior, and query patterns for **What is a foreign key?**.\n\n---\n\n## Key SQL Blueprint & Internal Mechanics\n```sql\n-- PostgreSQL Pattern for What is a foreign key?\n```\n\n---\n\n## Production Trade-offs & Best Practices\n- Lock contention, WAL write overhead, and connection pool sizing.\n"
+  },
+  {
+    "title": "What are database constraints?",
+    "slug": "what-are-database-constraints",
+    "category": "1. Fundamentals",
+    "content": "# What are database constraints?\n\n## Deep Technical Analysis\n\nIn-depth architectural mechanics, PostgreSQL engine behavior, and query patterns for **What are database constraints?**.\n\n---\n\n## Key SQL Blueprint & Internal Mechanics\n```sql\n-- PostgreSQL Pattern for What are database constraints?\n```\n\n---\n\n## Production Trade-offs & Best Practices\n- Lock contention, WAL write overhead, and connection pool sizing.\n"
+  },
+  {
+    "title": "What is a JOIN?",
+    "slug": "what-is-a-join",
+    "category": "1. Fundamentals",
+    "content": "# What is a JOIN?\n\n## Deep Technical Analysis\n\nIn-depth architectural mechanics, PostgreSQL engine behavior, and query patterns for **What is a JOIN?**.\n\n---\n\n## Key SQL Blueprint & Internal Mechanics\n```sql\n-- PostgreSQL Pattern for What is a JOIN?\n```\n\n---\n\n## Production Trade-offs & Best Practices\n- Lock contention, WAL write overhead, and connection pool sizing.\n"
+  },
+  {
+    "title": "INNER JOIN vs LEFT JOIN?",
+    "slug": "inner-join-vs-left-join",
+    "category": "1. Fundamentals",
+    "content": "# INNER JOIN vs LEFT JOIN?\n\n## Deep Technical Analysis\n\nIn-depth architectural mechanics, PostgreSQL engine behavior, and query patterns for **INNER JOIN vs LEFT JOIN?**.\n\n---\n\n## Key SQL Blueprint & Internal Mechanics\n```sql\n-- PostgreSQL Pattern for INNER JOIN vs LEFT JOIN?\n```\n\n---\n\n## Production Trade-offs & Best Practices\n- Lock contention, WAL write overhead, and connection pool sizing.\n"
+  },
+  {
+    "title": "What is a composite key?",
+    "slug": "what-is-a-composite-key",
+    "category": "1. Fundamentals",
+    "content": "# What is a composite key?\n\n## Deep Technical Analysis\n\nIn-depth architectural mechanics, PostgreSQL engine behavior, and query patterns for **What is a composite key?**.\n\n---\n\n## Key SQL Blueprint & Internal Mechanics\n```sql\n-- PostgreSQL Pattern for What is a composite key?\n```\n\n---\n\n## Production Trade-offs & Best Practices\n- Lock contention, WAL write overhead, and connection pool sizing.\n"
+  },
+  {
+    "title": "What is a composite index?",
+    "slug": "what-is-a-composite-index",
+    "category": "1. Fundamentals",
+    "content": "# What is a composite index?\n\n## Deep Technical Analysis\n\nIn-depth architectural mechanics, PostgreSQL engine behavior, and query patterns for **What is a composite index?**.\n\n---\n\n## Key SQL Blueprint & Internal Mechanics\n```sql\n-- PostgreSQL Pattern for What is a composite index?\n```\n\n---\n\n## Production Trade-offs & Best Practices\n- Lock contention, WAL write overhead, and connection pool sizing.\n"
+  },
+  {
+    "title": "How does an index improve performance?",
+    "slug": "how-does-an-index-improve-performance",
+    "category": "2. Indexes & Performance",
+    "content": "# How does an index improve performance?\n\n## Deep Technical Analysis\n\nIn-depth architectural mechanics, PostgreSQL engine behavior, and query patterns for **How does an index improve performance?**.\n\n---\n\n## Key SQL Blueprint & Internal Mechanics\n```sql\n-- PostgreSQL Pattern for How does an index improve performance?\n```\n\n---\n\n## Production Trade-offs & Best Practices\n- Lock contention, WAL write overhead, and connection pool sizing.\n"
+  },
+  {
+    "title": "When should you create an index?",
+    "slug": "when-should-you-create-an-index",
+    "category": "2. Indexes & Performance",
+    "content": "# When should you create an index?\n\n## Deep Technical Analysis\n\nIn-depth architectural mechanics, PostgreSQL engine behavior, and query patterns for **When should you create an index?**.\n\n---\n\n## Key SQL Blueprint & Internal Mechanics\n```sql\n-- PostgreSQL Pattern for When should you create an index?\n```\n\n---\n\n## Production Trade-offs & Best Practices\n- Lock contention, WAL write overhead, and connection pool sizing.\n"
+  },
+  {
+    "title": "How does index column order matter?",
+    "slug": "how-does-index-column-order-matter",
+    "category": "2. Indexes & Performance",
+    "content": "# How does index column order matter?\n\n## Deep Technical Analysis\n\nIn-depth architectural mechanics, PostgreSQL engine behavior, and query patterns for **How does index column order matter?**.\n\n---\n\n## Key SQL Blueprint & Internal Mechanics\n```sql\n-- PostgreSQL Pattern for How does index column order matter?\n```\n\n---\n\n## Production Trade-offs & Best Practices\n- Lock contention, WAL write overhead, and connection pool sizing.\n"
+  },
+  {
+    "title": "What is a covering index?",
+    "slug": "what-is-a-covering-index",
+    "category": "2. Indexes & Performance",
+    "content": "# What is a covering index?\n\n## Deep Technical Analysis\n\nIn-depth architectural mechanics, PostgreSQL engine behavior, and query patterns for **What is a covering index?**.\n\n---\n\n## Key SQL Blueprint & Internal Mechanics\n```sql\n-- PostgreSQL Pattern for What is a covering index?\n```\n\n---\n\n## Production Trade-offs & Best Practices\n- Lock contention, WAL write overhead, and connection pool sizing.\n"
+  },
+  {
+    "title": "How do you identify a missing index?",
+    "slug": "how-do-you-identify-a-missing-index",
+    "category": "2. Indexes & Performance",
+    "content": "# How do you identify a missing index?\n\n## Deep Technical Analysis\n\nIn-depth architectural mechanics, PostgreSQL engine behavior, and query patterns for **How do you identify a missing index?**.\n\n---\n\n## Key SQL Blueprint & Internal Mechanics\n```sql\n-- PostgreSQL Pattern for How do you identify a missing index?\n```\n\n---\n\n## Production Trade-offs & Best Practices\n- Lock contention, WAL write overhead, and connection pool sizing.\n"
+  },
+  {
+    "title": "How would you debug a slow query?",
+    "slug": "how-would-you-debug-a-slow-query",
+    "category": "2. Indexes & Performance",
+    "content": "# How would you debug a slow query?\n\n## Deep Technical Analysis\n\nIn-depth architectural mechanics, PostgreSQL engine behavior, and query patterns for **How would you debug a slow query?**.\n\n---\n\n## Key SQL Blueprint & Internal Mechanics\n```sql\n-- PostgreSQL Pattern for How would you debug a slow query?\n```\n\n---\n\n## Production Trade-offs & Best Practices\n- Lock contention, WAL write overhead, and connection pool sizing.\n"
+  },
+  {
+    "title": "What is a transaction?",
+    "slug": "what-is-a-transaction",
+    "category": "3. Transactions & ACID",
+    "content": "# What is a transaction?\n\n## Deep Technical Analysis\n\nIn-depth architectural mechanics, PostgreSQL engine behavior, and query patterns for **What is a transaction?**.\n\n---\n\n## Key SQL Blueprint & Internal Mechanics\n```sql\n-- PostgreSQL Pattern for What is a transaction?\n```\n\n---\n\n## Production Trade-offs & Best Practices\n- Lock contention, WAL write overhead, and connection pool sizing.\n"
+  },
+  {
+    "title": "What is atomicity?",
+    "slug": "what-is-atomicity",
+    "category": "3. Transactions & ACID",
+    "content": "# What is atomicity?\n\n## Deep Technical Analysis\n\nIn-depth architectural mechanics, PostgreSQL engine behavior, and query patterns for **What is atomicity?**.\n\n---\n\n## Key SQL Blueprint & Internal Mechanics\n```sql\n-- PostgreSQL Pattern for What is atomicity?\n```\n\n---\n\n## Production Trade-offs & Best Practices\n- Lock contention, WAL write overhead, and connection pool sizing.\n"
+  },
+  {
+    "title": "What is consistency?",
+    "slug": "what-is-consistency",
+    "category": "3. Transactions & ACID",
+    "content": "# What is consistency?\n\n## Deep Technical Analysis\n\nIn-depth architectural mechanics, PostgreSQL engine behavior, and query patterns for **What is consistency?**.\n\n---\n\n## Key SQL Blueprint & Internal Mechanics\n```sql\n-- PostgreSQL Pattern for What is consistency?\n```\n\n---\n\n## Production Trade-offs & Best Practices\n- Lock contention, WAL write overhead, and connection pool sizing.\n"
+  },
+  {
+    "title": "What is isolation?",
+    "slug": "what-is-isolation",
+    "category": "3. Transactions & ACID",
+    "content": "# What is isolation?\n\n## Deep Technical Analysis\n\nIn-depth architectural mechanics, PostgreSQL engine behavior, and query patterns for **What is isolation?**.\n\n---\n\n## Key SQL Blueprint & Internal Mechanics\n```sql\n-- PostgreSQL Pattern for What is isolation?\n```\n\n---\n\n## Production Trade-offs & Best Practices\n- Lock contention, WAL write overhead, and connection pool sizing.\n"
+  },
+  {
+    "title": "What is durability?",
+    "slug": "what-is-durability",
+    "category": "3. Transactions & ACID",
+    "content": "# What is durability?\n\n## Deep Technical Analysis\n\nIn-depth architectural mechanics, PostgreSQL engine behavior, and query patterns for **What is durability?**.\n\n---\n\n## Key SQL Blueprint & Internal Mechanics\n```sql\n-- PostgreSQL Pattern for What is durability?\n```\n\n---\n\n## Production Trade-offs & Best Practices\n- Lock contention, WAL write overhead, and connection pool sizing.\n"
+  },
+  {
+    "title": "What are PostgreSQL isolation levels?",
+    "slug": "what-are-postgresql-isolation-levels",
+    "category": "3. Transactions & ACID",
+    "content": "# What are PostgreSQL isolation levels?\n\n## Deep Technical Analysis\n\nIn-depth architectural mechanics, PostgreSQL engine behavior, and query patterns for **What are PostgreSQL isolation levels?**.\n\n---\n\n## Key SQL Blueprint & Internal Mechanics\n```sql\n-- PostgreSQL Pattern for What are PostgreSQL isolation levels?\n```\n\n---\n\n## Production Trade-offs & Best Practices\n- Lock contention, WAL write overhead, and connection pool sizing.\n"
+  },
+  {
+    "title": "Read committed vs repeatable read?",
+    "slug": "read-committed-vs-repeatable-read",
+    "category": "3. Transactions & ACID",
+    "content": "# Read committed vs repeatable read?\n\n## Deep Technical Analysis\n\nIn-depth architectural mechanics, PostgreSQL engine behavior, and query patterns for **Read committed vs repeatable read?**.\n\n---\n\n## Key SQL Blueprint & Internal Mechanics\n```sql\n-- PostgreSQL Pattern for Read committed vs repeatable read?\n```\n\n---\n\n## Production Trade-offs & Best Practices\n- Lock contention, WAL write overhead, and connection pool sizing.\n"
+  },
+  {
+    "title": "What is serializable isolation?",
+    "slug": "what-is-serializable-isolation",
+    "category": "3. Transactions & ACID",
+    "content": "# What is serializable isolation?\n\n## Deep Technical Analysis\n\nIn-depth architectural mechanics, PostgreSQL engine behavior, and query patterns for **What is serializable isolation?**.\n\n---\n\n## Key SQL Blueprint & Internal Mechanics\n```sql\n-- PostgreSQL Pattern for What is serializable isolation?\n```\n\n---\n\n## Production Trade-offs & Best Practices\n- Lock contention, WAL write overhead, and connection pool sizing.\n"
+  },
+  {
+    "title": "When would you use serializable transactions?",
+    "slug": "when-would-you-use-serializable-transactions",
+    "category": "3. Transactions & ACID",
+    "content": "# When would you use serializable transactions?\n\n## Deep Technical Analysis\n\nIn-depth architectural mechanics, PostgreSQL engine behavior, and query patterns for **When would you use serializable transactions?**.\n\n---\n\n## Key SQL Blueprint & Internal Mechanics\n```sql\n-- PostgreSQL Pattern for When would you use serializable transactions?\n```\n\n---\n\n## Production Trade-offs & Best Practices\n- Lock contention, WAL write overhead, and connection pool sizing.\n"
+  },
+  {
+    "title": "What is a race condition?",
+    "slug": "what-is-a-race-condition",
+    "category": "4. Concurrency & Locks",
+    "content": "# What is a race condition?\n\n## Deep Technical Analysis\n\nIn-depth architectural mechanics, PostgreSQL engine behavior, and query patterns for **What is a race condition?**.\n\n---\n\n## Key SQL Blueprint & Internal Mechanics\n```sql\n-- PostgreSQL Pattern for What is a race condition?\n```\n\n---\n\n## Production Trade-offs & Best Practices\n- Lock contention, WAL write overhead, and connection pool sizing.\n"
+  },
+  {
+    "title": "What is a lost update?",
+    "slug": "what-is-a-lost-update",
+    "category": "4. Concurrency & Locks",
+    "content": "# What is a lost update?\n\n## Deep Technical Analysis\n\nIn-depth architectural mechanics, PostgreSQL engine behavior, and query patterns for **What is a lost update?**.\n\n---\n\n## Key SQL Blueprint & Internal Mechanics\n```sql\n-- PostgreSQL Pattern for What is a lost update?\n```\n\n---\n\n## Production Trade-offs & Best Practices\n- Lock contention, WAL write overhead, and connection pool sizing.\n"
+  },
+  {
+    "title": "What is a dirty read?",
+    "slug": "what-is-a-dirty-read",
+    "category": "4. Concurrency & Locks",
+    "content": "# What is a dirty read?\n\n## Deep Technical Analysis\n\nIn-depth architectural mechanics, PostgreSQL engine behavior, and query patterns for **What is a dirty read?**.\n\n---\n\n## Key SQL Blueprint & Internal Mechanics\n```sql\n-- PostgreSQL Pattern for What is a dirty read?\n```\n\n---\n\n## Production Trade-offs & Best Practices\n- Lock contention, WAL write overhead, and connection pool sizing.\n"
+  },
+  {
+    "title": "What is a non-repeatable read?",
+    "slug": "what-is-a-non-repeatable-read",
+    "category": "4. Concurrency & Locks",
+    "content": "# What is a non-repeatable read?\n\n## Deep Technical Analysis\n\nIn-depth architectural mechanics, PostgreSQL engine behavior, and query patterns for **What is a non-repeatable read?**.\n\n---\n\n## Key SQL Blueprint & Internal Mechanics\n```sql\n-- PostgreSQL Pattern for What is a non-repeatable read?\n```\n\n---\n\n## Production Trade-offs & Best Practices\n- Lock contention, WAL write overhead, and connection pool sizing.\n"
+  },
+  {
+    "title": "What is a phantom read?",
+    "slug": "what-is-a-phantom-read",
+    "category": "4. Concurrency & Locks",
+    "content": "# What is a phantom read?\n\n## Deep Technical Analysis\n\nIn-depth architectural mechanics, PostgreSQL engine behavior, and query patterns for **What is a phantom read?**.\n\n---\n\n## Key SQL Blueprint & Internal Mechanics\n```sql\n-- PostgreSQL Pattern for What is a phantom read?\n```\n\n---\n\n## Production Trade-offs & Best Practices\n- Lock contention, WAL write overhead, and connection pool sizing.\n"
+  },
+  {
+    "title": "What is write skew?",
+    "slug": "what-is-write-skew",
+    "category": "4. Concurrency & Locks",
+    "content": "# What is write skew?\n\n## Deep Technical Analysis\n\nIn-depth architectural mechanics, PostgreSQL engine behavior, and query patterns for **What is write skew?**.\n\n---\n\n## Key SQL Blueprint & Internal Mechanics\n```sql\n-- PostgreSQL Pattern for What is write skew?\n```\n\n---\n\n## Production Trade-offs & Best Practices\n- Lock contention, WAL write overhead, and connection pool sizing.\n"
+  },
+  {
+    "title": "What is pessimistic locking?",
+    "slug": "what-is-pessimistic-locking",
+    "category": "4. Concurrency & Locks",
+    "content": "# What is pessimistic locking?\n\n## Deep Technical Analysis\n\nIn-depth architectural mechanics, PostgreSQL engine behavior, and query patterns for **What is pessimistic locking?**.\n\n---\n\n## Key SQL Blueprint & Internal Mechanics\n```sql\n-- PostgreSQL Pattern for What is pessimistic locking?\n```\n\n---\n\n## Production Trade-offs & Best Practices\n- Lock contention, WAL write overhead, and connection pool sizing.\n"
+  },
+  {
+    "title": "What is optimistic locking?",
+    "slug": "what-is-optimistic-locking",
+    "category": "4. Concurrency & Locks",
+    "content": "# What is optimistic locking?\n\n## Deep Technical Analysis\n\nIn-depth architectural mechanics, PostgreSQL engine behavior, and query patterns for **What is optimistic locking?**.\n\n---\n\n## Key SQL Blueprint & Internal Mechanics\n```sql\n-- PostgreSQL Pattern for What is optimistic locking?\n```\n\n---\n\n## Production Trade-offs & Best Practices\n- Lock contention, WAL write overhead, and connection pool sizing.\n"
+  },
+  {
+    "title": "Optimistic vs pessimistic locking?",
+    "slug": "optimistic-vs-pessimistic-locking",
+    "category": "4. Concurrency & Locks",
+    "content": "# Optimistic vs pessimistic locking?\n\n## Deep Technical Analysis\n\nIn-depth architectural mechanics, PostgreSQL engine behavior, and query patterns for **Optimistic vs pessimistic locking?**.\n\n---\n\n## Key SQL Blueprint & Internal Mechanics\n```sql\n-- PostgreSQL Pattern for Optimistic vs pessimistic locking?\n```\n\n---\n\n## Production Trade-offs & Best Practices\n- Lock contention, WAL write overhead, and connection pool sizing.\n"
+  },
+  {
+    "title": "What is SELECT FOR UPDATE?",
+    "slug": "what-is-select-for-update",
+    "category": "4. Concurrency & Locks",
+    "content": "# What is SELECT FOR UPDATE?\n\n## Deep Technical Analysis\n\nIn-depth architectural mechanics, PostgreSQL engine behavior, and query patterns for **What is SELECT FOR UPDATE?**.\n\n---\n\n## Key SQL Blueprint & Internal Mechanics\n```sql\n-- PostgreSQL Pattern for What is SELECT FOR UPDATE?\n```\n\n---\n\n## Production Trade-offs & Best Practices\n- Lock contention, WAL write overhead, and connection pool sizing.\n"
+  },
+  {
+    "title": "When should you use row-level locks?",
+    "slug": "when-should-you-use-row-level-locks",
+    "category": "4. Concurrency & Locks",
+    "content": "# When should you use row-level locks?\n\n## Deep Technical Analysis\n\nIn-depth architectural mechanics, PostgreSQL engine behavior, and query patterns for **When should you use row-level locks?**.\n\n---\n\n## Key SQL Blueprint & Internal Mechanics\n```sql\n-- PostgreSQL Pattern for When should you use row-level locks?\n```\n\n---\n\n## Production Trade-offs & Best Practices\n- Lock contention, WAL write overhead, and connection pool sizing.\n"
+  },
+  {
+    "title": "When can locking hurt performance?",
+    "slug": "when-can-locking-hurt-performance",
+    "category": "4. Concurrency & Locks",
+    "content": "# When can locking hurt performance?\n\n## Deep Technical Analysis\n\nIn-depth architectural mechanics, PostgreSQL engine behavior, and query patterns for **When can locking hurt performance?**.\n\n---\n\n## Key SQL Blueprint & Internal Mechanics\n```sql\n-- PostgreSQL Pattern for When can locking hurt performance?\n```\n\n---\n\n## Production Trade-offs & Best Practices\n- Lock contention, WAL write overhead, and connection pool sizing.\n"
+  },
+  {
+    "title": "What is a deadlock?",
+    "slug": "what-is-a-deadlock",
+    "category": "4. Concurrency & Locks",
+    "content": "# What is a deadlock?\n\n## Deep Technical Analysis\n\nIn-depth architectural mechanics, PostgreSQL engine behavior, and query patterns for **What is a deadlock?**.\n\n---\n\n## Key SQL Blueprint & Internal Mechanics\n```sql\n-- PostgreSQL Pattern for What is a deadlock?\n```\n\n---\n\n## Production Trade-offs & Best Practices\n- Lock contention, WAL write overhead, and connection pool sizing.\n"
+  },
+  {
+    "title": "How do deadlocks happen?",
+    "slug": "how-do-deadlocks-happen",
+    "category": "4. Concurrency & Locks",
+    "content": "# How do deadlocks happen?\n\n## Deep Technical Analysis\n\nIn-depth architectural mechanics, PostgreSQL engine behavior, and query patterns for **How do deadlocks happen?**.\n\n---\n\n## Key SQL Blueprint & Internal Mechanics\n```sql\n-- PostgreSQL Pattern for How do deadlocks happen?\n```\n\n---\n\n## Production Trade-offs & Best Practices\n- Lock contention, WAL write overhead, and connection pool sizing.\n"
+  },
+  {
+    "title": "How do you prevent/handle deadlocks?",
+    "slug": "how-do-you-prevent-handle-deadlocks",
+    "category": "4. Concurrency & Locks",
+    "content": "# How do you prevent/handle deadlocks?\n\n## Deep Technical Analysis\n\nIn-depth architectural mechanics, PostgreSQL engine behavior, and query patterns for **How do you prevent/handle deadlocks?**.\n\n---\n\n## Key SQL Blueprint & Internal Mechanics\n```sql\n-- PostgreSQL Pattern for How do you prevent/handle deadlocks?\n```\n\n---\n\n## Production Trade-offs & Best Practices\n- Lock contention, WAL write overhead, and connection pool sizing.\n"
+  },
+  {
+    "title": "What happens if a transaction fails halfway through?",
+    "slug": "what-happens-if-a-transaction-fails-halfway-through",
+    "category": "4. Concurrency & Locks",
+    "content": "# What happens if a transaction fails halfway through?\n\n## Deep Technical Analysis\n\nIn-depth architectural mechanics, PostgreSQL engine behavior, and query patterns for **What happens if a transaction fails halfway through?**.\n\n---\n\n## Key SQL Blueprint & Internal Mechanics\n```sql\n-- PostgreSQL Pattern for What happens if a transaction fails halfway through?\n```\n\n---\n\n## Production Trade-offs & Best Practices\n- Lock contention, WAL write overhead, and connection pool sizing.\n"
+  },
+  {
+    "title": "What happens if the server crashes during a transaction?",
+    "slug": "what-happens-if-the-server-crashes-during-a-transaction",
+    "category": "4. Concurrency & Locks",
+    "content": "# What happens if the server crashes during a transaction?\n\n## Deep Technical Analysis\n\nIn-depth architectural mechanics, PostgreSQL engine behavior, and query patterns for **What happens if the server crashes during a transaction?**.\n\n---\n\n## Key SQL Blueprint & Internal Mechanics\n```sql\n-- PostgreSQL Pattern for What happens if the server crashes during a transaction?\n```\n\n---\n\n## Production Trade-offs & Best Practices\n- Lock contention, WAL write overhead, and connection pool sizing.\n"
+  },
+  {
+    "title": "What happens if a transaction stays open too long?",
+    "slug": "what-happens-if-a-transaction-stays-open-too-long",
+    "category": "4. Concurrency & Locks",
+    "content": "# What happens if a transaction stays open too long?\n\n## Deep Technical Analysis\n\nIn-depth architectural mechanics, PostgreSQL engine behavior, and query patterns for **What happens if a transaction stays open too long?**.\n\n---\n\n## Key SQL Blueprint & Internal Mechanics\n```sql\n-- PostgreSQL Pattern for What happens if a transaction stays open too long?\n```\n\n---\n\n## Production Trade-offs & Best Practices\n- Lock contention, WAL write overhead, and connection pool sizing.\n"
+  },
+  {
+    "title": "How would you prevent duplicate orders?",
+    "slug": "how-would-you-prevent-duplicate-orders",
+    "category": "5. Production Scenarios",
+    "content": "# How would you prevent duplicate orders?\n\n## Deep Technical Analysis\n\nIn-depth architectural mechanics, PostgreSQL engine behavior, and query patterns for **How would you prevent duplicate orders?**.\n\n---\n\n## Key SQL Blueprint & Internal Mechanics\n```sql\n-- PostgreSQL Pattern for How would you prevent duplicate orders?\n```\n\n---\n\n## Production Trade-offs & Best Practices\n- Lock contention, WAL write overhead, and connection pool sizing.\n"
+  },
+  {
+    "title": "How would you guarantee inventory does not become negative?",
+    "slug": "how-would-you-guarantee-inventory-does-not-become-negative",
+    "category": "5. Production Scenarios",
+    "content": "# How would you guarantee inventory does not become negative?\n\n## Deep Technical Analysis\n\nIn-depth architectural mechanics, PostgreSQL engine behavior, and query patterns for **How would you guarantee inventory does not become negative?**.\n\n---\n\n## Key SQL Blueprint & Internal Mechanics\n```sql\n-- PostgreSQL Pattern for How would you guarantee inventory does not become negative?\n```\n\n---\n\n## Production Trade-offs & Best Practices\n- Lock contention, WAL write overhead, and connection pool sizing.\n"
+  },
+  {
+    "title": "How would you implement an idempotent database operation?",
+    "slug": "how-would-you-implement-an-idempotent-database-operation",
+    "category": "5. Production Scenarios",
+    "content": "# How would you implement an idempotent database operation?\n\n## Deep Technical Analysis\n\nIn-depth architectural mechanics, PostgreSQL engine behavior, and query patterns for **How would you implement an idempotent database operation?**.\n\n---\n\n## Key SQL Blueprint & Internal Mechanics\n```sql\n-- PostgreSQL Pattern for How would you implement an idempotent database operation?\n```\n\n---\n\n## Production Trade-offs & Best Practices\n- Lock contention, WAL write overhead, and connection pool sizing.\n"
+  },
+  {
+    "title": "How would you handle concurrent updates?",
+    "slug": "how-would-you-handle-concurrent-updates",
+    "category": "5. Production Scenarios",
+    "content": "# How would you handle concurrent updates?\n\n## Deep Technical Analysis\n\nIn-depth architectural mechanics, PostgreSQL engine behavior, and query patterns for **How would you handle concurrent updates?**.\n\n---\n\n## Key SQL Blueprint & Internal Mechanics\n```sql\n-- PostgreSQL Pattern for How would you handle concurrent updates?\n```\n\n---\n\n## Production Trade-offs & Best Practices\n- Lock contention, WAL write overhead, and connection pool sizing.\n"
+  },
+  {
+    "title": "How would you safely migrate a huge production table?",
+    "slug": "how-would-you-safely-migrate-a-huge-production-table",
+    "category": "5. Production Scenarios",
+    "content": "# How would you safely migrate a huge production table?\n\n## Deep Technical Analysis\n\nIn-depth architectural mechanics, PostgreSQL engine behavior, and query patterns for **How would you safely migrate a huge production table?**.\n\n---\n\n## Key SQL Blueprint & Internal Mechanics\n```sql\n-- PostgreSQL Pattern for How would you safely migrate a huge production table?\n```\n\n---\n\n## Production Trade-offs & Best Practices\n- Lock contention, WAL write overhead, and connection pool sizing.\n"
+  },
+  {
+    "title": "How would you handle database connection-pool exhaustion?",
+    "slug": "how-would-you-handle-database-connection-pool-exhaustion",
+    "category": "5. Production Scenarios",
+    "content": "# How would you handle database connection-pool exhaustion?\n\n## Deep Technical Analysis\n\nIn-depth architectural mechanics, PostgreSQL engine behavior, and query patterns for **How would you handle database connection-pool exhaustion?**.\n\n---\n\n## Key SQL Blueprint & Internal Mechanics\n```sql\n-- PostgreSQL Pattern for How would you handle database connection-pool exhaustion?\n```\n\n---\n\n## Production Trade-offs & Best Practices\n- Lock contention, WAL write overhead, and connection pool sizing.\n"
+  },
+  {
+    "title": "How would you diagnose database bottlenecks?",
+    "slug": "how-would-you-diagnose-database-bottlenecks",
+    "category": "5. Production Scenarios",
+    "content": "# How would you diagnose database bottlenecks?\n\n## Deep Technical Analysis\n\nIn-depth architectural mechanics, PostgreSQL engine behavior, and query patterns for **How would you diagnose database bottlenecks?**.\n\n---\n\n## Key SQL Blueprint & Internal Mechanics\n```sql\n-- PostgreSQL Pattern for How would you diagnose database bottlenecks?\n```\n\n---\n\n## Production Trade-offs & Best Practices\n- Lock contention, WAL write overhead, and connection pool sizing.\n"
+  }
+]

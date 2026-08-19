@@ -1,0 +1,110 @@
+[
+  {
+    "title": "What is caching?",
+    "slug": "what-is-caching",
+    "category": "Caching & Redis",
+    "content": "# What is caching?\n\n## Caching Architecture & Redis Internals\n\nCache hit ratio optimization, eviction policies (LRU/LFU), and memory efficiency for **What is caching?**.\n\n---\n\n## Pattern Blueprint & Redis Implementation\n```typescript\n// Caching strategy for What is caching?\n```\n\n---\n\n## Failure Modes & Invalidation\n- Handling cache stampedes (dogpiling) using mutex locks and probabilistic early expiration (XFetch).\n"
+  },
+  {
+    "title": "Why does caching improve performance?",
+    "slug": "why-does-caching-improve-performance",
+    "category": "Caching & Redis",
+    "content": "# Why does caching improve performance?\n\n## Caching Architecture & Redis Internals\n\nCache hit ratio optimization, eviction policies (LRU/LFU), and memory efficiency for **Why does caching improve performance?**.\n\n---\n\n## Pattern Blueprint & Redis Implementation\n```typescript\n// Caching strategy for Why does caching improve performance?\n```\n\n---\n\n## Failure Modes & Invalidation\n- Handling cache stampedes (dogpiling) using mutex locks and probabilistic early expiration (XFetch).\n"
+  },
+  {
+    "title": "Where can caching happen?",
+    "slug": "where-can-caching-happen",
+    "category": "Caching & Redis",
+    "content": "# Where can caching happen?\n\n## Caching Architecture & Redis Internals\n\nCache hit ratio optimization, eviction policies (LRU/LFU), and memory efficiency for **Where can caching happen?**.\n\n---\n\n## Pattern Blueprint & Redis Implementation\n```typescript\n// Caching strategy for Where can caching happen?\n```\n\n---\n\n## Failure Modes & Invalidation\n- Handling cache stampedes (dogpiling) using mutex locks and probabilistic early expiration (XFetch).\n"
+  },
+  {
+    "title": "Browser cache vs server cache?",
+    "slug": "browser-cache-vs-server-cache",
+    "category": "Caching & Redis",
+    "content": "# Browser cache vs server cache?\n\n## Caching Architecture & Redis Internals\n\nCache hit ratio optimization, eviction policies (LRU/LFU), and memory efficiency for **Browser cache vs server cache?**.\n\n---\n\n## Pattern Blueprint & Redis Implementation\n```typescript\n// Caching strategy for Browser cache vs server cache?\n```\n\n---\n\n## Failure Modes & Invalidation\n- Handling cache stampedes (dogpiling) using mutex locks and probabilistic early expiration (XFetch).\n"
+  },
+  {
+    "title": "What is Redis?",
+    "slug": "what-is-redis",
+    "category": "Caching & Redis",
+    "content": "# What is Redis?\n\n## Caching Architecture & Redis Internals\n\nCache hit ratio optimization, eviction policies (LRU/LFU), and memory efficiency for **What is Redis?**.\n\n---\n\n## Pattern Blueprint & Redis Implementation\n```typescript\n// Caching strategy for What is Redis?\n```\n\n---\n\n## Failure Modes & Invalidation\n- Handling cache stampedes (dogpiling) using mutex locks and probabilistic early expiration (XFetch).\n"
+  },
+  {
+    "title": "When would you use Redis?",
+    "slug": "when-would-you-use-redis",
+    "category": "Caching & Redis",
+    "content": "# When would you use Redis?\n\n## Caching Architecture & Redis Internals\n\nCache hit ratio optimization, eviction policies (LRU/LFU), and memory efficiency for **When would you use Redis?**.\n\n---\n\n## Pattern Blueprint & Redis Implementation\n```typescript\n// Caching strategy for When would you use Redis?\n```\n\n---\n\n## Failure Modes & Invalidation\n- Handling cache stampedes (dogpiling) using mutex locks and probabilistic early expiration (XFetch).\n"
+  },
+  {
+    "title": "Cache-aside pattern?",
+    "slug": "cache-aside-pattern",
+    "category": "Caching & Redis",
+    "content": "# Cache-aside pattern?\n\n## Caching Architecture & Redis Internals\n\nCache hit ratio optimization, eviction policies (LRU/LFU), and memory efficiency for **Cache-aside pattern?**.\n\n---\n\n## Pattern Blueprint & Redis Implementation\n```typescript\n// Caching strategy for Cache-aside pattern?\n```\n\n---\n\n## Failure Modes & Invalidation\n- Handling cache stampedes (dogpiling) using mutex locks and probabilistic early expiration (XFetch).\n"
+  },
+  {
+    "title": "Write-through cache?",
+    "slug": "write-through-cache",
+    "category": "Caching & Redis",
+    "content": "# Write-through cache?\n\n## Caching Architecture & Redis Internals\n\nCache hit ratio optimization, eviction policies (LRU/LFU), and memory efficiency for **Write-through cache?**.\n\n---\n\n## Pattern Blueprint & Redis Implementation\n```typescript\n// Caching strategy for Write-through cache?\n```\n\n---\n\n## Failure Modes & Invalidation\n- Handling cache stampedes (dogpiling) using mutex locks and probabilistic early expiration (XFetch).\n"
+  },
+  {
+    "title": "Write-behind cache?",
+    "slug": "write-behind-cache",
+    "category": "Caching & Redis",
+    "content": "# Write-behind cache?\n\n## Caching Architecture & Redis Internals\n\nCache hit ratio optimization, eviction policies (LRU/LFU), and memory efficiency for **Write-behind cache?**.\n\n---\n\n## Pattern Blueprint & Redis Implementation\n```typescript\n// Caching strategy for Write-behind cache?\n```\n\n---\n\n## Failure Modes & Invalidation\n- Handling cache stampedes (dogpiling) using mutex locks and probabilistic early expiration (XFetch).\n"
+  },
+  {
+    "title": "What is cache invalidation?",
+    "slug": "what-is-cache-invalidation",
+    "category": "Caching & Redis",
+    "content": "# What is cache invalidation?\n\n## Caching Architecture & Redis Internals\n\nCache hit ratio optimization, eviction policies (LRU/LFU), and memory efficiency for **What is cache invalidation?**.\n\n---\n\n## Pattern Blueprint & Redis Implementation\n```typescript\n// Caching strategy for What is cache invalidation?\n```\n\n---\n\n## Failure Modes & Invalidation\n- Handling cache stampedes (dogpiling) using mutex locks and probabilistic early expiration (XFetch).\n"
+  },
+  {
+    "title": "Why is cache invalidation difficult?",
+    "slug": "why-is-cache-invalidation-difficult",
+    "category": "Caching & Redis",
+    "content": "# Why is cache invalidation difficult?\n\n## Caching Architecture & Redis Internals\n\nCache hit ratio optimization, eviction policies (LRU/LFU), and memory efficiency for **Why is cache invalidation difficult?**.\n\n---\n\n## Pattern Blueprint & Redis Implementation\n```typescript\n// Caching strategy for Why is cache invalidation difficult?\n```\n\n---\n\n## Failure Modes & Invalidation\n- Handling cache stampedes (dogpiling) using mutex locks and probabilistic early expiration (XFetch).\n"
+  },
+  {
+    "title": "What is a cache stampede?",
+    "slug": "what-is-a-cache-stampede",
+    "category": "Caching & Redis",
+    "content": "# What is a cache stampede?\n\n## Caching Architecture & Redis Internals\n\nCache hit ratio optimization, eviction policies (LRU/LFU), and memory efficiency for **What is a cache stampede?**.\n\n---\n\n## Pattern Blueprint & Redis Implementation\n```typescript\n// Caching strategy for What is a cache stampede?\n```\n\n---\n\n## Failure Modes & Invalidation\n- Handling cache stampedes (dogpiling) using mutex locks and probabilistic early expiration (XFetch).\n"
+  },
+  {
+    "title": "How would you prevent a cache stampede?",
+    "slug": "how-would-you-prevent-a-cache-stampede",
+    "category": "Caching & Redis",
+    "content": "# How would you prevent a cache stampede?\n\n## Caching Architecture & Redis Internals\n\nCache hit ratio optimization, eviction policies (LRU/LFU), and memory efficiency for **How would you prevent a cache stampede?**.\n\n---\n\n## Pattern Blueprint & Redis Implementation\n```typescript\n// Caching strategy for How would you prevent a cache stampede?\n```\n\n---\n\n## Failure Modes & Invalidation\n- Handling cache stampedes (dogpiling) using mutex locks and probabilistic early expiration (XFetch).\n"
+  },
+  {
+    "title": "What happens when Redis goes down?",
+    "slug": "what-happens-when-redis-goes-down",
+    "category": "Caching & Redis",
+    "content": "# What happens when Redis goes down?\n\n## Caching Architecture & Redis Internals\n\nCache hit ratio optimization, eviction policies (LRU/LFU), and memory efficiency for **What happens when Redis goes down?**.\n\n---\n\n## Pattern Blueprint & Redis Implementation\n```typescript\n// Caching strategy for What happens when Redis goes down?\n```\n\n---\n\n## Failure Modes & Invalidation\n- Handling cache stampedes (dogpiling) using mutex locks and probabilistic early expiration (XFetch).\n"
+  },
+  {
+    "title": "When should you NOT cache something?",
+    "slug": "when-should-you-not-cache-something",
+    "category": "Caching & Redis",
+    "content": "# When should you NOT cache something?\n\n## Caching Architecture & Redis Internals\n\nCache hit ratio optimization, eviction policies (LRU/LFU), and memory efficiency for **When should you NOT cache something?**.\n\n---\n\n## Pattern Blueprint & Redis Implementation\n```typescript\n// Caching strategy for When should you NOT cache something?\n```\n\n---\n\n## Failure Modes & Invalidation\n- Handling cache stampedes (dogpiling) using mutex locks and probabilistic early expiration (XFetch).\n"
+  },
+  {
+    "title": "How would you cache API responses?",
+    "slug": "how-would-you-cache-api-responses",
+    "category": "Caching & Redis",
+    "content": "# How would you cache API responses?\n\n## Caching Architecture & Redis Internals\n\nCache hit ratio optimization, eviction policies (LRU/LFU), and memory efficiency for **How would you cache API responses?**.\n\n---\n\n## Pattern Blueprint & Redis Implementation\n```typescript\n// Caching strategy for How would you cache API responses?\n```\n\n---\n\n## Failure Modes & Invalidation\n- Handling cache stampedes (dogpiling) using mutex locks and probabilistic early expiration (XFetch).\n"
+  },
+  {
+    "title": "How would you cache database queries?",
+    "slug": "how-would-you-cache-database-queries",
+    "category": "Caching & Redis",
+    "content": "# How would you cache database queries?\n\n## Caching Architecture & Redis Internals\n\nCache hit ratio optimization, eviction policies (LRU/LFU), and memory efficiency for **How would you cache database queries?**.\n\n---\n\n## Pattern Blueprint & Redis Implementation\n```typescript\n// Caching strategy for How would you cache database queries?\n```\n\n---\n\n## Failure Modes & Invalidation\n- Handling cache stampedes (dogpiling) using mutex locks and probabilistic early expiration (XFetch).\n"
+  },
+  {
+    "title": "new queoins in achcing",
+    "slug": "new-queoins-in-achcing",
+    "category": "Caching & Redis",
+    "content": "# new queoins in achcing\n\n## Summary\n\nExplain the concept here...\n\n![image](/uploads/image-1787140461099.png)\n\n---\n\n## Code / Architecture Example\n\n```typescript\n// Example code\n```\n\n---\n\n## Key Takeaways\n- Point 1\n- Point 2\n"
+  }
+]

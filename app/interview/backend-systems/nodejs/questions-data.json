@@ -1,0 +1,128 @@
+[
+  {
+    "title": "What is Node.js?",
+    "slug": "what-is-nodejs",
+    "category": "1. Core Architecture & Event Loop",
+    "content": "# What is Node.js?\n\n**Node.js** is an open-source, cross-platform JavaScript runtime environment built on Google Chrome's **V8 JavaScript Engine**. It executes JavaScript outside the browser, primarily for server-side applications.\n\n---\n\n## Key Components of Node.js Architecture\n\n1. **V8 Engine:** Compiles JavaScript source code directly into native machine code.\n2. **libuv:** A multi-platform C library that powers the **Event Loop**, asynchronous non-blocking I/O operations, and the background **Thread Pool** (default 4 threads).\n3. **Core C++ Bindings:** Provides low-level interfaces for network sockets, file system access, cryptography, and child processes.\n"
+  },
+  {
+    "title": "Why is Node.js good for I/O-heavy workloads?",
+    "slug": "why-nodejs-for-io-heavy-workloads",
+    "category": "1. Core Architecture & Event Loop",
+    "content": "# Why Node.js Excels at I/O-Heavy Workloads\n\nI/O-heavy applications (REST APIs, microservices, chat apps, streaming servers) spend most of their lifecycle **waiting** for database responses, external HTTP calls, or file reads.\n\n---\n\n## The Asynchronous Non-Blocking Advantage\n\nIn traditional multi-threaded servers (e.g. Apache/Java/PHP):\n- Each incoming request is assigned a dedicated OS thread.\n- While waiting for a 200ms database query, that thread is blocked and consumes ~1-2 MB of memory stack. 10,000 concurrent requests require 10,000 threads (exhausting memory and context-switching CPU).\n\nIn Node.js:\n- A **single main thread** handles all incoming connections.\n- When an I/O operation starts, Node delegates it to the OS kernel / libuv and immediately returns to serve other requests.\n- Node can comfortably sustain **tens of thousands of concurrent I/O connections** on minimal RAM.\n"
+  },
+  {
+    "title": "When is Node.js a poor choice?",
+    "slug": "when-is-nodejs-a-poor-choice",
+    "category": "1. Core Architecture & Event Loop",
+    "content": "# When Node.js is a Poor Choice\n\nNode.js is not ideal for **CPU-bound, compute-heavy tasks**:\n\n1. **Heavy Mathematical Computations:** Machine learning training, complex physics simulations.\n2. **Video & Image Encoding / Transcoding:** Processing raw 4K video frames in JS.\n3. **Cryptographic Mining & Heavy Data Compression:** Zipping 50GB archives in pure JS.\n\n### Why:\nBecause JavaScript executes on a **single main thread**, a synchronous 5-second CPU calculation blocks the Event Loop entirely, preventing the server from handling any other incoming requests or timers during those 5 seconds.\n"
+  },
+  {
+    "title": "Explain the Node.js event loop.",
+    "slug": "explain-nodejs-event-loop",
+    "category": "1. Core Architecture & Event Loop",
+    "content": "# The Node.js Event Loop (Phases Deep Dive)\n\nThe Node.js event loop is managed by **libuv** and operates in 6 distinct phases executed in a continuous loop:\n\n```\n   ┌───────────────────────┐\n┌─>│        Timers         │ <── setTimeout, setInterval\n│  └──────────┬────────────┘\n│  ┌──────────▼────────────┐\n│  │     Pending I/O       │ <── OS system operations (TCP errors, etc.)\n│  └──────────┬────────────┘\n│  ┌──────────▼────────────┐\n│  │      Idle, Prepare    │ <── Internal libuv usage\n│  └──────────┬────────────┘\n│  ┌──────────▼────────────┐\n│  │         Poll          │ <── Retrieve new I/O events & execute I/O callbacks\n│  └──────────┬────────────┘\n│  ┌──────────▼────────────┐\n│  │        Check          │ <── setImmediate() callbacks\n│  └──────────┬────────────┘\n│  ┌──────────▼────────────┐\n└──┤    Close Callbacks    │ <── socket.on('close'), cleanup\n   └───────────────────────┘\n```\n\n---\n\n## Intermediate Microtask Drain\nBetween **every phase transition**, Node.js completely empties:\n1. `process.nextTick()` Queue (Highest priority)\n2. Promise Microtask Queue (`Promise.then`)\n"
+  },
+  {
+    "title": "How does Node handle concurrent requests?",
+    "slug": "how-node-handles-concurrent-requests",
+    "category": "1. Core Architecture & Event Loop",
+    "content": "# How Node.js Handles Concurrent Requests\n\nNode.js handles thousands of concurrent requests using the **Reactor Pattern** implemented by libuv:\n\n1. A client connects via TCP.\n2. Node registers the socket with the OS event notification system (e.g. `epoll` on Linux, `kqueue` on macOS, `IOCP` on Windows).\n3. The main thread does **not** wait; it goes back to accepting other connections.\n4. When the OS signals that data is ready to read/write, libuv queues the callback into the Poll phase of the Event Loop.\n5. The single thread processes the callback quickly and responds.\n"
+  },
+  {
+    "title": "What happens during CPU-heavy work?",
+    "slug": "what-happens-during-cpu-heavy-work",
+    "category": "2. Concurrency & Worker Threads",
+    "content": "# What Happens During CPU-Heavy Work in Node.js?\n\nWhen synchronous CPU-heavy work is executed on the main thread:\n1. **Event Loop Starvation:** The Call Stack is occupied; the Event Loop cannot advance to check timers, incoming network packets, or I/O completions.\n2. **Latency Spikes:** All other concurrent HTTP requests freeze and experience high latency or 504 Gateway Timeouts.\n3. **Health Check Failures:** Container orchestrators (Kubernetes) may mark the pod as dead and restart it because health check endpoints fail to respond in time.\n"
+  },
+  {
+    "title": "How do you handle CPU-intensive tasks?",
+    "slug": "handling-cpu-intensive-tasks",
+    "category": "2. Concurrency & Worker Threads",
+    "content": "# Handling CPU-Intensive Tasks in Node.js\n\n---\n\n## Strategies:\n1. **Worker Threads (`worker_threads`):** Run CPU-heavy JS in isolated V8 threads sharing memory via `SharedArrayBuffer`.\n2. **Child Processes (`child_process`):** Spawn external binaries or CLI utilities (e.g. executing `ffmpeg` or Python scripts).\n3. **Background Job Queues:** Offload the task to external distributed workers using Redis + BullMQ / Celery.\n4. **C++ Native Addons:** Write performance-critical algorithms in C++/Rust and load via Node-API.\n"
+  },
+  {
+    "title": "What are Node.js worker threads?",
+    "slug": "nodejs-worker-threads",
+    "category": "2. Concurrency & Worker Threads",
+    "content": "# Node.js Worker Threads (`worker_threads`)\n\nIntroduced in Node.js v10.5.0, the `worker_threads` module allows running multiple JavaScript execution threads in parallel within a single Node.js process.\n\n---\n\n## Key Characteristics:\n- Each Worker has its own **isolated V8 isolate** and event loop.\n- They communicate with the parent thread via **MessagePorts** (structured cloning or shared memory).\n- Lightweight compared to child processes because they share the same OS process space.\n\n```typescript\nimport { Worker, isMainThread, parentPort, workerData } from \"worker_threads\";\n\nif (isMainThread) {\n  // Main Thread: Spawn worker\n  const worker = new Worker(__filename, { workerData: { num: 40 } });\n  worker.on(\"message\", result => console.log(\"Calculated:\", result));\n} else {\n  // Worker Thread: Execute CPU-heavy calculation\n  const fib = (n: number): number => (n <= 1 ? n : fib(n - 1) + fib(n - 2));\n  const res = fib(workerData.num);\n  parentPort?.postMessage(res);\n}\n```\n"
+  },
+  {
+    "title": "What are child processes?",
+    "slug": "child-processes",
+    "category": "2. Concurrency & Worker Threads",
+    "content": "# Child Processes in Node.js (`child_process`)\n\nThe `child_process` module lets Node spawn independent OS processes with their own memory space and PID.\n\n---\n\n## 4 Core Methods:\n1. `spawn()`: Streams data for long-running processes (e.g. running `tar` or `ffmpeg`).\n2. `exec()`: Buffers output into memory, ideal for short shell commands.\n3. `execFile()`: Directly executes an executable file without spawning a shell.\n4. `fork()`: A special spawn variant for running other Node.js scripts with built-in IPC messaging channel.\n"
+  },
+  {
+    "title": "What are streams?",
+    "slug": "what-are-streams",
+    "category": "3. Streams & Buffers",
+    "content": "# Streams in Node.js\n\nA **Stream** is an abstract interface for working with streaming data in chunks sequentially, rather than loading the entire payload into RAM at once.\n\n---\n\n## 4 Types of Streams:\n1. **Readable:** Source of data (e.g. `fs.createReadStream`, `http.IncomingMessage`).\n2. **Writable:** Destination for data (e.g. `fs.createWriteStream`, `http.ServerResponse`).\n3. **Duplex:** Both Readable and Writable (e.g. `net.Socket`).\n4. **Transform:** A Duplex stream that modifies data as it is read/written (e.g. `zlib.createGzip`).\n"
+  },
+  {
+    "title": "What is backpressure?",
+    "slug": "what-is-backpressure",
+    "category": "3. Streams & Buffers",
+    "content": "# Backpressure in Node.js Streams\n\n**Backpressure** occurs when a **Readable stream produces data faster than a Writable stream can consume/write it**.\n\nIf unmanaged, incoming chunks accumulate indefinitely in the internal buffer, causing catastrophic memory ballooning and Out-Of-Memory (OOM) crashes.\n\n---\n\n## How `pipeline()` Solves Backpressure\n\nThe modern standard way to handle streams safely is **`stream.promises.pipeline()`**:\n\n```typescript\nimport { pipeline } from \"stream/promises\";\nimport fs from \"fs\";\nimport zlib from \"zlib\";\n\nasync function compressFile() {\n  await pipeline(\n    fs.createReadStream(\"huge_database.dump\"), // Fast source\n    zlib.createGzip(),                        // Transform\n    fs.createWriteStream(\"huge_database.gz\")   // Slow disk destination\n  );\n  console.log(\"Compression pipeline finished safely without memory buildup!\");\n}\n```\n"
+  },
+  {
+    "title": "How would you process a huge file without loading it into memory?",
+    "slug": "processing-huge-files-without-memory",
+    "category": "3. Streams & Buffers",
+    "content": "# Processing Huge Files (10GB+) Without Memory Overload\n\nUse **line-by-line streams** with `readline` and `fs.createReadStream`:\n\n```typescript\nimport fs from \"fs\";\nimport readline from \"readline\";\n\nasync function processLogFile(filePath: string) {\n  const fileStream = fs.createReadStream(filePath);\n\n  const rl = readline.createInterface({\n    input: fileStream,\n    crlfDelay: Infinity,\n  });\n\n  let errorCount = 0;\n\n  for await (const line of rl) {\n    if (line.includes(\"ERROR\")) {\n      errorCount++;\n    }\n  }\n\n  console.log(\"Total errors:\", errorCount);\n}\n// Memory footprint stays constant at ~30MB even for a 50GB file!\n```\n"
+  },
+  {
+    "title": "What is a Buffer?",
+    "slug": "what-is-a-buffer",
+    "category": "3. Streams & Buffers",
+    "content": "# The Buffer Class in Node.js\n\nA **Buffer** represents a fixed-length sequence of raw binary data allocated outside the V8 JavaScript heap (in native C++ memory).\n\n```typescript\n// Allocates 10 bytes of zero-filled memory\nconst buf = Buffer.alloc(10);\n\n// Creates a buffer from a UTF-8 string\nconst strBuf = Buffer.from(\"Hello Remit\", \"utf-8\");\n\nconsole.log(strBuf); // <Buffer 48 65 6c 6c 6f 20 52 65 6d 69 74>\nconsole.log(strBuf.toString(\"hex\")); // \"48656c6c6f2052656d6974\"\n```\n"
+  },
+  {
+    "title": "How do you handle uncaught exceptions?",
+    "slug": "handling-uncaught-exceptions",
+    "category": "4. Reliability, Scaling & Debugging",
+    "content": "# Handling Uncaught Exceptions in Node.js\n\n```typescript\nprocess.on(\"uncaughtException\", (error: Error) => {\n  console.error(\"FATAL UNCAUGHT EXCEPTION:\", error);\n\n  // 1. Log error to observability tool (Sentry, Datadog)\n  // 2. Perform emergency cleanup\n  // 3. Exit process (CRUCIAL! The process memory state is now corrupt/unpredictable)\n  process.exit(1);\n});\n```\n\n> **Rule:** Never resume normal operation after an uncaught exception; always exit and let the process manager (PM2 / Kubernetes) restart a fresh pod.\n"
+  },
+  {
+    "title": "How do you handle unhandled Promise rejections?",
+    "slug": "handling-unhandled-promise-rejections",
+    "category": "4. Reliability, Scaling & Debugging",
+    "content": "# Handling Unhandled Promise Rejections\n\nIn Node.js 15+, unhandled promise rejections terminate the process with exit code 1 by default.\n\n```typescript\nprocess.on(\"unhandledRejection\", (reason: unknown, promise: Promise<unknown>) => {\n  console.error(\"Unhandled Rejection at:\", promise, \"reason:\", reason);\n  // Log and shut down gracefully\n  process.exit(1);\n});\n```\n"
+  },
+  {
+    "title": "How would you gracefully shut down a Node.js server?",
+    "slug": "graceful-shutdown-nodejs-server",
+    "category": "4. Reliability, Scaling & Debugging",
+    "content": "# Graceful Shutdown of a Node.js Server\n\nA **Graceful Shutdown** ensures that ongoing in-flight requests finish processing and open database connections are closed cleanly before the process exits.\n\n```typescript\nimport http from \"http\";\n\nconst server = http.createServer(app);\n\nfunction gracefulShutdown(signal: string) {\n  console.log(`Received ${signal}. Starting graceful shutdown...`);\n\n  // 1. Stop accepting new connections\n  server.close(async () => {\n    console.log(\"HTTP server closed to new traffic.\");\n\n    try {\n      // 2. Close database pools, Redis clients, message queues\n      await db.disconnect();\n      await redis.quit();\n      console.log(\"All connections drained cleanly. Exiting.\");\n      process.exit(0);\n    } catch (err) {\n      console.error(\"Error during cleanup:\", err);\n      process.exit(1);\n    }\n  });\n\n  // 3. Force shutdown if connections do not drain within timeout\n  setTimeout(() => {\n    console.error(\"Forcefully shutting down due to timeout\");\n    process.exit(1);\n  }, 10000);\n}\n\nprocess.on(\"SIGTERM\", () => gracefulShutdown(\"SIGTERM\"));\nprocess.on(\"SIGINT\", () => gracefulShutdown(\"SIGINT\"));\n```\n"
+  },
+  {
+    "title": "What happens to in-flight requests during shutdown?",
+    "slug": "in-flight-requests-during-shutdown",
+    "category": "4. Reliability, Scaling & Debugging",
+    "content": "# In-Flight Requests During Shutdown\n\nWhen `server.close()` is called:\n1. The server stops listening for new incoming connections.\n2. Existing active TCP connections are allowed to complete their request/response cycle.\n3. Once the active connection count reaches zero, the `close` callback fires.\n"
+  },
+  {
+    "title": "How would you detect a blocked event loop?",
+    "slug": "detecting-blocked-event-loop",
+    "category": "4. Reliability, Scaling & Debugging",
+    "content": "# Detecting a Blocked Event Loop\n\n---\n\n## 1. Using `perf_hooks` Event Loop Lag Monitor:\n```typescript\nimport { monitorEventLoopDelay } from \"perf_hooks\";\n\nconst histogram = monitorEventLoopDelay({ resolution: 20 });\nhistogram.enable();\n\nsetInterval(() => {\n  const lagMs = histogram.mean / 1e6; // Convert nanoseconds to milliseconds\n  if (lagMs > 50) {\n    console.warn(`⚠️ High Event Loop Lag Detected: ${lagMs.toFixed(2)}ms`);\n  }\n  histogram.reset();\n}, 1000);\n```\n\n## 2. Using Clinic.js Doctor:\nRun `npx clinic doctor -- node server.js` to visualize Event Loop Delay histograms.\n"
+  },
+  {
+    "title": "How would you investigate high Node.js CPU usage?",
+    "slug": "investigating-high-cpu-usage",
+    "category": "4. Reliability, Scaling & Debugging",
+    "content": "# Investigating High Node.js CPU Usage\n\n1. **V8 CPU Profiler:** Run `node --cpu-prof server.js` and inspect the resulting `.cpuprofile` in Chrome DevTools (*Performance* tab).\n2. **Clinic.js Flame:** Generate an interactive Flame Graph with `npx clinic flame -- node server.js` to identify CPU-intensive functions.\n3. **Linux `perf` / `top -H`:** Identify if CPU time is spent in V8 JavaScript execution or C++ kernel syscalls.\n"
+  },
+  {
+    "title": "How would you investigate a Node.js memory leak?",
+    "slug": "investigating-nodejs-memory-leak",
+    "category": "4. Reliability, Scaling & Debugging",
+    "content": "# Investigating a Node.js Memory Leak\n\n1. **Take Heap Snapshots:** Connect Chrome DevTools via `node --inspect server.js`. Take 3 snapshots under simulated load and compare retained objects.\n2. **Clinic.js Heap Profiler:** Run `npx clinic heapprofiler -- node server.js` to visualize memory allocations over time.\n3. **Common Culprits:** Unbounded caches (`const cache = {}`), detached event emitters, uncleared timers.\n"
+  },
+  {
+    "title": "How would you horizontally scale Node.js?",
+    "slug": "horizontally-scaling-nodejs",
+    "category": "4. Reliability, Scaling & Debugging",
+    "content": "# Horizontally Scaling Node.js Applications\n\nBecause a single Node process runs on one CPU core, scaling requires:\n\n---\n\n## 1. Single Machine Multi-Core (Cluster Module / PM2)\n- Use PM2 in cluster mode (`pm2 start app.js -i max`) or the built-in `cluster` module to fork worker processes matching the number of CPU cores.\n- The master process shares the listening TCP port across workers.\n\n---\n\n## 2. Multi-Machine Distributed Scaling (Containers & Load Balancers)\n- Package the Node app into a stateless Docker container.\n- Deploy across multiple cloud instances / Kubernetes pods.\n- Place an Application Load Balancer (Nginx / AWS ALB / Cloudflare) in front with round-robin or least-connections routing.\n- Store sessions in external Redis / PostgreSQL to maintain statelessness.\n"
+  }
+]

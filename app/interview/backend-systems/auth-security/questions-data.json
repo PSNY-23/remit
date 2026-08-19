@@ -1,0 +1,164 @@
+[
+  {
+    "title": "Authentication vs authorization?",
+    "slug": "authentication-vs-authorization",
+    "category": "Authentication & Security",
+    "content": "# Authentication (AuthN) vs Authorization (AuthZ)\n\n| Aspect | Authentication (AuthN) | Authorization (AuthZ) |\n| :--- | :--- | :--- |\n| **Question** | *\"Who are you?\"* | *\"What are you allowed to do?\"* |\n| **Verification** | Validates credentials (passwords, MFA tokens, biometrics, SSO). | Checks roles, permissions, and access policies (RBAC, ABAC). |\n| **Example** | Logging in with email and password to receive a JWT. | Determining if User ID 42 can delete Project 99. |\n| **HTTP Code** | `401 Unauthorized` (Credentials invalid or missing). | `403 Forbidden` (Authenticated, but insufficient permissions). |\n"
+  },
+  {
+    "title": "Session vs JWT?",
+    "slug": "session-vs-jwt",
+    "category": "Authentication & Security",
+    "content": "# Stateful Sessions vs Stateless JSON Web Tokens (JWT)\n\n---\n\n## 1. Stateful Sessions (Server-Side)\n- **Mechanism:** Server stores session state in Redis or DB and sends an opaque `sessionId` in an `HttpOnly`, `Secure` cookie.\n- **Pros:** Instant revocation (deleting the session from Redis immediately logs the user out).\n- **Cons:** Requires centralized database lookup on every single request; memory overhead at massive scale.\n\n---\n\n## 2. Stateless JWT (Client-Side)\n- **Mechanism:** Server cryptographically signs a JSON payload (`HMAC-SHA256` or `RSA-256`) and sends it to the client. Server verifies the signature without database lookups.\n- **Pros:** High performance; scales easily across microservices.\n- **Cons:** Cannot be invalidated instantly before expiration without maintaining a token blacklist.\n\n> **Production Recommendation:** Use **Short-Lived JWTs (15 min)** for API requests + **HttpOnly Refresh Tokens** stored in Redis with revocation checks.\n"
+  },
+  {
+    "title": "Where should JWTs be stored?",
+    "slug": "where-should-jwts-be-stored",
+    "category": "Authentication & Security",
+    "content": "# Where Should JWTs Be Stored in the Browser?\n\n| Storage Location | XSS Vulnerability | CSRF Vulnerability | Production Verdict |\n| :--- | :--- | :--- | :--- |\n| **`localStorage` / `sessionStorage`** | **VULNERABLE** (Any injected script can steal all tokens) | Immune | ❌ **Do NOT use for sensitive auth tokens.** |\n| **`HttpOnly`, `Secure`, `SameSite=Lax` Cookie** | **IMMUNE** (JS cannot read cookie via `document.cookie`) | Protected via `SameSite` + Anti-CSRF Token | ✅ **Recommended Standard** |\n| **In-Memory (JS Variable)** | Immune to storage dumping (lost on page refresh) | Immune | ✅ Ideal for short-lived access tokens refreshed via cookie. |\n"
+  },
+  {
+    "title": "bcrypt vs Argon2?",
+    "slug": "bcrypt-vs-argon2",
+    "category": "Authentication & Security",
+    "content": "# Password Hashing: bcrypt vs Argon2\n\n---\n\n## 1. `bcrypt`\n- Established standard (1999) based on the Blowfish cipher.\n- CPU-intensive with configurable work factor (cost).\n- *Limitation:* Resistant to CPU attacks, but vulnerable to customized FPGA/ASIC hardware attacks due to low memory consumption.\n\n---\n\n## 2. `Argon2` (Winner of the Password Hashing Competition)\n- **Argon2id** provides both **CPU-cost** and **Memory-hard** resistance.\n- Requires large amounts of RAM per hash evaluation, neutralizing GPU and ASIC cracking rigs.\n- **Verdict:** `Argon2id` is the modern cryptographic recommendation for new applications (OWASP Standard).\n"
+  },
+  {
+    "title": "How do you prevent SQL injection?",
+    "slug": "how-do-you-prevent-sql-injection",
+    "category": "Authentication & Security",
+    "content": "# Preventing SQL Injection (SQLi)\n\n**SQL Injection** occurs when untrusted user input is directly concatenated into a SQL statement string, allowing attackers to execute unauthorized commands.\n\n---\n\n## Prevention: Parameterized Queries & ORMs\n\n```typescript\n// ❌ VULNERABLE: Direct string concatenation\nconst query = `SELECT * FROM users WHERE email = '${req.body.email}'`;\n\n// ✅ SECURE: Parameterized Query (Prepared Statement)\nconst query = 'SELECT * FROM users WHERE email = $1';\nconst result = await db.query(query, [req.body.email]);\n```\n\n> **Rule:** Parameterized queries treat user input strictly as **literal data**, never as executable SQL tokens.\n"
+  },
+  {
+    "title": "How does JWT authentication work?",
+    "slug": "how-does-jwt-authentication-work",
+    "category": "Authentication & Security",
+    "content": "# How does JWT authentication work?\n\n## Security Overview\n\nThreat modeling, attack vectors, and cryptographic defenses for **How does JWT authentication work?**.\n\n---\n\n## Defense-in-Depth Architecture\n- OWASP Top 10 mitigation strategies.\n- Principle of least privilege, input sanitization, and secure token lifecycle.\n\n---\n\n## Code / Configuration Example\n```typescript\n// Secure implementation for How does JWT authentication work?\n```\n"
+  },
+  {
+    "title": "What are JWT security risks?",
+    "slug": "what-are-jwt-security-risks",
+    "category": "Authentication & Security",
+    "content": "# What are JWT security risks?\n\n## Security Overview\n\nThreat modeling, attack vectors, and cryptographic defenses for **What are JWT security risks?**.\n\n---\n\n## Defense-in-Depth Architecture\n- OWASP Top 10 mitigation strategies.\n- Principle of least privilege, input sanitization, and secure token lifecycle.\n\n---\n\n## Code / Configuration Example\n```typescript\n// Secure implementation for What are JWT security risks?\n```\n"
+  },
+  {
+    "title": "What are refresh tokens?",
+    "slug": "what-are-refresh-tokens",
+    "category": "Authentication & Security",
+    "content": "# What are refresh tokens?\n\n## Security Overview\n\nThreat modeling, attack vectors, and cryptographic defenses for **What are refresh tokens?**.\n\n---\n\n## Defense-in-Depth Architecture\n- OWASP Top 10 mitigation strategies.\n- Principle of least privilege, input sanitization, and secure token lifecycle.\n\n---\n\n## Code / Configuration Example\n```typescript\n// Secure implementation for What are refresh tokens?\n```\n"
+  },
+  {
+    "title": "How should refresh tokens be handled?",
+    "slug": "how-should-refresh-tokens-be-handled",
+    "category": "Authentication & Security",
+    "content": "# How should refresh tokens be handled?\n\n## Security Overview\n\nThreat modeling, attack vectors, and cryptographic defenses for **How should refresh tokens be handled?**.\n\n---\n\n## Defense-in-Depth Architecture\n- OWASP Top 10 mitigation strategies.\n- Principle of least privilege, input sanitization, and secure token lifecycle.\n\n---\n\n## Code / Configuration Example\n```typescript\n// Secure implementation for How should refresh tokens be handled?\n```\n"
+  },
+  {
+    "title": "How do you securely store passwords?",
+    "slug": "how-do-you-securely-store-passwords",
+    "category": "Authentication & Security",
+    "content": "# How do you securely store passwords?\n\n## Security Overview\n\nThreat modeling, attack vectors, and cryptographic defenses for **How do you securely store passwords?**.\n\n---\n\n## Defense-in-Depth Architecture\n- OWASP Top 10 mitigation strategies.\n- Principle of least privilege, input sanitization, and secure token lifecycle.\n\n---\n\n## Code / Configuration Example\n```typescript\n// Secure implementation for How do you securely store passwords?\n```\n"
+  },
+  {
+    "title": "Why hash passwords instead of encrypting them?",
+    "slug": "why-hash-passwords-instead-of-encrypting-them",
+    "category": "Authentication & Security",
+    "content": "# Why hash passwords instead of encrypting them?\n\n## Security Overview\n\nThreat modeling, attack vectors, and cryptographic defenses for **Why hash passwords instead of encrypting them?**.\n\n---\n\n## Defense-in-Depth Architecture\n- OWASP Top 10 mitigation strategies.\n- Principle of least privilege, input sanitization, and secure token lifecycle.\n\n---\n\n## Code / Configuration Example\n```typescript\n// Secure implementation for Why hash passwords instead of encrypting them?\n```\n"
+  },
+  {
+    "title": "What is OAuth?",
+    "slug": "what-is-oauth",
+    "category": "Authentication & Security",
+    "content": "# What is OAuth?\n\n## Security Overview\n\nThreat modeling, attack vectors, and cryptographic defenses for **What is OAuth?**.\n\n---\n\n## Defense-in-Depth Architecture\n- OWASP Top 10 mitigation strategies.\n- Principle of least privilege, input sanitization, and secure token lifecycle.\n\n---\n\n## Code / Configuration Example\n```typescript\n// Secure implementation for What is OAuth?\n```\n"
+  },
+  {
+    "title": "What is OpenID Connect?",
+    "slug": "what-is-openid-connect",
+    "category": "Authentication & Security",
+    "content": "# What is OpenID Connect?\n\n## Security Overview\n\nThreat modeling, attack vectors, and cryptographic defenses for **What is OpenID Connect?**.\n\n---\n\n## Defense-in-Depth Architecture\n- OWASP Top 10 mitigation strategies.\n- Principle of least privilege, input sanitization, and secure token lifecycle.\n\n---\n\n## Code / Configuration Example\n```typescript\n// Secure implementation for What is OpenID Connect?\n```\n"
+  },
+  {
+    "title": "What is CORS?",
+    "slug": "what-is-cors",
+    "category": "Authentication & Security",
+    "content": "# What is CORS?\n\n## Security Overview\n\nThreat modeling, attack vectors, and cryptographic defenses for **What is CORS?**.\n\n---\n\n## Defense-in-Depth Architecture\n- OWASP Top 10 mitigation strategies.\n- Principle of least privilege, input sanitization, and secure token lifecycle.\n\n---\n\n## Code / Configuration Example\n```typescript\n// Secure implementation for What is CORS?\n```\n"
+  },
+  {
+    "title": "Why does CORS exist?",
+    "slug": "why-does-cors-exist",
+    "category": "Authentication & Security",
+    "content": "# Why does CORS exist?\n\n## Security Overview\n\nThreat modeling, attack vectors, and cryptographic defenses for **Why does CORS exist?**.\n\n---\n\n## Defense-in-Depth Architecture\n- OWASP Top 10 mitigation strategies.\n- Principle of least privilege, input sanitization, and secure token lifecycle.\n\n---\n\n## Code / Configuration Example\n```typescript\n// Secure implementation for Why does CORS exist?\n```\n"
+  },
+  {
+    "title": "What is CSRF?",
+    "slug": "what-is-csrf",
+    "category": "Authentication & Security",
+    "content": "# What is CSRF?\n\n## Security Overview\n\nThreat modeling, attack vectors, and cryptographic defenses for **What is CSRF?**.\n\n---\n\n## Defense-in-Depth Architecture\n- OWASP Top 10 mitigation strategies.\n- Principle of least privilege, input sanitization, and secure token lifecycle.\n\n---\n\n## Code / Configuration Example\n```typescript\n// Secure implementation for What is CSRF?\n```\n"
+  },
+  {
+    "title": "What is XSS?",
+    "slug": "what-is-xss",
+    "category": "Authentication & Security",
+    "content": "# What is XSS?\n\n## Security Overview\n\nThreat modeling, attack vectors, and cryptographic defenses for **What is XSS?**.\n\n---\n\n## Defense-in-Depth Architecture\n- OWASP Top 10 mitigation strategies.\n- Principle of least privilege, input sanitization, and secure token lifecycle.\n\n---\n\n## Code / Configuration Example\n```typescript\n// Secure implementation for What is XSS?\n```\n"
+  },
+  {
+    "title": "How do you prevent XSS?",
+    "slug": "how-do-you-prevent-xss",
+    "category": "Authentication & Security",
+    "content": "# How do you prevent XSS?\n\n## Security Overview\n\nThreat modeling, attack vectors, and cryptographic defenses for **How do you prevent XSS?**.\n\n---\n\n## Defense-in-Depth Architecture\n- OWASP Top 10 mitigation strategies.\n- Principle of least privilege, input sanitization, and secure token lifecycle.\n\n---\n\n## Code / Configuration Example\n```typescript\n// Secure implementation for How do you prevent XSS?\n```\n"
+  },
+  {
+    "title": "How do you prevent CSRF?",
+    "slug": "how-do-you-prevent-csrf",
+    "category": "Authentication & Security",
+    "content": "# How do you prevent CSRF?\n\n## Security Overview\n\nThreat modeling, attack vectors, and cryptographic defenses for **How do you prevent CSRF?**.\n\n---\n\n## Defense-in-Depth Architecture\n- OWASP Top 10 mitigation strategies.\n- Principle of least privilege, input sanitization, and secure token lifecycle.\n\n---\n\n## Code / Configuration Example\n```typescript\n// Secure implementation for How do you prevent CSRF?\n```\n"
+  },
+  {
+    "title": "What is SQL injection?",
+    "slug": "what-is-sql-injection",
+    "category": "Authentication & Security",
+    "content": "# What is SQL injection?\n\n## Security Overview\n\nThreat modeling, attack vectors, and cryptographic defenses for **What is SQL injection?**.\n\n---\n\n## Defense-in-Depth Architecture\n- OWASP Top 10 mitigation strategies.\n- Principle of least privilege, input sanitization, and secure token lifecycle.\n\n---\n\n## Code / Configuration Example\n```typescript\n// Secure implementation for What is SQL injection?\n```\n"
+  },
+  {
+    "title": "What is rate limiting?",
+    "slug": "what-is-rate-limiting",
+    "category": "Authentication & Security",
+    "content": "# What is rate limiting?\n\n## Security Overview\n\nThreat modeling, attack vectors, and cryptographic defenses for **What is rate limiting?**.\n\n---\n\n## Defense-in-Depth Architecture\n- OWASP Top 10 mitigation strategies.\n- Principle of least privilege, input sanitization, and secure token lifecycle.\n\n---\n\n## Code / Configuration Example\n```typescript\n// Secure implementation for What is rate limiting?\n```\n"
+  },
+  {
+    "title": "How do you protect APIs from abuse?",
+    "slug": "how-do-you-protect-apis-from-abuse",
+    "category": "Authentication & Security",
+    "content": "# How do you protect APIs from abuse?\n\n## Security Overview\n\nThreat modeling, attack vectors, and cryptographic defenses for **How do you protect APIs from abuse?**.\n\n---\n\n## Defense-in-Depth Architecture\n- OWASP Top 10 mitigation strategies.\n- Principle of least privilege, input sanitization, and secure token lifecycle.\n\n---\n\n## Code / Configuration Example\n```typescript\n// Secure implementation for How do you protect APIs from abuse?\n```\n"
+  },
+  {
+    "title": "How should secrets be stored?",
+    "slug": "how-should-secrets-be-stored",
+    "category": "Authentication & Security",
+    "content": "# How should secrets be stored?\n\n## Security Overview\n\nThreat modeling, attack vectors, and cryptographic defenses for **How should secrets be stored?**.\n\n---\n\n## Defense-in-Depth Architecture\n- OWASP Top 10 mitigation strategies.\n- Principle of least privilege, input sanitization, and secure token lifecycle.\n\n---\n\n## Code / Configuration Example\n```typescript\n// Secure implementation for How should secrets be stored?\n```\n"
+  },
+  {
+    "title": "Why should not you trust client-side validation?",
+    "slug": "why-should-not-you-trust-client-side-validation",
+    "category": "Authentication & Security",
+    "content": "# Why should not you trust client-side validation?\n\n## Security Overview\n\nThreat modeling, attack vectors, and cryptographic defenses for **Why should not you trust client-side validation?**.\n\n---\n\n## Defense-in-Depth Architecture\n- OWASP Top 10 mitigation strategies.\n- Principle of least privilege, input sanitization, and secure token lifecycle.\n\n---\n\n## Code / Configuration Example\n```typescript\n// Secure implementation for Why should not you trust client-side validation?\n```\n"
+  },
+  {
+    "title": "How would you implement role-based access control?",
+    "slug": "how-would-you-implement-role-based-access-control",
+    "category": "Authentication & Security",
+    "content": "# How would you implement role-based access control?\n\n## Security Overview\n\nThreat modeling, attack vectors, and cryptographic defenses for **How would you implement role-based access control?**.\n\n---\n\n## Defense-in-Depth Architecture\n- OWASP Top 10 mitigation strategies.\n- Principle of least privilege, input sanitization, and secure token lifecycle.\n\n---\n\n## Code / Configuration Example\n```typescript\n// Secure implementation for How would you implement role-based access control?\n```\n"
+  },
+  {
+    "title": "How would you implement permission-based authorization?",
+    "slug": "how-would-you-implement-permission-based-authorization",
+    "category": "Authentication & Security",
+    "content": "# How would you implement permission-based authorization?\n\n## Security Overview\n\nThreat modeling, attack vectors, and cryptographic defenses for **How would you implement permission-based authorization?**.\n\n---\n\n## Defense-in-Depth Architecture\n- OWASP Top 10 mitigation strategies.\n- Principle of least privilege, input sanitization, and secure token lifecycle.\n\n---\n\n## Code / Configuration Example\n```typescript\n// Secure implementation for How would you implement permission-based authorization?\n```\n"
+  },
+  {
+    "title": "Types of HTTP codes",
+    "slug": "types-of-http-codes",
+    "category": "Authentication & Security",
+    "content": "# Types of HTTP codes\n\n## Summary\n\nExplain the concept here...\n\n\n![image](/uploads/image-1787140397359.png)\n\n\n\n\n---\n\n## Code / Architecture Example\n\n```typescript\n// Example code\n```\n\n---\n\n## Key Takeaways\n- Point 1\n- Point 2\n"
+  }
+]
