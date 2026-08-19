@@ -1,0 +1,22 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Article {
+  id         String   @id @default(cuid())
+  title      String
+  slug       String
+  topicPath  String   // e.g. "backend-systems/auth-security", "frontend-ui/react", etc.
+  category   String   // e.g. "Authentication & Security", "React", etc.
+  content    String   @db.Text
+  order      Int      @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([topicPath, slug])
+  @@index([topicPath])
+}

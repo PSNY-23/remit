@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { put } from "@vercel/blob";
 import fs from "fs";
 import path from "path";
 
@@ -10,7 +11,7 @@ export async function POST(req: NextRequest) {
     if (!file) {
       return NextResponse.json(
         { error: "No image file provided" },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
@@ -28,13 +29,8 @@ export async function POST(req: NextRequest) {
           error:
             "Invalid file type. Only JPG, PNG, WEBP, GIF, and SVG are supported.",
         },
-        { status: 400 },
+        { status: 400 }
       );
-    }
-
-    const uploadsDir = path.join(process.cwd(), "public", "uploads");
-    if (!fs.existsSync(uploadsDir)) {
-      fs.mkdirSync(uploadsDir, { recursive: true });
     }
 
     // Generate safe unique filename
@@ -42,8 +38,28 @@ export async function POST(req: NextRequest) {
     const ext = path.extname(originalName) || ".png";
     const baseName = path.basename(originalName, ext);
     const uniqueFilename = `${baseName}-${Date.now()}${ext}`;
-    const filePath = path.join(uploadsDir, uniqueFilename);
 
+    // 1. If Vercel Blob token is available (in Vercel or in local .env), upload to Vercel Blob
+    if (process.env.BLOB_READ_WRITE_TOKEN) {
+      const blob = await put(`uploads/${uniqueFilename}`, file, {
+        access: "public",
+        contentType: file.type,
+      });
+
+      return NextResponse.json({
+        success: true,
+        url: blob.url,
+        filename: uniqueFilename,
+      });
+    }
+
+    // 2. Fallback for offline local development without Vercel Blob configured
+    const uploadsDir = path.join(process.cwd(), "public", "uploads");
+    if (!fs.existsSync(uploadsDir)) {
+      fs.mkdirSync(uploadsDir, { recursive: true });
+    }
+
+    const filePath = path.join(uploadsDir, uniqueFilename);
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
     fs.writeFileSync(filePath, buffer);
@@ -59,7 +75,7 @@ export async function POST(req: NextRequest) {
     console.error("Image upload failed:", error);
     return NextResponse.json(
       { error: error.message || "Failed to upload image" },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }

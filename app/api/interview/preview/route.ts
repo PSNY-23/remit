@@ -1,9 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
-
-// Memory cache for questions
-const dbCache: Record<string, any[]> = {};
+import prisma from "@/lib/prisma";
 
 export async function GET(req: NextRequest) {
   try {
@@ -13,7 +9,7 @@ export async function GET(req: NextRequest) {
     if (!targetPath) {
       return NextResponse.json(
         { error: "Missing path parameter" },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
@@ -25,62 +21,44 @@ export async function GET(req: NextRequest) {
     if (segments.length < 2) {
       return NextResponse.json(
         { error: "Invalid interview path" },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
     const slug = segments.pop()!;
-    const topicRelPath = segments.join("/");
+    const topicPath = segments.join("/");
 
-    const dataFilePath = path.join(
-      process.cwd(),
-      "app",
-      "interview",
-      ...segments,
-      "questions-data.json",
-    );
+    const article = await prisma.article.findUnique({
+      where: {
+        topicPath_slug: {
+          topicPath,
+          slug,
+        },
+      },
+    });
 
-    if (!fs.existsSync(dataFilePath)) {
-      return NextResponse.json(
-        { error: "Topic database not found" },
-        { status: 404 },
-      );
-    }
-
-    let questions = dbCache[topicRelPath];
-    if (!questions) {
-      const raw = fs.readFileSync(dataFilePath, "utf8");
-      questions = JSON.parse(raw);
-      dbCache[topicRelPath] = questions;
-    }
-
-    const question = questions.find((q: any) => q.slug === slug);
-
-    if (!question) {
+    if (!article) {
       return NextResponse.json(
         { error: "Question not found" },
-        { status: 404 },
+        { status: 404 }
       );
     }
 
-    const lines = question.content.split("\n");
-    const title = lines[0].replace(/^#\s*/, "");
+    const lines = article.content.split("\n");
+    const title = lines[0].replace(/^#\s*/, "") || article.title;
     const body = lines.slice(1).join("\n");
 
     return NextResponse.json({
-      title,
-      slug,
-      content: question.content,
+      title: article.title || title,
+      slug: article.slug,
+      content: article.content,
       body,
-      category: segments
-        .map((s) => s.replace(/-/g, " "))
-        .join(" → ")
-        .toUpperCase(),
+      category: article.category,
     });
   } catch (err: any) {
     return NextResponse.json(
       { error: err.message || "Internal server error" },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }
