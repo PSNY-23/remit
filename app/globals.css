@@ -89,3 +89,10 @@ a.interview-article-link:hover {
 .article-preview-scroll::-webkit-scrollbar-thumb:hover {
   background: rgba(59, 130, 246, 0.7);
 }
+
+/* Ensure full layout spans full width without sidebar placeholder */
+body:has([data-landing="true"]) aside.nextra-sidebar,
+body:has([data-landing="true"]) .nextra-toc {
+  display: none !important;
+}
+
