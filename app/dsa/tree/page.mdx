@@ -1,0 +1,827 @@
+# Tree
+
+A collection of reusable **Binary Tree** templates used to solve most tree interview problems.
+
+---
+
+# Tree Node
+
+```js
+class TreeNode {
+    constructor(val, left = null, right = null) {
+        this.val = val;
+        this.left = left;
+        this.right = right;
+    }
+}
+```
+
+---
+
+# 1. DFS (Recursive)
+
+```js
+function dfs(node) {
+    if (!node) return;
+
+    // Process node
+
+    dfs(node.left);
+    dfs(node.right);
+}
+```
+
+---
+
+# 2. Preorder Traversal
+
+(Node → Left → Right)
+
+```js
+function preorder(node) {
+    if (!node) return;
+
+    console.log(node.val);
+
+    preorder(node.left);
+    preorder(node.right);
+}
+```
+
+---
+
+# 3. Inorder Traversal
+
+(Left → Node → Right)
+
+```js
+function inorder(node) {
+    if (!node) return;
+
+    inorder(node.left);
+
+    console.log(node.val);
+
+    inorder(node.right);
+}
+```
+
+---
+
+# 4. Postorder Traversal
+
+(Left → Right → Node)
+
+```js
+function postorder(node) {
+    if (!node) return;
+
+    postorder(node.left);
+    postorder(node.right);
+
+    console.log(node.val);
+}
+```
+
+---
+
+# 5. DFS Iterative
+
+```js
+const stack = [root];
+
+while (stack.length) {
+
+    const node = stack.pop();
+
+    // Process
+
+    if (node.right)
+        stack.push(node.right);
+
+    if (node.left)
+        stack.push(node.left);
+
+}
+```
+
+---
+
+# 6. BFS (Level Order)
+
+```js
+const queue = [root];
+
+while (queue.length) {
+
+    const node = queue.shift();
+
+    // Process
+
+    if (node.left)
+        queue.push(node.left);
+
+    if (node.right)
+        queue.push(node.right);
+
+}
+```
+
+---
+
+# 7. Level Order Traversal
+
+```js
+const queue = [root];
+
+while (queue.length) {
+
+    const size = queue.length;
+
+    for (let i = 0; i < size; i++) {
+
+        const node = queue.shift();
+
+        // Process
+
+        if (node.left)
+            queue.push(node.left);
+
+        if (node.right)
+            queue.push(node.right);
+
+    }
+
+}
+```
+
+---
+
+# 8. Leaf Node
+
+```js
+if (!node.left && !node.right) {
+
+}
+```
+
+---
+
+# 9. Height / Depth
+
+```js
+function height(node) {
+
+    if (!node)
+        return 0;
+
+    return (
+        1 +
+        Math.max(
+            height(node.left),
+            height(node.right)
+        )
+    );
+
+}
+```
+
+---
+
+# 10. Count Nodes
+
+```js
+function count(node) {
+
+    if (!node)
+        return 0;
+
+    return (
+        1 +
+        count(node.left) +
+        count(node.right)
+    );
+
+}
+```
+
+---
+
+# 11. Sum of Nodes
+
+```js
+function sum(node) {
+
+    if (!node)
+        return 0;
+
+    return (
+        node.val +
+        sum(node.left) +
+        sum(node.right)
+    );
+
+}
+```
+
+---
+
+# 12. Maximum Value
+
+```js
+function maxValue(node) {
+
+    if (!node)
+        return -Infinity;
+
+    return Math.max(
+        node.val,
+        maxValue(node.left),
+        maxValue(node.right)
+    );
+
+}
+```
+
+---
+
+# 13. Search
+
+```js
+function search(node, target) {
+
+    if (!node)
+        return false;
+
+    if (node.val === target)
+        return true;
+
+    return (
+        search(node.left, target) ||
+        search(node.right, target)
+    );
+
+}
+```
+
+---
+
+# 14. Check Null
+
+```js
+if (!node)
+    return;
+```
+
+---
+
+# 15. Return Boolean
+
+```js
+return left && right;
+```
+
+---
+
+# 16. Return Maximum
+
+```js
+return Math.max(left, right);
+```
+
+---
+
+# 17. Return Minimum
+
+```js
+return Math.min(left, right);
+```
+
+---
+
+# 18. Lowest Common Ancestor
+
+```js
+if (!root)
+    return null;
+
+if (
+    root === p ||
+    root === q
+)
+    return root;
+```
+
+---
+
+# 19. Mirror Tree
+
+```js
+[
+    node.left,
+    node.right
+] = [
+    node.right,
+    node.left
+];
+```
+
+---
+
+# 20. Diameter Pattern
+
+```js
+let diameter = 0;
+
+function dfs(node) {
+
+    if (!node)
+        return 0;
+
+    const left = dfs(node.left);
+    const right = dfs(node.right);
+
+    diameter =
+        Math.max(
+            diameter,
+            left + right
+        );
+
+    return (
+        1 +
+        Math.max(left, right)
+    );
+
+}
+```
+
+---
+
+# 21. Maximum Path Sum Pattern
+
+```js
+let answer = -Infinity;
+
+function dfs(node) {
+
+    if (!node)
+        return 0;
+
+    const left =
+        Math.max(
+            0,
+            dfs(node.left)
+        );
+
+    const right =
+        Math.max(
+            0,
+            dfs(node.right)
+        );
+
+    answer =
+        Math.max(
+            answer,
+            node.val + left + right
+        );
+
+    return (
+        node.val +
+        Math.max(left, right)
+    );
+
+}
+```
+
+---
+
+# 22. Path Collection
+
+```js
+path.push(node.val);
+
+dfs(node.left);
+
+path.pop();
+```
+
+---
+
+# 23. Root-to-Leaf Check
+
+```js
+if (
+    !node.left &&
+    !node.right
+) {
+
+}
+```
+
+---
+
+# 24. Store Parent
+
+```js
+parent.set(child, node);
+```
+
+---
+
+# 25. Left View
+
+```js
+if (i === 0) {
+
+}
+```
+
+---
+
+# 26. Right View
+
+```js
+if (i === size - 1) {
+
+}
+```
+
+---
+
+# 27. Zigzag Traversal
+
+```js
+level.reverse();
+```
+
+---
+
+# 28. Symmetric Tree
+
+```js
+function dfs(a, b) {
+
+    if (!a && !b)
+        return true;
+
+    if (!a || !b)
+        return false;
+
+    return (
+        a.val === b.val &&
+        dfs(a.left, b.right) &&
+        dfs(a.right, b.left)
+    );
+
+}
+```
+
+---
+
+# 29. Validate BST
+
+```js
+function dfs(node, low, high) {
+
+    if (!node)
+        return true;
+
+    if (
+        node.val <= low ||
+        node.val >= high
+    )
+        return false;
+
+    return (
+        dfs(node.left, low, node.val) &&
+        dfs(node.right, node.val, high)
+    );
+
+}
+```
+
+---
+
+# 30. BST Search
+
+```js
+while (root) {
+
+    if (target < root.val)
+        root = root.left;
+
+    else if (target > root.val)
+        root = root.right;
+
+    else
+        return root;
+
+}
+```
+
+---
+
+# 31. BST Insert
+
+```js
+if (value < node.val)
+    node.left =
+        insert(node.left, value);
+
+else
+    node.right =
+        insert(node.right, value);
+```
+
+---
+
+# 32. BST Minimum
+
+```js
+while (node.left)
+    node = node.left;
+```
+
+---
+
+# 33. BST Maximum
+
+```js
+while (node.right)
+    node = node.right;
+```
+
+---
+
+# 34. Level Counter
+
+```js
+let level = 0;
+
+while (queue.length) {
+
+    let size =
+        queue.length;
+
+    while (size--) {
+
+        queue.shift();
+
+    }
+
+    level++;
+
+}
+```
+
+---
+
+# 35. Build Tree
+
+```js
+const node =
+    new TreeNode(value);
+```
+
+---
+
+# 36. Tree Equality
+
+```js
+if (!a && !b)
+    return true;
+
+if (!a || !b)
+    return false;
+
+return (
+    a.val === b.val &&
+    isSame(a.left, b.left) &&
+    isSame(a.right, b.right)
+);
+```
+
+---
+
+# 37. Balance Check
+
+```js
+Math.abs(left - right) <= 1
+```
+
+---
+
+# 38. Recursive Return Pattern
+
+```js
+const left =
+    dfs(node.left);
+
+const right =
+    dfs(node.right);
+
+return ...
+```
+
+---
+
+# 39. Iterative Inorder
+
+```js
+const stack = [];
+let curr = root;
+
+while (curr || stack.length) {
+
+    while (curr) {
+
+        stack.push(curr);
+
+        curr = curr.left;
+
+    }
+
+    curr = stack.pop();
+
+    // Process
+
+    curr = curr.right;
+
+}
+```
+
+---
+
+# 40. Master DFS Template
+
+```js
+function dfs(node) {
+
+    if (!node)
+        return;
+
+    // Process
+
+    dfs(node.left);
+
+    dfs(node.right);
+
+}
+```
+
+---
+
+# Problems These Patterns Solve
+
+- Preorder Traversal
+- Inorder Traversal
+- Postorder Traversal
+- Level Order Traversal
+- Zigzag Level Order
+- Maximum Depth
+- Minimum Depth
+- Diameter of Binary Tree
+- Maximum Path Sum
+- Path Sum I, II, III
+- Balanced Binary Tree
+- Symmetric Tree
+- Same Tree
+- Invert Binary Tree
+- Validate BST
+- Search BST
+- Insert into BST
+- Lowest Common Ancestor
+- Binary Tree Right View
+- Binary Tree Left View
+- Count Complete Tree Nodes
+- Sum of Left Leaves
+- Serialize & Deserialize
+- Construct Binary Tree
+- Flatten Binary Tree
+
+---
+
+# Most Important Interview Patterns
+
+## DFS
+
+```js
+function dfs(node) {
+
+    if (!node)
+        return;
+
+    dfs(node.left);
+
+    dfs(node.right);
+
+}
+```
+
+---
+
+## BFS
+
+```js
+const queue = [root];
+
+while (queue.length) {
+
+    const node = queue.shift();
+
+}
+```
+
+---
+
+## Height
+
+```js
+return (
+    1 +
+    Math.max(left, right)
+);
+```
+
+---
+
+## Diameter
+
+```js
+diameter =
+Math.max(
+    diameter,
+    left + right
+);
+```
+
+---
+
+## Maximum Path Sum
+
+```js
+const left =
+Math.max(0, dfs(node.left));
+
+const right =
+Math.max(0, dfs(node.right));
+```
+
+---
+
+## BST Search
+
+```js
+while (root) {
+
+    if (target < root.val)
+        root = root.left;
+
+    else if (target > root.val)
+        root = root.right;
+
+    else
+        return root;
+
+}
+```
+
+---
+
+## Level Order
+
+```js
+while (queue.length) {
+
+    const size =
+        queue.length;
+
+    for (let i = 0; i < size; i++) {
+
+    }
+
+}
+```
+
+---
+
+## Master Tree Template
+
+```js
+function dfs(node) {
+
+    if (!node)
+        return;
+
+    // Process node
+
+    const left =
+        dfs(node.left);
+
+    const right =
+        dfs(node.right);
+
+    return;
+
+}
+```

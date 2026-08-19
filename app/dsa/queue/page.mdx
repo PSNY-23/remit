@@ -1,0 +1,691 @@
+# Queue
+
+A collection of reusable queue templates used to solve most queue and BFS interview problems.
+
+---
+
+# 1. Create a Queue
+
+```js
+const queue = [];
+```
+
+---
+
+# 2. Enqueue (Insert)
+
+```js
+queue.push(x);
+```
+
+---
+
+# 3. Dequeue (Remove Front)
+
+```js
+const front = queue.shift();
+```
+
+> Note: `shift()` is **O(n)** in JavaScript arrays. For interviews it's acceptable unless performance is critical.
+
+---
+
+# 4. Peek Front
+
+```js
+const front = queue[0];
+```
+
+---
+
+# 5. Peek Rear
+
+```js
+const rear = queue[queue.length - 1];
+```
+
+---
+
+# 6. Check if Queue is Empty
+
+```js
+if (queue.length === 0) {
+    // queue is empty
+}
+```
+
+---
+
+# 7. Queue Size
+
+```js
+const size = queue.length;
+```
+
+---
+
+# 8. Process Entire Queue
+
+```js
+while (queue.length) {
+    const node = queue.shift();
+
+    // Process node
+}
+```
+
+---
+
+# 9. Level Order Traversal (BFS)
+
+```js
+while (queue.length) {
+
+    const size = queue.length;
+
+    for (let i = 0; i < size; i++) {
+
+        const node = queue.shift();
+
+        // Process node
+
+    }
+
+}
+```
+
+Used in:
+
+- Binary Tree Level Order
+- Zigzag Traversal
+- Minimum Depth
+- BFS Problems
+
+---
+
+# 10. Push Multiple Nodes
+
+```js
+queue.push(left);
+queue.push(right);
+```
+
+---
+
+# 11. Push If Exists
+
+```js
+if (node.left)
+    queue.push(node.left);
+
+if (node.right)
+    queue.push(node.right);
+```
+
+---
+
+# 12. BFS on Graph
+
+```js
+queue.push(start);
+
+while (queue.length) {
+
+    const node = queue.shift();
+
+    for (const nei of graph[node]) {
+
+        queue.push(nei);
+
+    }
+
+}
+```
+
+---
+
+# 13. BFS with Visited
+
+```js
+const visited = new Set();
+
+queue.push(start);
+visited.add(start);
+
+while (queue.length) {
+
+    const node = queue.shift();
+
+    for (const nei of graph[node]) {
+
+        if (!visited.has(nei)) {
+
+            visited.add(nei);
+
+            queue.push(nei);
+
+        }
+
+    }
+
+}
+```
+
+---
+
+# 14. Multi-Source BFS
+
+```js
+for (const node of sources) {
+    queue.push(node);
+}
+```
+
+Used in:
+
+- Rotten Oranges
+- Walls and Gates
+- 01 Matrix
+
+---
+
+# 15. Store Pair
+
+```js
+queue.push([row, col]);
+
+const [r, c] = queue.shift();
+```
+
+---
+
+# 16. Store Object
+
+```js
+queue.push({
+    row,
+    col,
+    dist
+});
+```
+
+---
+
+# 17. Store Distance
+
+```js
+queue.push([node, distance]);
+
+const [curr, dist] = queue.shift();
+```
+
+---
+
+# 18. Count Levels
+
+```js
+let level = 0;
+
+while (queue.length) {
+
+    let size = queue.length;
+
+    while (size--) {
+
+        const node = queue.shift();
+
+    }
+
+    level++;
+
+}
+```
+
+---
+
+# 19. BFS Grid Directions
+
+```js
+const directions = [
+    [1,0],
+    [-1,0],
+    [0,1],
+    [0,-1]
+];
+```
+
+---
+
+# 20. Visit Neighbors
+
+```js
+for (const [dr, dc] of directions) {
+
+    const nr = row + dr;
+    const nc = col + dc;
+
+}
+```
+
+---
+
+# 21. Boundary Check
+
+```js
+if (
+    nr >= 0 &&
+    nr < rows &&
+    nc >= 0 &&
+    nc < cols
+) {
+
+}
+```
+
+---
+
+# 22. Mark Visited
+
+```js
+visited.add(node);
+```
+
+or
+
+```js
+grid[r][c] = '#';
+```
+
+---
+
+# 23. Circular Queue Index
+
+```js
+rear = (rear + 1) % capacity;
+```
+
+---
+
+# 24. Circular Queue Front
+
+```js
+front = (front + 1) % capacity;
+```
+
+---
+
+# 25. Circular Queue Full
+
+```js
+if ((rear + 1) % capacity === front) {
+
+}
+```
+
+---
+
+# 26. Circular Queue Empty
+
+```js
+if (front === rear) {
+
+}
+```
+
+---
+
+# 27. Queue Using Two Stacks
+
+Enqueue
+
+```js
+stack1.push(x);
+```
+
+Dequeue
+
+```js
+while (stack1.length) {
+
+    stack2.push(stack1.pop());
+
+}
+
+const item = stack2.pop();
+```
+
+---
+
+# 28. Double Ended Queue (Deque)
+
+Front
+
+```js
+deque.unshift(x);
+```
+
+Back
+
+```js
+deque.push(x);
+```
+
+---
+
+# 29. Remove Front (Deque)
+
+```js
+deque.shift();
+```
+
+---
+
+# 30. Remove Back (Deque)
+
+```js
+deque.pop();
+```
+
+---
+
+# 31. Monotonic Queue (Maximum)
+
+```js
+while (
+    deque.length &&
+    deque[deque.length - 1] < x
+) {
+
+    deque.pop();
+
+}
+
+deque.push(x);
+```
+
+---
+
+# 32. Remove Outdated Element
+
+```js
+if (deque[0] === outgoing) {
+
+    deque.shift();
+
+}
+```
+
+Used in:
+
+- Sliding Window Maximum
+
+---
+
+# 33. Sliding Window Queue
+
+```js
+for (let i = 0; i < nums.length; i++) {
+
+    // Remove old elements
+
+    // Insert current element
+
+    // Answer
+
+}
+```
+
+---
+
+# 34. Queue of Indices
+
+```js
+queue.push(i);
+```
+
+Very common in sliding window problems.
+
+---
+
+# 35. Peek Index
+
+```js
+const i = queue[0];
+```
+
+---
+
+# 36. Remove Invalid Indices
+
+```js
+while (
+    queue.length &&
+    queue[0] < left
+) {
+
+    queue.shift();
+
+}
+```
+
+---
+
+# 37. BFS Distance Update
+
+```js
+distance[next] = distance[curr] + 1;
+```
+
+---
+
+# 38. Queue with Priority (Basic)
+
+```js
+queue.push({
+    node,
+    cost
+});
+
+queue.sort((a, b) => a.cost - b.cost);
+```
+
+(Simple simulation of a priority queue.)
+
+---
+
+# 39. Master BFS Template
+
+```js
+const queue = [];
+
+queue.push(start);
+
+while (queue.length) {
+
+    const node = queue.shift();
+
+    // Process
+
+    for (const nei of graph[node]) {
+
+        queue.push(nei);
+
+    }
+
+}
+```
+
+---
+
+# 40. Master Level Order Template
+
+```js
+const queue = [root];
+
+while (queue.length) {
+
+    const size = queue.length;
+
+    for (let i = 0; i < size; i++) {
+
+        const node = queue.shift();
+
+        // Process node
+
+        if (node.left)
+            queue.push(node.left);
+
+        if (node.right)
+            queue.push(node.right);
+
+    }
+
+}
+```
+
+---
+
+# Problems These Patterns Solve
+
+- Binary Tree Level Order Traversal
+- Zigzag Traversal
+- Right Side View
+- Average of Levels
+- Minimum Depth
+- Maximum Width of Binary Tree
+- BFS on Graph
+- Shortest Path (Unweighted Graph)
+- Number of Islands (BFS)
+- Rotten Oranges
+- Walls and Gates
+- 01 Matrix
+- Word Ladder
+- Open the Lock
+- Sliding Window Maximum
+- Design Circular Queue
+- Design Deque
+- Queue Using Two Stacks
+
+---
+
+# Most Important Interview Patterns
+
+## Basic Queue
+
+```js
+queue.push(x);
+queue.shift();
+queue[0];
+```
+
+---
+
+## BFS
+
+```js
+queue.push(start);
+
+while (queue.length) {
+
+    const node = queue.shift();
+
+    // Visit neighbors
+
+}
+```
+
+---
+
+## Level Order Traversal
+
+```js
+while (queue.length) {
+
+    const size = queue.length;
+
+    for (let i = 0; i < size; i++) {
+
+        const node = queue.shift();
+
+    }
+
+}
+```
+
+---
+
+## Grid BFS
+
+```js
+const directions = [
+    [1,0],
+    [-1,0],
+    [0,1],
+    [0,-1]
+];
+
+for (const [dr, dc] of directions) {
+
+    const nr = row + dr;
+    const nc = col + dc;
+
+}
+```
+
+---
+
+## Multi-Source BFS
+
+```js
+for (const source of sources) {
+    queue.push(source);
+}
+```
+
+---
+
+## Sliding Window (Deque)
+
+```js
+while (
+    deque.length &&
+    deque[deque.length - 1] < x
+) {
+    deque.pop();
+}
+
+deque.push(x);
+```
+
+---
+
+## Queue Using Two Stacks
+
+```js
+stack1.push(x);
+
+while (stack1.length) {
+    stack2.push(stack1.pop());
+}
+
+const item = stack2.pop();
+```
+
+---
+
+## Master Queue Template
+
+```js
+const queue = [];
+
+queue.push(start);
+
+while (queue.length) {
+
+    const current = queue.shift();
+
+    // Process current
+
+    // Add new elements
+}
+```

@@ -1,0 +1,800 @@
+# Graph
+
+A collection of reusable **Graph** templates used to solve most graph interview problems.
+
+---
+
+# 1. Adjacency List
+
+```js
+const graph = new Map();
+```
+
+---
+
+# 2. Build Directed Graph
+
+```js
+for (const [u, v] of edges) {
+
+    if (!graph.has(u))
+        graph.set(u, []);
+
+    graph.get(u).push(v);
+
+}
+```
+
+---
+
+# 3. Build Undirected Graph
+
+```js
+for (const [u, v] of edges) {
+
+    if (!graph.has(u))
+        graph.set(u, []);
+
+    if (!graph.has(v))
+        graph.set(v, []);
+
+    graph.get(u).push(v);
+    graph.get(v).push(u);
+
+}
+```
+
+---
+
+# 4. Adjacency Matrix
+
+```js
+const graph = Array.from(
+    { length: n },
+    () => Array(n).fill(0)
+);
+```
+
+---
+
+# 5. DFS Recursive
+
+```js
+function dfs(node) {
+
+    if (visited.has(node))
+        return;
+
+    visited.add(node);
+
+    for (const nei of graph.get(node)) {
+
+        dfs(nei);
+
+    }
+
+}
+```
+
+---
+
+# 6. DFS Iterative
+
+```js
+const stack = [start];
+
+while (stack.length) {
+
+    const node = stack.pop();
+
+    if (visited.has(node))
+        continue;
+
+    visited.add(node);
+
+    for (const nei of graph.get(node)) {
+
+        stack.push(nei);
+
+    }
+
+}
+```
+
+---
+
+# 7. BFS
+
+```js
+const queue = [start];
+
+visited.add(start);
+
+while (queue.length) {
+
+    const node = queue.shift();
+
+    for (const nei of graph.get(node)) {
+
+        if (!visited.has(nei)) {
+
+            visited.add(nei);
+
+            queue.push(nei);
+
+        }
+
+    }
+
+}
+```
+
+---
+
+# 8. Visited Set
+
+```js
+const visited = new Set();
+```
+
+---
+
+# 9. Mark Visited
+
+```js
+visited.add(node);
+```
+
+---
+
+# 10. Check Visited
+
+```js
+if (visited.has(node)) {
+
+}
+```
+
+---
+
+# 11. Count Connected Components
+
+```js
+let count = 0;
+
+for (let i = 0; i < n; i++) {
+
+    if (!visited.has(i)) {
+
+        dfs(i);
+
+        count++;
+
+    }
+
+}
+```
+
+---
+
+# 12. BFS Distance
+
+```js
+queue.push([start, 0]);
+
+while (queue.length) {
+
+    const [node, dist] =
+        queue.shift();
+
+}
+```
+
+---
+
+# 13. Parent Map
+
+```js
+parent.set(child, node);
+```
+
+---
+
+# 14. Path Reconstruction
+
+```js
+const path = [];
+
+while (node !== undefined) {
+
+    path.push(node);
+
+    node = parent.get(node);
+
+}
+
+path.reverse();
+```
+
+---
+
+# 15. Detect Cycle (Undirected)
+
+```js
+function dfs(node, parent) {
+
+    visited.add(node);
+
+    for (const nei of graph.get(node)) {
+
+        if (!visited.has(nei)) {
+
+            if (dfs(nei, node))
+                return true;
+
+        }
+
+        else if (nei !== parent)
+
+            return true;
+
+    }
+
+    return false;
+
+}
+```
+
+---
+
+# 16. Detect Cycle (Directed)
+
+```js
+const visited = new Set();
+const path = new Set();
+```
+
+```js
+function dfs(node) {
+
+    if (path.has(node))
+        return true;
+
+    if (visited.has(node))
+        return false;
+
+    visited.add(node);
+    path.add(node);
+
+    for (const nei of graph.get(node)) {
+
+        if (dfs(nei))
+            return true;
+
+    }
+
+    path.delete(node);
+
+    return false;
+
+}
+```
+
+---
+
+# 17. Topological Sort (DFS)
+
+```js
+const order = [];
+
+function dfs(node) {
+
+    visited.add(node);
+
+    for (const nei of graph.get(node)) {
+
+        if (!visited.has(nei))
+
+            dfs(nei);
+
+    }
+
+    order.push(node);
+
+}
+
+order.reverse();
+```
+
+---
+
+# 18. Topological Sort (Kahn's Algorithm)
+
+```js
+const indegree =
+Array(n).fill(0);
+```
+
+Count indegrees:
+
+```js
+for (const [u, v] of edges)
+
+    indegree[v]++;
+```
+
+Queue:
+
+```js
+for (let i = 0; i < n; i++) {
+
+    if (indegree[i] === 0)
+
+        queue.push(i);
+
+}
+```
+
+Process:
+
+```js
+while (queue.length) {
+
+    const node =
+        queue.shift();
+
+    for (const nei of graph.get(node)) {
+
+        indegree[nei]--;
+
+        if (indegree[nei] === 0)
+
+            queue.push(nei);
+
+    }
+
+}
+```
+
+---
+
+# 19. Dijkstra Push
+
+```js
+heap.enqueue(
+    [distance, node],
+    distance
+);
+```
+
+---
+
+# 20. Dijkstra Pop
+
+```js
+const [dist, node] =
+heap.dequeue().element;
+```
+
+---
+
+# 21. Relax Edge
+
+```js
+if (
+dist + weight <
+distance[next]
+) {
+
+    distance[next] =
+        dist + weight;
+
+}
+```
+
+---
+
+# 22. Union Find Parent
+
+```js
+const parent =
+Array.from(
+    { length: n },
+    (_, i) => i
+);
+```
+
+---
+
+# 23. Find Parent
+
+```js
+function find(x) {
+
+    if (parent[x] !== x)
+
+        parent[x] =
+            find(parent[x]);
+
+    return parent[x];
+
+}
+```
+
+---
+
+# 24. Union
+
+```js
+function union(a, b) {
+
+    const pa = find(a);
+    const pb = find(b);
+
+    if (pa !== pb)
+
+        parent[pa] = pb;
+
+}
+```
+
+---
+
+# 25. Check Connected
+
+```js
+find(a) === find(b)
+```
+
+---
+
+# 26. Graph Coloring
+
+```js
+const color =
+Array(n).fill(-1);
+```
+
+---
+
+# 27. Bipartite BFS
+
+```js
+color[start] = 0;
+
+queue.push(start);
+```
+
+```js
+color[nei] =
+1 - color[node];
+```
+
+---
+
+# 28. Grid Directions
+
+```js
+const directions = [
+
+    [1,0],
+    [-1,0],
+    [0,1],
+    [0,-1]
+
+];
+```
+
+---
+
+# 29. Grid DFS
+
+```js
+function dfs(r, c) {
+
+    if (
+        r < 0 ||
+        c < 0 ||
+        r >= rows ||
+        c >= cols
+    )
+        return;
+
+}
+```
+
+---
+
+# 30. Grid BFS
+
+```js
+queue.push([r, c]);
+
+while (queue.length) {
+
+    const [r, c] =
+        queue.shift();
+
+}
+```
+
+---
+
+# 31. Multi-Source BFS
+
+```js
+for (const node of sources) {
+
+    queue.push(node);
+
+}
+```
+
+---
+
+# 32. Neighbor Traversal
+
+```js
+for (const nei of graph.get(node)) {
+
+}
+```
+
+---
+
+# 33. Weighted Graph
+
+```js
+graph.get(u).push([
+    v,
+    weight
+]);
+```
+
+---
+
+# 34. Iterate Weighted Graph
+
+```js
+for (const [nei, wt] of graph.get(node)) {
+
+}
+```
+
+---
+
+# 35. Distance Array
+
+```js
+const distance =
+Array(n).fill(Infinity);
+
+distance[start] = 0;
+```
+
+---
+
+# 36. In-degree Array
+
+```js
+const indegree =
+Array(n).fill(0);
+```
+
+---
+
+# 37. Visited Array
+
+```js
+const visited =
+Array(n).fill(false);
+```
+
+---
+
+# 38. Build Graph Template
+
+```js
+const graph = new Map();
+
+for (const [u, v] of edges) {
+
+    if (!graph.has(u))
+        graph.set(u, []);
+
+    if (!graph.has(v))
+        graph.set(v, []);
+
+    graph.get(u).push(v);
+
+}
+```
+
+---
+
+# 39. DFS Master Template
+
+```js
+const visited = new Set();
+
+function dfs(node) {
+
+    if (visited.has(node))
+        return;
+
+    visited.add(node);
+
+    for (const nei of graph.get(node)) {
+
+        dfs(nei);
+
+    }
+
+}
+```
+
+---
+
+# 40. BFS Master Template
+
+```js
+const visited = new Set();
+
+const queue = [start];
+
+visited.add(start);
+
+while (queue.length) {
+
+    const node =
+        queue.shift();
+
+    for (const nei of graph.get(node)) {
+
+        if (!visited.has(nei)) {
+
+            visited.add(nei);
+
+            queue.push(nei);
+
+        }
+
+    }
+
+}
+```
+
+---
+
+# Problems These Patterns Solve
+
+- Number of Islands
+- Clone Graph
+- Course Schedule I & II
+- Graph Valid Tree
+- Connected Components
+- Redundant Connection
+- Network Delay Time
+- Cheapest Flights Within K Stops
+- Word Ladder
+- Open the Lock
+- Pacific Atlantic Water Flow
+- Rotten Oranges
+- Walls and Gates
+- 01 Matrix
+- Accounts Merge
+- Evaluate Division
+- Minimum Height Trees
+- Alien Dictionary
+- Reconstruct Itinerary
+- Critical Connections
+- Path With Minimum Effort
+
+---
+
+# Most Important Interview Patterns
+
+## DFS
+
+```js
+function dfs(node) {
+
+    if (visited.has(node))
+        return;
+
+    visited.add(node);
+
+    for (const nei of graph.get(node))
+
+        dfs(nei);
+
+}
+```
+
+---
+
+## BFS
+
+```js
+queue.push(start);
+
+visited.add(start);
+
+while (queue.length) {
+
+    const node =
+        queue.shift();
+
+}
+```
+
+---
+
+## Union Find
+
+```js
+find(x);
+
+union(a, b);
+```
+
+---
+
+## Topological Sort
+
+```js
+indegree[nei]--;
+
+if (indegree[nei] === 0)
+
+    queue.push(nei);
+```
+
+---
+
+## Dijkstra
+
+```js
+heap.enqueue(
+    [distance, node],
+    distance
+);
+```
+
+---
+
+## Grid Traversal
+
+```js
+const directions = [
+
+    [1,0],
+    [-1,0],
+    [0,1],
+    [0,-1]
+
+];
+```
+
+---
+
+## Build Graph
+
+```js
+graph.get(u).push(v);
+```
+
+---
+
+## Master Graph Template
+
+```js
+const graph = new Map();
+const visited = new Set();
+
+// Build graph
+
+// Traverse (DFS/BFS)
+
+// Process result
+```

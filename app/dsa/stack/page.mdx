@@ -1,0 +1,633 @@
+# Stack
+
+A collection of reusable stack templates used to solve most stack interview problems.
+
+---
+
+# 1. Create a Stack
+
+```js
+const stack = [];
+```
+
+---
+
+# 2. Push
+
+```js
+stack.push(x);
+```
+
+---
+
+# 3. Pop
+
+```js
+const top = stack.pop();
+```
+
+---
+
+# 4. Peek (Top Element)
+
+```js
+const top = stack[stack.length - 1];
+```
+
+---
+
+# 5. Check Empty
+
+```js
+if (stack.length === 0) {
+    // stack is empty
+}
+```
+
+---
+
+# 6. Stack Size
+
+```js
+const size = stack.length;
+```
+
+---
+
+# 7. Iterate While Stack Isn't Empty
+
+```js
+while (stack.length) {
+    console.log(stack.pop());
+}
+```
+
+---
+
+# 8. Push All Elements
+
+```js
+for (const num of nums) {
+    stack.push(num);
+}
+```
+
+---
+
+# 9. Pop Until Condition
+
+```js
+while (stack.length && stack[stack.length - 1] > x) {
+    stack.pop();
+}
+```
+
+**Used in**
+
+- Remove K Digits
+- Monotonic Stack
+- Histogram
+
+---
+
+# 10. Pop Until Matching Character
+
+```js
+while (stack.length && stack[stack.length - 1] !== '(') {
+    stack.pop();
+}
+```
+
+**Used in**
+
+- Valid Parentheses
+- Infix Evaluation
+
+---
+
+# 11. Match Parentheses
+
+```js
+const map = {
+    ')': '(',
+    ']': '[',
+    '}': '{'
+};
+
+if (
+    stack.length &&
+    stack[stack.length - 1] === map[ch]
+) {
+    stack.pop();
+}
+```
+
+---
+
+# 12. Reverse Using Stack
+
+```js
+for (const x of arr)
+    stack.push(x);
+
+while (stack.length)
+    console.log(stack.pop());
+```
+
+---
+
+# 13. Store Index Instead of Value
+
+```js
+stack.push(i);
+```
+
+Very common in:
+
+- Next Greater Element
+- Histogram
+- Daily Temperatures
+
+---
+
+# 14. Get Value from Stored Index
+
+```js
+const index = stack[stack.length - 1];
+const value = nums[index];
+```
+
+---
+
+# 15. Monotonic Increasing Stack
+
+Keep stack increasing.
+
+```js
+while (
+    stack.length &&
+    stack[stack.length - 1] > x
+) {
+    stack.pop();
+}
+
+stack.push(x);
+```
+
+---
+
+# 16. Monotonic Decreasing Stack
+
+```js
+while (
+    stack.length &&
+    stack[stack.length - 1] < x
+) {
+    stack.pop();
+}
+
+stack.push(x);
+```
+
+---
+
+# 17. Next Greater Element Template
+
+```js
+for (let i = 0; i < nums.length; i++) {
+
+    while (
+        stack.length &&
+        nums[stack[stack.length - 1]] < nums[i]
+    ) {
+        const index = stack.pop();
+        ans[index] = nums[i];
+    }
+
+    stack.push(i);
+}
+```
+
+---
+
+# 18. Previous Greater Element
+
+```js
+for (let i = 0; i < nums.length; i++) {
+
+    while (
+        stack.length &&
+        stack[stack.length - 1] <= nums[i]
+    ) {
+        stack.pop();
+    }
+
+    if (stack.length)
+        console.log(stack[stack.length - 1]);
+
+    stack.push(nums[i]);
+}
+```
+
+---
+
+# 19. Previous Smaller Element
+
+```js
+while (
+    stack.length &&
+    stack[stack.length - 1] >= nums[i]
+) {
+    stack.pop();
+}
+```
+
+---
+
+# 20. Next Smaller Element
+
+```js
+for (let i = nums.length - 1; i >= 0; i--) {
+
+    while (
+        stack.length &&
+        stack[stack.length - 1] >= nums[i]
+    ) {
+        stack.pop();
+    }
+
+    stack.push(nums[i]);
+}
+```
+
+---
+
+# 21. Largest Rectangle in Histogram Pattern
+
+```js
+let ans = 0;
+const stack = [];
+
+for (let i = 0; i <= heights.length; i++) {
+
+    while (
+        stack.length &&
+        (i === heights.length ||
+         heights[stack[stack.length - 1]] > heights[i])
+    ) {
+
+        const h = heights[stack.pop()];
+
+        const w = stack.length
+            ? i - stack[stack.length - 1] - 1
+            : i;
+
+        ans = Math.max(ans, h * w);
+    }
+
+    stack.push(i);
+}
+```
+
+---
+
+# 22. Remove Consecutive Duplicates
+
+```js
+for (const ch of s) {
+
+    if (
+        stack.length &&
+        stack[stack.length - 1] === ch
+    ) {
+        stack.pop();
+    } else {
+        stack.push(ch);
+    }
+
+}
+```
+
+---
+
+# 23. Build String
+
+```js
+stack.push(ch);
+
+const ans = stack.join('');
+```
+
+---
+
+# 24. Evaluate Postfix
+
+```js
+const b = stack.pop();
+const a = stack.pop();
+
+stack.push(a + b);
+```
+
+Replace `+` with any operator.
+
+---
+
+# 25. Evaluate Prefix
+
+Traverse from right to left.
+
+```js
+for (let i = s.length - 1; i >= 0; i--) {
+
+}
+```
+
+---
+
+# 26. Reverse Traversal
+
+```js
+for (let i = arr.length - 1; i >= 0; i--) {
+
+}
+```
+
+---
+
+# 27. Min Stack Trick
+
+Using a variable:
+
+```js
+min = Math.min(min, x);
+```
+
+Using another stack:
+
+```js
+minStack.push(
+    Math.min(x, minStack[minStack.length - 1])
+);
+```
+
+---
+
+# 28. Two Stacks
+
+```js
+const stack1 = [];
+const stack2 = [];
+```
+
+Used in:
+
+- Queue using Stacks
+- Browser History
+
+---
+
+# 29. Transfer Between Stacks
+
+```js
+while (stack1.length) {
+    stack2.push(stack1.pop());
+}
+```
+
+---
+
+# 30. Undo Pattern
+
+```js
+history.push(state);
+
+// Undo
+state = history.pop();
+```
+
+---
+
+# 31. DFS Using Stack
+
+```js
+const stack = [start];
+
+while (stack.length) {
+
+    const node = stack.pop();
+
+    for (const nei of graph[node]) {
+        stack.push(nei);
+    }
+
+}
+```
+
+---
+
+# 32. Stack with Objects
+
+```js
+stack.push({
+    row,
+    col
+});
+```
+
+---
+
+# 33. Stack with Pairs
+
+```js
+stack.push([value, index]);
+
+const [v, i] = stack.pop();
+```
+
+---
+
+# 34. Peek Pair
+
+```js
+const [value, index] =
+    stack[stack.length - 1];
+```
+
+---
+
+# 35. Frequency Stack Pattern
+
+```js
+stack.push({
+    value,
+    frequency
+});
+```
+
+---
+
+# 36. Push Result Later
+
+```js
+stack.push(i);
+
+// process after future element arrives
+```
+
+Used in:
+
+- Next Greater Element
+- Daily Temperatures
+- Stock Span
+
+---
+
+# 37. Master Monotonic Stack Template
+
+```js
+const stack = [];
+
+for (let i = 0; i < nums.length; i++) {
+
+    while (
+        stack.length &&
+        nums[stack[stack.length - 1]] < nums[i]
+    ) {
+
+        const index = stack.pop();
+
+        // Process index here
+    }
+
+    stack.push(i);
+}
+```
+
+---
+
+# Problems These Patterns Solve
+
+- Valid Parentheses
+- Min Stack
+- Implement Stack
+- Implement Queue using Stacks
+- Daily Temperatures
+- Stock Span
+- Next Greater Element I & II
+- Previous Greater Element
+- Previous Smaller Element
+- Next Smaller Element
+- Largest Rectangle in Histogram
+- Maximal Rectangle
+- Remove K Digits
+- Remove Adjacent Duplicates
+- Evaluate Postfix Expression
+- Evaluate Prefix Expression
+- Basic Calculator
+- Browser History
+- Simplify Path
+- Decode String
+- Asteroid Collision
+- Trapping Rain Water (Stack Approach)
+
+---
+
+# Most Important Interview Patterns
+
+## Basic Stack
+
+```js
+stack.push(x);
+stack.pop();
+stack[stack.length - 1];
+```
+
+---
+
+## Monotonic Increasing Stack
+
+```js
+while (stack.length && stack[stack.length - 1] > x) {
+    stack.pop();
+}
+stack.push(x);
+```
+
+---
+
+## Monotonic Decreasing Stack
+
+```js
+while (stack.length && stack[stack.length - 1] < x) {
+    stack.pop();
+}
+stack.push(x);
+```
+
+---
+
+## Store Indices
+
+```js
+stack.push(i);
+```
+
+---
+
+## Parentheses Matching
+
+```js
+if (stack[stack.length - 1] === map[ch]) {
+    stack.pop();
+}
+```
+
+---
+
+## Two Stack Transfer
+
+```js
+while (stack1.length) {
+    stack2.push(stack1.pop());
+}
+```
+
+---
+
+## DFS Template
+
+```js
+const stack = [start];
+
+while (stack.length) {
+    const node = stack.pop();
+
+    for (const nei of graph[node]) {
+        stack.push(nei);
+    }
+}
+```
+
+---
+
+## Master Template
+
+```js
+const stack = [];
+
+for (let i = 0; i < nums.length; i++) {
+
+    while (
+        stack.length &&
+        CONDITION
+    ) {
+
+        const item = stack.pop();
+
+        // Process
+    }
+
+    stack.push(i);
+}
+```

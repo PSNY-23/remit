@@ -1,0 +1,156 @@
+# Set
+
+A collection of reusable Set templates used to solve most Set interview problems.
+
+---
+
+# 1. Create a Set
+
+```js
+const set = new Set();
+```
+
+---
+
+# 2. Create a Set from an Array
+
+```js
+const set = new Set([1, 2, 3]);
+```
+
+---
+
+# 3. Add an Element
+
+```js
+set.add(x);
+```
+
+---
+
+# 4. Check if Element Exists (Has)
+
+```js
+if (set.has(x)) {
+    // element exists
+}
+```
+
+---
+
+# 5. Remove an Element
+
+```js
+set.delete(x);
+```
+
+---
+
+# 6. Get Size of Set
+
+```js
+const size = set.size;
+```
+
+---
+
+# 7. Clear the Set
+
+```js
+set.clear();
+```
+
+---
+
+# 8. Iterate over a Set
+
+```js
+for (const val of set) {
+    console.log(val);
+}
+```
+
+---
+
+# 9. Convert Set to Array
+
+```js
+const arr = [...set];
+```
+
+---
+
+# 10. Remove Duplicates from an Array
+
+```js
+const uniqueArr = [...new Set(arr)];
+```
+
+---
+
+# 11. Union of Two Sets
+
+```js
+const union = new Set([...set1, ...set2]);
+```
+
+---
+
+# 12. Intersection of Two Sets
+
+```js
+const intersection = new Set(
+    [...set1].filter(x => set2.has(x))
+);
+```
+
+---
+
+# 13. Difference of Two Sets (set1 - set2)
+
+```js
+const difference = new Set(
+    [...set1].filter(x => !set2.has(x))
+);
+```
+
+---
+
+# 14. Subset Check (Is set1 a subset of set2)
+
+```js
+const isSubset = [...set1].every(x => set2.has(x));
+```
+
+---
+
+# Problems These Patterns Solve
+
+- Contains Duplicate
+- Intersection of Two Arrays
+- Happy Number
+- Longest Consecutive Sequence
+- Valid Sudoku
+- Jewels and Stones
+- Find All Numbers Disappeared in an Array
+- Unique Email Addresses
+
+---
+
+# Most Important Interview Patterns
+
+## Basic Set Operations
+
+```js
+set.add(x);
+set.has(x);
+set.delete(x);
+```
+
+---
+
+## Array Deduplication
+
+```js
+const unique = [...new Set(arr)];
+```

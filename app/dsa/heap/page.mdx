@@ -1,0 +1,667 @@
+# Heap
+
+A collection of reusable **Heap / Priority Queue** templates used to solve most interview problems.
+
+> **Note:** JavaScript doesn't have a built-in Priority Queue. In interviews (especially on LeetCode), you'll often use `MaxPriorityQueue` and `MinPriorityQueue` if they're available, or implement your own heap.
+
+---
+
+# 1. Create a Min Heap
+
+```js
+const minHeap = new MinPriorityQueue();
+```
+
+---
+
+# 2. Create a Max Heap
+
+```js
+const maxHeap = new MaxPriorityQueue();
+```
+
+---
+
+# 3. Insert Element
+
+```js
+minHeap.enqueue(value);
+```
+
+---
+
+# 4. Remove Minimum
+
+```js
+const min = minHeap.dequeue().element;
+```
+
+---
+
+# 5. Remove Maximum
+
+```js
+const max = maxHeap.dequeue().element;
+```
+
+---
+
+# 6. Peek Top Element
+
+```js
+const top = minHeap.front().element;
+```
+
+---
+
+# 7. Check Empty
+
+```js
+if (minHeap.isEmpty()) {
+
+}
+```
+
+---
+
+# 8. Heap Size
+
+```js
+const size = minHeap.size();
+```
+
+---
+
+# 9. Push All Elements
+
+```js
+for (const num of nums) {
+    minHeap.enqueue(num);
+}
+```
+
+---
+
+# 10. Process Until Empty
+
+```js
+while (!minHeap.isEmpty()) {
+
+    const x = minHeap.dequeue().element;
+
+}
+```
+
+---
+
+# 11. K Smallest Elements
+
+```js
+for (const num of nums) {
+
+    maxHeap.enqueue(num);
+
+    if (maxHeap.size() > k) {
+
+        maxHeap.dequeue();
+
+    }
+
+}
+```
+
+---
+
+# 12. K Largest Elements
+
+```js
+for (const num of nums) {
+
+    minHeap.enqueue(num);
+
+    if (minHeap.size() > k) {
+
+        minHeap.dequeue();
+
+    }
+
+}
+```
+
+---
+
+# 13. Top K Frequent Elements
+
+```js
+for (const [num, freq] of map) {
+
+    minHeap.enqueue(
+        { num, freq },
+        freq
+    );
+
+    if (minHeap.size() > k) {
+
+        minHeap.dequeue();
+
+    }
+
+}
+```
+
+---
+
+# 14. Heap of Objects
+
+```js
+minHeap.enqueue(
+    {
+        node,
+        distance
+    },
+    distance
+);
+```
+
+---
+
+# 15. Heap of Pairs
+
+```js
+minHeap.enqueue(
+    [distance, node],
+    distance
+);
+```
+
+---
+
+# 16. Extract Pair
+
+```js
+const [dist, node] =
+    minHeap.dequeue().element;
+```
+
+---
+
+# 17. Heap with Custom Priority
+
+```js
+minHeap.enqueue(task, priority);
+```
+
+---
+
+# 18. Merge K Sorted Lists
+
+```js
+if (node) {
+
+    minHeap.enqueue(
+        node,
+        node.val
+    );
+
+}
+```
+
+---
+
+# 19. Merge K Arrays
+
+```js
+minHeap.enqueue(
+    {
+        value,
+        row,
+        col
+    },
+    value
+);
+```
+
+---
+
+# 20. Running Median (Two Heaps)
+
+```js
+const left = new MaxPriorityQueue();
+
+const right = new MinPriorityQueue();
+```
+
+---
+
+# 21. Balance Two Heaps
+
+```js
+if (
+    left.size() >
+    right.size() + 1
+) {
+
+    right.enqueue(
+        left.dequeue().element
+    );
+
+}
+```
+
+---
+
+# 22. Median
+
+```js
+const median =
+    left.front().element;
+```
+
+or
+
+```js
+const median =
+(
+left.front().element +
+right.front().element
+) / 2;
+```
+
+---
+
+# 23. Dijkstra Push
+
+```js
+minHeap.enqueue(
+    [distance, node],
+    distance
+);
+```
+
+---
+
+# 24. Dijkstra Pop
+
+```js
+const [dist, node] =
+    minHeap.dequeue().element;
+```
+
+---
+
+# 25. Skip Outdated State
+
+```js
+if (dist > distance[node]) {
+
+    continue;
+
+}
+```
+
+---
+
+# 26. Update Neighbor
+
+```js
+if (
+    dist + weight <
+    distance[next]
+) {
+
+    distance[next] =
+        dist + weight;
+
+    minHeap.enqueue(
+        [distance[next], next],
+        distance[next]
+    );
+
+}
+```
+
+---
+
+# 27. K Closest Points
+
+```js
+const d =
+x*x + y*y;
+
+maxHeap.enqueue(
+    point,
+    d
+);
+```
+
+---
+
+# 28. Heap Sort
+
+```js
+for (const x of nums) {
+
+    minHeap.enqueue(x);
+
+}
+
+while (!minHeap.isEmpty()) {
+
+    ans.push(
+        minHeap.dequeue().element
+    );
+
+}
+```
+
+---
+
+# 29. Connect Ropes
+
+```js
+const a =
+minHeap.dequeue().element;
+
+const b =
+minHeap.dequeue().element;
+
+const sum = a + b;
+
+minHeap.enqueue(sum);
+```
+
+---
+
+# 30. Last Stone Weight
+
+```js
+const x =
+maxHeap.dequeue().element;
+
+const y =
+maxHeap.dequeue().element;
+
+if (x !== y) {
+
+    maxHeap.enqueue(x - y);
+
+}
+```
+
+---
+
+# 31. Priority Queue BFS
+
+```js
+minHeap.enqueue(
+    start,
+    0
+);
+
+while (!minHeap.isEmpty()) {
+
+    const node =
+        minHeap.dequeue().element;
+
+}
+```
+
+---
+
+# 32. Event Scheduling
+
+```js
+minHeap.enqueue(
+    meetingEndTime
+);
+```
+
+---
+
+# 33. Remove Finished Events
+
+```js
+while (
+!minHeap.isEmpty() &&
+minHeap.front().element <= start
+) {
+
+    minHeap.dequeue();
+
+}
+```
+
+---
+
+# 34. Sliding Window Median
+
+```js
+const left =
+new MaxPriorityQueue();
+
+const right =
+new MinPriorityQueue();
+```
+
+---
+
+# 35. Kth Largest Stream
+
+```js
+minHeap.enqueue(num);
+
+if (
+minHeap.size() > k
+) {
+
+    minHeap.dequeue();
+
+}
+```
+
+---
+
+# 36. Heap of Strings
+
+```js
+minHeap.enqueue(word);
+```
+
+---
+
+# 37. Heap of Characters
+
+```js
+maxHeap.enqueue(
+    ch,
+    frequency
+);
+```
+
+---
+
+# 38. Master Heap Loop
+
+```js
+while (!heap.isEmpty()) {
+
+    const item =
+        heap.dequeue().element;
+
+    // Process item
+
+}
+```
+
+---
+
+# 39. Generic Heap Push
+
+```js
+heap.enqueue(
+    value,
+    priority
+);
+```
+
+---
+
+# 40. Generic Heap Pop
+
+```js
+const item =
+heap.dequeue().element;
+```
+
+---
+
+# Problems These Patterns Solve
+
+- Kth Largest Element
+- K Closest Points
+- Top K Frequent Elements
+- Merge K Sorted Lists
+- Merge K Sorted Arrays
+- Find Median from Data Stream
+- Sliding Window Median
+- Last Stone Weight
+- Connect Ropes
+- Reorganize String
+- Task Scheduler
+- Meeting Rooms II
+- Minimum Cost to Hire Workers
+- IPO
+- Dijkstra's Algorithm
+- Prim's MST
+- Network Delay Time
+- Swim in Rising Water
+- Smallest Range Covering K Lists
+
+---
+
+# Most Important Interview Patterns
+
+## Basic Heap
+
+```js
+heap.enqueue(x);
+
+heap.dequeue().element;
+
+heap.front().element;
+```
+
+---
+
+## Top K Elements
+
+```js
+heap.enqueue(x);
+
+if (heap.size() > k) {
+
+    heap.dequeue();
+
+}
+```
+
+---
+
+## Heap of Objects
+
+```js
+heap.enqueue(
+    {
+        node,
+        cost
+    },
+    cost
+);
+```
+
+---
+
+## Dijkstra
+
+```js
+heap.enqueue(
+    [distance, node],
+    distance
+);
+
+while (!heap.isEmpty()) {
+
+    const [dist, node] =
+        heap.dequeue().element;
+
+}
+```
+
+---
+
+## Two Heaps
+
+```js
+const left =
+new MaxPriorityQueue();
+
+const right =
+new MinPriorityQueue();
+```
+
+---
+
+## Merge K Lists
+
+```js
+if (node) {
+
+    heap.enqueue(
+        node,
+        node.val
+    );
+
+}
+```
+
+---
+
+## Meeting Rooms
+
+```js
+while (
+!heap.isEmpty() &&
+heap.front().element <= start
+) {
+
+    heap.dequeue();
+
+}
+```
+
+---
+
+## Master Heap Template
+
+```js
+const heap =
+new MinPriorityQueue();
+
+for (const item of items) {
+
+    heap.enqueue(
+        item,
+        priority
+    );
+
+}
+
+while (!heap.isEmpty()) {
+
+    const current =
+        heap.dequeue().element;
+
+    // Process
+
+}
+```

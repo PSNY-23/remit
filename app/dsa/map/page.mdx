@@ -1,0 +1,621 @@
+# Map
+
+A collection of reusable **Map/HashMap** templates used to solve most interview problems involving frequency counting, lookups, grouping, caching, and indexing.
+
+> **Tip:** In JavaScript interviews, prefer `Map` over plain objects (`{}`) because it supports any key type and avoids prototype-related issues.
+
+---
+
+# 1. Create a Map
+
+```js
+const map = new Map();
+```
+
+---
+
+# 2. Insert
+
+```js
+map.set(key, value);
+```
+
+---
+
+# 3. Get Value
+
+```js
+const value = map.get(key);
+```
+
+---
+
+# 4. Check if Key Exists
+
+```js
+if (map.has(key)) {
+
+}
+```
+
+---
+
+# 5. Delete Key
+
+```js
+map.delete(key);
+```
+
+---
+
+# 6. Clear Map
+
+```js
+map.clear();
+```
+
+---
+
+# 7. Size
+
+```js
+const size = map.size;
+```
+
+---
+
+# 8. Increment Frequency
+
+```js
+map.set(num, (map.get(num) || 0) + 1);
+```
+
+Most common HashMap pattern.
+
+---
+
+# 9. Decrement Frequency
+
+```js
+map.set(num, map.get(num) - 1);
+```
+
+---
+
+# 10. Remove if Frequency Becomes Zero
+
+```js
+map.set(num, map.get(num) - 1);
+
+if (map.get(num) === 0) {
+    map.delete(num);
+}
+```
+
+---
+
+# 11. Default Value
+
+```js
+const count = map.get(num) || 0;
+```
+
+---
+
+# 12. Iterate Keys
+
+```js
+for (const key of map.keys()) {
+
+}
+```
+
+---
+
+# 13. Iterate Values
+
+```js
+for (const value of map.values()) {
+
+}
+```
+
+---
+
+# 14. Iterate Entries
+
+```js
+for (const [key, value] of map) {
+
+}
+```
+
+or
+
+```js
+for (const [key, value] of map.entries()) {
+
+}
+```
+
+---
+
+# 15. Frequency Count
+
+```js
+const freq = new Map();
+
+for (const num of nums) {
+
+    freq.set(num, (freq.get(num) || 0) + 1);
+
+}
+```
+
+---
+
+# 16. Character Frequency
+
+```js
+const freq = new Map();
+
+for (const ch of str) {
+
+    freq.set(ch, (freq.get(ch) || 0) + 1);
+
+}
+```
+
+---
+
+# 17. First Occurrence
+
+```js
+if (!map.has(num)) {
+
+    map.set(num, i);
+
+}
+```
+
+---
+
+# 18. Last Occurrence
+
+```js
+map.set(num, i);
+```
+
+---
+
+# 19. Store Index
+
+```js
+map.set(nums[i], i);
+```
+
+Used in:
+
+- Two Sum
+- Contains Duplicate
+- Longest Consecutive Sequence
+
+---
+
+# 20. Lookup Index
+
+```js
+if (map.has(target)) {
+
+    const index = map.get(target);
+
+}
+```
+
+---
+
+# 21. Two Sum Template
+
+```js
+const map = new Map();
+
+for (let i = 0; i < nums.length; i++) {
+
+    const need = target - nums[i];
+
+    if (map.has(need)) {
+
+        return [map.get(need), i];
+
+    }
+
+    map.set(nums[i], i);
+
+}
+```
+
+---
+
+# 22. Group Values
+
+```js
+if (!map.has(key)) {
+
+    map.set(key, []);
+
+}
+
+map.get(key).push(value);
+```
+
+Used in:
+
+- Group Anagrams
+- Group Employees
+- Group Words
+
+---
+
+# 23. Store Pair
+
+```js
+map.set(key, [a, b]);
+```
+
+---
+
+# 24. Store Object
+
+```js
+map.set(key, {
+    count,
+    index
+});
+```
+
+---
+
+# 25. Nested Map
+
+```js
+if (!map.has(row)) {
+
+    map.set(row, new Map());
+
+}
+```
+
+---
+
+# 26. Count Distinct Elements
+
+```js
+const distinct = new Set(nums);
+
+console.log(distinct.size);
+```
+
+---
+
+# 27. Sliding Window Frequency
+
+```js
+map.set(x, (map.get(x) || 0) + 1);
+
+// remove
+
+map.set(y, map.get(y) - 1);
+
+if (map.get(y) === 0) {
+
+    map.delete(y);
+
+}
+```
+
+---
+
+# 28. Check Duplicate
+
+```js
+if (map.has(num)) {
+
+    return true;
+
+}
+
+map.set(num, true);
+```
+
+---
+
+# 29. Memoization
+
+```js
+const memo = new Map();
+
+if (memo.has(key)) {
+
+    return memo.get(key);
+
+}
+
+memo.set(key, answer);
+```
+
+---
+
+# 30. Cache Result
+
+```js
+cache.set(input, output);
+```
+
+---
+
+# 31. Parent Mapping
+
+```js
+parent.set(child, parentNode);
+```
+
+---
+
+# 32. Adjacency List
+
+```js
+if (!graph.has(u)) {
+
+    graph.set(u, []);
+
+}
+
+graph.get(u).push(v);
+```
+
+---
+
+# 33. Graph with Undirected Edges
+
+```js
+graph.get(u).push(v);
+graph.get(v).push(u);
+```
+
+---
+
+# 34. Maximum Frequency
+
+```js
+let maxFreq = 0;
+
+for (const count of map.values()) {
+
+    maxFreq = Math.max(maxFreq, count);
+
+}
+```
+
+---
+
+# 35. Minimum Frequency
+
+```js
+let minFreq = Infinity;
+
+for (const count of map.values()) {
+
+    minFreq = Math.min(minFreq, count);
+
+}
+```
+
+---
+
+# 36. Find Key with Maximum Value
+
+```js
+let ans = null;
+let best = -Infinity;
+
+for (const [key, value] of map) {
+
+    if (value > best) {
+
+        best = value;
+        ans = key;
+
+    }
+
+}
+```
+
+---
+
+# 37. Convert Map to Array
+
+```js
+const arr = [...map];
+```
+
+---
+
+# 38. Sort Map by Value
+
+```js
+const sorted = [...map.entries()]
+
+.sort((a, b) => b[1] - a[1]);
+```
+
+---
+
+# 39. Master Frequency Template
+
+```js
+const freq = new Map();
+
+for (const x of arr) {
+
+    freq.set(x, (freq.get(x) || 0) + 1);
+
+}
+```
+
+---
+
+# 40. Master Lookup Template
+
+```js
+const map = new Map();
+
+for (let i = 0; i < arr.length; i++) {
+
+    if (map.has(target)) {
+
+        // Process
+
+    }
+
+    map.set(arr[i], i);
+
+}
+```
+
+---
+
+# Problems These Patterns Solve
+
+- Two Sum
+- Contains Duplicate
+- Happy Number
+- Isomorphic Strings
+- Word Pattern
+- Group Anagrams
+- Top K Frequent Elements
+- Frequency Sort
+- Majority Element
+- Longest Consecutive Sequence
+- Subarray Sum Equals K
+- Longest Substring Without Repeating Characters
+- Minimum Window Substring
+- First Unique Character
+- LRU Cache (with Map + Doubly Linked List)
+- Clone Graph
+- Course Schedule
+- Accounts Merge
+- Graph Construction
+
+---
+
+# Most Important Interview Patterns
+
+## Frequency Count
+
+```js
+map.set(x, (map.get(x) || 0) + 1);
+```
+
+---
+
+## Check Exists
+
+```js
+if (map.has(key)) {
+
+}
+```
+
+---
+
+## Lookup
+
+```js
+const value = map.get(key);
+```
+
+---
+
+## Store Index
+
+```js
+map.set(nums[i], i);
+```
+
+---
+
+## Group Values
+
+```js
+if (!map.has(key)) {
+
+    map.set(key, []);
+
+}
+
+map.get(key).push(value);
+```
+
+---
+
+## Memoization
+
+```js
+if (memo.has(key)) {
+
+    return memo.get(key);
+
+}
+
+memo.set(key, answer);
+```
+
+---
+
+## Sliding Window Frequency
+
+```js
+map.set(x, (map.get(x) || 0) + 1);
+
+map.set(y, map.get(y) - 1);
+
+if (map.get(y) === 0) {
+
+    map.delete(y);
+
+}
+```
+
+---
+
+## Graph Adjacency List
+
+```js
+if (!graph.has(node)) {
+
+    graph.set(node, []);
+
+}
+
+graph.get(node).push(neighbor);
+```
+
+---
+
+## Master HashMap Template
+
+```js
+const map = new Map();
+
+for (const item of arr) {
+
+    // Lookup
+    if (map.has(item)) {
+
+    }
+
+    // Update
+    map.set(item, (map.get(item) || 0) + 1);
+
+}
+```
