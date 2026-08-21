@@ -1,6 +1,6 @@
 import { Layout, Navbar, Footer } from 'nextra-theme-docs'
 import { Head } from 'nextra/components'
-import { getPageMap } from 'nextra/page-map'
+import { getEnrichedPageMap } from '@/lib/pageMap'
 import 'nextra-theme-docs/style.css'
 import './globals.css'
 
@@ -14,19 +14,25 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  return (
-    <html lang="en" suppressHydrationWarning>
-      <Head />
+  try {
+    const pageMap = await getEnrichedPageMap()
+    return (
+      <html lang="en" suppressHydrationWarning>
+        <Head />
 
-      <body suppressHydrationWarning>
-        <Layout
-          navbar={<Navbar logo={<b>Remit</b>} />}
-          pageMap={await getPageMap()}
-          footer={<Footer>Remit</Footer>}
-        >
-          {children}
-        </Layout>
-      </body>
-    </html>
-  )
+        <body suppressHydrationWarning>
+          <Layout
+            navbar={<Navbar logo={<b>Remit</b>} />}
+            pageMap={pageMap}
+            footer={<Footer>Remit</Footer>}
+          >
+            {children}
+          </Layout>
+        </body>
+      </html>
+    )
+  } catch (err: any) {
+    console.error('ROOT_LAYOUT_ERROR:', err)
+    throw err
+  }
 }

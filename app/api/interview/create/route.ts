@@ -67,8 +67,14 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    revalidatePath(`/interview/${targetTopicPath}`);
-    revalidatePath(`/interview/${targetTopicPath}/${cleanSlug}`);
+    if (targetTopicPath === "others" || targetTopicPath.startsWith("others/")) {
+      revalidatePath("/others");
+      revalidatePath(`/others/${cleanSlug}`);
+    } else {
+      revalidatePath(`/interview/${targetTopicPath}`);
+      revalidatePath(`/interview/${targetTopicPath}/${cleanSlug}`);
+    }
+    revalidatePath("/", "layout");
 
     return NextResponse.json({
       success: true,

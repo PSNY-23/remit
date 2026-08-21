@@ -29,8 +29,14 @@ export async function POST(req: NextRequest) {
       console.warn("Prisma article delete note (may already have been deleted):", dbErr);
     }
 
-    revalidatePath(`/interview/${targetTopicPath}`);
-    revalidatePath(`/interview/${targetTopicPath}/${slug}`);
+    if (targetTopicPath === "others" || targetTopicPath.startsWith("others/")) {
+      revalidatePath("/others");
+      revalidatePath(`/others/${slug}`);
+    } else {
+      revalidatePath(`/interview/${targetTopicPath}`);
+      revalidatePath(`/interview/${targetTopicPath}/${slug}`);
+    }
+    revalidatePath("/", "layout");
 
     return NextResponse.json({
       success: true,
