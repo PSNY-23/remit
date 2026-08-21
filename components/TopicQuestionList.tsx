@@ -6,12 +6,23 @@ import HoverPreviewLink from './HoverPreviewLink';
 export default async function TopicQuestionList({
   topicPath,
   topicTitle,
+  baseRoute,
 }: {
   topicPath: string;
   topicTitle?: string;
+  baseRoute?: string;
 }) {
   const articles = await getTopicArticles(topicPath);
   const displayTitle = topicTitle || topicPath.split('/').pop() || 'Topic';
+
+  // Determine prefix URL
+  const prefix =
+    baseRoute !== undefined
+      ? baseRoute
+      : topicPath === 'others' || topicPath.startsWith('others/')
+      ? ''
+      : '/interview';
+  const fullTopicUrl = prefix ? `${prefix}/${topicPath}` : `/${topicPath}`;
 
   // Group by category
   const categories = Array.from(
@@ -22,7 +33,7 @@ export default async function TopicQuestionList({
     <div style={{ marginTop: '1.25rem' }}>
       <div style={{ margin: '1.25rem 0' }}>
         <Link
-          href={`/interview/${topicPath}/new`}
+          href={`${fullTopicUrl}/new`}
           style={{
             display: 'inline-flex',
             alignItems: 'center',
@@ -45,7 +56,7 @@ export default async function TopicQuestionList({
 
       {categories.length === 0 ? (
         <p style={{ color: '#94a3b8', fontStyle: 'italic' }}>
-          No questions yet in this topic. Click above to add the first one!
+          No questions or articles yet in this topic. Click above to add the first one!
         </p>
       ) : (
         categories.map((cat) => {
@@ -61,7 +72,7 @@ export default async function TopicQuestionList({
               <ol style={{ paddingLeft: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.45rem' }}>
                 {catArticles.map((a) => (
                   <li key={a.slug || a.title} style={{ fontSize: '0.98rem', lineHeight: '1.6' }}>
-                    <HoverPreviewLink href={`/interview/${topicPath}/${a.slug}`}>
+                    <HoverPreviewLink href={`${fullTopicUrl}/${a.slug}`}>
                       {a.title}
                     </HoverPreviewLink>
                   </li>

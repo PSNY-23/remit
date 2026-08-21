@@ -34,7 +34,10 @@ export default function HoverPreviewLink({ href, children, className, style, ...
   const linkRef = useRef<HTMLAnchorElement | null>(null);
 
   const isInterviewQuestion =
-    href && href.startsWith('/interview/') && !href.endsWith('/new') && href.split('/').length >= 4;
+    href &&
+    !href.endsWith('/new') &&
+    ((href.startsWith('/interview/') && href.split('/').length >= 4) ||
+      (href.startsWith('/others/') && href.split('/').length >= 3));
 
   const calculatePosition = () => {
     if (linkRef.current) {

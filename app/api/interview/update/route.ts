@@ -16,8 +16,14 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // Extract title from markdown first line if not explicitly provided
+    const lines = content.split("\n");
+    const extractedTitle = lines[0]?.replace(/^#\s*/, "").trim();
+    const finalTitle = title?.trim() || extractedTitle || slug;
+    const finalCategory = category?.trim() || path.basename(targetTopicPath);
+
     // Update in database directly via Prisma
-    await prisma.article.upsert({
+    const updatedArticle = await prisma.article.upsert({
       where: {
         topicPath_slug: {
           topicPath: targetTopicPath,
@@ -26,26 +32,28 @@ export async function POST(req: NextRequest) {
       },
       update: {
         content,
-        ...(title ? { title: title.trim() } : {}),
-        ...(category ? { category: category.trim() } : {}),
+        title: finalTitle,
+        ...(category ? { category: finalCategory } : {}),
       },
       create: {
         slug,
         topicPath: targetTopicPath,
-        title: title?.trim() || slug,
-        category: category?.trim() || path.basename(targetTopicPath),
+        title: finalTitle,
+        category: finalCategory,
         content,
       },
     });
 
     revalidatePath(`/interview/${targetTopicPath}/${slug}`);
     revalidatePath(`/interview/${targetTopicPath}`);
+    revalidatePath(`/interview`);
 
     return NextResponse.json({
       success: true,
       message: "Article updated successfully in database!",
       slug,
       topicPath: targetTopicPath,
+      article: updatedArticle,
     });
   } catch (error: any) {
     console.error("Failed to update article:", error);
