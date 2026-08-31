@@ -1,0 +1,45 @@
+---
+title: Databases
+description: Relational schemas, NoSQL stores, indexing internals, transaction isolation, and distributed replication.
+---
+
+# Databases & Data Systems
+
+Comprehensive architectural guide to relational databases, document/key-value stores, distributed query engines, and database indexing mechanics.
+
+---
+
+### Database Paradigms & Trade-offs
+
+| Paradigm | Exemplar Systems | Primary Strength | Typical Use Cases |
+| :--- | :--- | :--- | :--- |
+| **Relational (RDBMS)** | PostgreSQL, MySQL | ACID Guarantees, Structured Schemas, Complex Joins | Financial ledgers, Core transactional domain data |
+| **Document Store** | MongoDB, Couchbase | Flexible JSON Schemas, Nested Hierarchy | Content management, Product catalogs, Dynamic entities |
+| **Key-Value Store** | Redis, DynamoDB | Sub-millisecond latency single-key queries | Session stores, Distributed locks, Caching tiers |
+| **Columnar / OLAP** | ClickHouse, Snowflake, BigQuery | High-compression analytical aggregations | Real-time analytics, Log aggregation, Data warehouses |
+| **Wide-Column** | Apache Cassandra, ScyllaDB | Linear horizontal scalability for massive writes | IoT telemetry, Time-series metrics, Event stores |
+
+---
+
+### Core Mechanics & Internals
+
+#### 1. Indexing: B+ Trees vs LSM-Trees
+
+- **B+ Tree (PostgreSQL / MySQL InnoDB):**
+  - Optimized for low-latency point lookups and sequential range scans.
+  - Interior nodes store routing keys; all records reside on leaf nodes linked via doubly linked pointers.
+  - Modifications write to a Write-Ahead Log (WAL) before updating dirty buffer pages in memory.
+
+- **Log-Structured Merge Tree (LSM-Tree) (Cassandra / RocksDB):**
+  - Optimized for write-heavy append workloads.
+  - Ingested writes append sequentially to an in-memory `MemTable` and WAL. When saturated, MemTables flush to immutable disk `SSTables`.
+  - Asynchronous background compaction consolidates and purges deleted tombstones across SSTable levels.
+
+#### 2. ACID & Transaction Isolation Levels
+
+| Isolation Level | Dirty Reads | Non-Repeatable Reads | Phantom Reads | Serialization Anomalies |
+| :--- | :---: | :---: | :---: | :---: |
+| **Read Uncommitted** | Allowed | Allowed | Allowed | Allowed |
+| **Read Committed** *(PostgreSQL Default)* | Prevented | Allowed | Allowed | Allowed |
+| **Repeatable Read** | Prevented | Prevented | Prevented *(Snapshot)* | Allowed |
+| **Serializable** | Prevented | Prevented | Prevented | Prevented |

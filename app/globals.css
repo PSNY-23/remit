@@ -1,98 +1,407 @@
 @import "tailwindcss";
 
+/* -------------------------------------------------------------------------
+   NOTION DESIGN SYSTEM & THEME TOKENS
+   ------------------------------------------------------------------------- */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Nextra internal RGB background tokens */
+  --nextra-bg: 255, 255, 255;
+  --nextra-navbar-height: 48px;
+  --sidebar-width: 260px;
+  --nextra-content-width: 100%;
+
+  /* Notion Light Mode Palette */
+  --notion-bg: #ffffff;
+  --notion-sidebar-bg: #f7f6f3;
+  --notion-card-bg: #ffffff;
+  --notion-card-hover: #f1f1ef;
+  --notion-text-primary: #37352f;
+  --notion-text-secondary: #787774;
+  --notion-text-muted: #9b9a97;
+  --notion-border: rgba(55, 53, 47, 0.09);
+  --notion-border-strong: rgba(55, 53, 47, 0.16);
+  --notion-divider: #e9e9e7;
+  --notion-hover: rgba(55, 53, 47, 0.06);
+  --notion-active: rgba(55, 53, 47, 0.10);
+  --notion-callout-bg: #f1f1ef;
+
+  /* Notion Tag Colors (Light) */
+  --tag-gray-bg: #f1f1ef;
+  --tag-gray-text: #5a5a58;
+  --tag-brown-bg: #f4eeee;
+  --tag-brown-text: #89632a;
+  --tag-orange-bg: #faebdd;
+  --tag-orange-text: #b35309;
+  --tag-yellow-bg: #fbf3db;
+  --tag-yellow-text: #8f6b00;
+  --tag-green-bg: #ddede0;
+  --tag-green-text: #1c782e;
+  --tag-blue-bg: #e0f0ff;
+  --tag-blue-text: #0060c0;
+  --tag-purple-bg: #eae4f8;
+  --tag-purple-text: #6940a5;
+  --tag-pink-bg: #fdebec;
+  --tag-pink-text: #b83232;
+  --tag-red-bg: #ffe2dd;
+  --tag-red-text: #c43838;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+.dark,
+[data-theme="dark"] {
+  /* Nextra internal RGB background tokens */
+  --nextra-bg: 25, 25, 25;
+
+  /* Notion Dark Mode Palette */
+  --notion-bg: #191919;
+  --notion-sidebar-bg: #202020;
+  --notion-card-bg: #202020;
+  --notion-card-hover: #2a2a2a;
+  --notion-text-primary: #ebebeb;
+  --notion-text-secondary: #9b9b9b;
+  --notion-text-muted: #6b6b6b;
+  --notion-border: rgba(255, 255, 255, 0.08);
+  --notion-border-strong: rgba(255, 255, 255, 0.15);
+  --notion-divider: #2e2e2e;
+  --notion-hover: rgba(255, 255, 255, 0.06);
+  --notion-active: rgba(255, 255, 255, 0.12);
+  --notion-callout-bg: #242424;
+
+  /* Notion Tag Colors (Dark) */
+  --tag-gray-bg: #2a2a2a;
+  --tag-gray-text: #9b9b9b;
+  --tag-brown-bg: #432e2b;
+  --tag-brown-text: #d8a07c;
+  --tag-orange-bg: #52331b;
+  --tag-orange-text: #fca962;
+  --tag-yellow-bg: #563e15;
+  --tag-yellow-text: #fad25d;
+  --tag-green-bg: #244229;
+  --tag-green-text: #80ca8c;
+  --tag-blue-bg: #1a3d5e;
+  --tag-blue-text: #85b7eb;
+  --tag-purple-bg: #3f2c61;
+  --tag-purple-text: #c4a5f7;
+  --tag-pink-bg: #4e2c3b;
+  --tag-pink-text: #f290b2;
+  --tag-red-bg: #4d2325;
+  --tag-red-text: #f28b8b;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* -------------------------------------------------------------------------
+   GLOBAL BODY & TYPOGRAPHY
+   ------------------------------------------------------------------------- */
+html,
+body {
+  background-color: var(--notion-bg) !important;
+  color: var(--notion-text-primary) !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif !important;
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  padding: 0;
+}
+
+/* -------------------------------------------------------------------------
+   BREADCRUMBS
+   ------------------------------------------------------------------------- */
+.nextra-breadcrumb,
+nav[aria-label="breadcrumb"],
+.nextra-breadcrumb-container {
+  display: none !important;
+}
+
+/* -------------------------------------------------------------------------
+   FULL-HEIGHT SIDEBAR LAYOUT (Left = 100vh Sidebar, Right = Header + Main)
+   ------------------------------------------------------------------------- */
+@media (min-width: 768px) {
+  /* Sidebar spans the entire 100vh on the left and stays visible on all article pages */
+  aside.nextra-sidebar,
+  aside.nextra-sidebar.x\:hidden,
+  aside.nextra-sidebar-container {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    height: 100vh !important;
+    max-height: 100vh !important;
+    width: var(--sidebar-width) !important;
+    min-width: var(--sidebar-width) !important;
+    max-width: var(--sidebar-width) !important;
+    z-index: 40 !important;
+    border-right: 1px solid var(--notion-border) !important;
+    background-color: var(--notion-sidebar-bg) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    margin: 0 !important;
+    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.22s ease !important;
+    will-change: transform, opacity;
+  }
+
+  /* Header Container */
+  .nextra-nav-container,
+  .nextra-navbar {
+    position: sticky !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: var(--nextra-navbar-height) !important;
+    z-index: 30 !important;
+    background-color: var(--notion-bg) !important;
+    border-bottom: 1px solid var(--notion-border) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+  }
+
+  /* Inner navbar flex container (Search and Theme Switch) */
+  .nextra-navbar > div:not(.nextra-navbar-blur) {
+    height: 100% !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 10px !important;
+    padding-right: 18px !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Main content wrapper */
+  .nextra-nav-container + div,
+  body > div:has(> aside.nextra-sidebar),
+  body > div > div:has(> aside.nextra-sidebar) {
+    margin-left: var(--sidebar-width) !important;
+    width: calc(100% - var(--sidebar-width)) !important;
+    max-width: calc(100% - var(--sidebar-width)) !important;
+    box-sizing: border-box !important;
+    padding-left: 0 !important;
+    transition: margin-left 0.28s cubic-bezier(0.16, 1, 0.3, 1), width 0.28s cubic-bezier(0.16, 1, 0.3, 1), max-width 0.28s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+
+  main.nextra-content,
+  article.nextra-content {
+    width: 100% !important;
+    max-width: 960px !important;
+    margin: 0 auto !important;
+    padding: 24px 28px 80px !important;
+    box-sizing: border-box !important;
+  }
+
+  /* When sidebar is collapsed (Smooth Animated Slide Out) */
+  html.sidebar-collapsed aside.nextra-sidebar,
+  html.sidebar-collapsed aside.nextra-sidebar-container {
+    transform: translateX(-100%) !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  html.sidebar-collapsed .nextra-nav-container + div,
+  html.sidebar-collapsed body > div:has(> aside.nextra-sidebar),
+  html.sidebar-collapsed body > div > div:has(> aside.nextra-sidebar),
+  html.sidebar-collapsed main.nextra-content {
+    margin-left: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Hide bottom sidebar dock */
+.nextra-sidebar-footer {
+  display: none !important;
 }
 
-/* Interview Article Links Styling */
-a.interview-article-link {
-  color: #2563eb !important; /* Rich Blue */
-  text-decoration: underline !important;
-  text-decoration-color: rgba(37, 99, 235, 0.45) !important;
-  text-underline-offset: 3px !important;
+/* Sidebar Inner Scroll Container (Hidden Scrollbar) */
+aside.nextra-sidebar,
+aside.nextra-sidebar *,
+aside.nextra-sidebar-container,
+aside.nextra-sidebar-container *,
+.nextra-scrollbar {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+aside.nextra-sidebar::-webkit-scrollbar,
+aside.nextra-sidebar *::-webkit-scrollbar,
+aside.nextra-sidebar-container::-webkit-scrollbar,
+aside.nextra-sidebar-container *::-webkit-scrollbar,
+.nextra-scrollbar::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+aside.nextra-sidebar .nextra-scrollbar,
+aside.nextra-sidebar-container > div {
+  padding: 10px 10px 24px !important;
+  flex: 1 1 auto !important;
+  overflow-y: auto !important;
+}
+
+/* Sidebar Navigation Links */
+aside.nextra-sidebar a,
+aside.nextra-sidebar button,
+aside.nextra-sidebar-container a,
+aside.nextra-sidebar-container button {
+  font-size: 13.5px !important;
   font-weight: 500 !important;
-  transition: all 0.15s ease-in-out !important;
+  padding: 6px 10px !important;
+  border-radius: 6px !important;
+  margin-bottom: 2px !important;
+  color: var(--notion-text-secondary) !important;
+  transition: all 0.1s ease-in-out !important;
+  display: flex !important;
+  align-items: center !important;
 }
 
-a.interview-article-link:hover {
-  color: #1d4ed8 !important; /* Deeper Blue */
-  text-decoration-color: #1d4ed8 !important;
+aside.nextra-sidebar a:hover,
+aside.nextra-sidebar button:hover,
+aside.nextra-sidebar-container a:hover,
+aside.nextra-sidebar-container button:hover {
+  background-color: var(--notion-hover) !important;
+  color: var(--notion-text-primary) !important;
 }
 
-/* Dark Mode link adjustments */
-.dark a.interview-article-link,
-[data-theme="dark"] a.interview-article-link {
-  color: #60a5fa !important; /* Bright Sky Blue */
-  text-decoration-color: rgba(96, 165, 250, 0.45) !important;
+/* Active Item Pill (Clean highlight as shown in reference) */
+aside.nextra-sidebar a[data-active="true"],
+aside.nextra-sidebar a.active,
+aside.nextra-sidebar a[aria-current="page"],
+aside.nextra-sidebar-container a[data-active="true"],
+aside.nextra-sidebar-container a.active {
+  background-color: #ea580c !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
 }
 
-.dark a.interview-article-link:hover,
-[data-theme="dark"] a.interview-article-link:hover {
-  color: #93c5fd !important;
-  text-decoration-color: #93c5fd !important;
+aside.nextra-sidebar a[data-active="true"] svg,
+aside.nextra-sidebar a.active svg,
+aside.nextra-sidebar a[aria-current="page"] svg {
+  color: #ffffff !important;
+}
+
+/* Top-Level Global Chapters: No vertical line */
+aside.nextra-sidebar > div > ul,
+aside.nextra-sidebar > div > div > ul,
+aside.nextra-sidebar-container > div > ul {
+  border-left: none !important;
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+}
+
+aside.nextra-sidebar > div > ul::before,
+aside.nextra-sidebar > div > div > ul::before,
+aside.nextra-sidebar-container > div > ul::before {
+  display: none !important;
+  content: none !important;
+}
+
+/* Sub-items inside a specific chapter: Clean vertical branch line */
+aside.nextra-sidebar ul ul,
+aside.nextra-sidebar-container ul ul {
+  border-left: 1.5px solid var(--notion-border) !important;
+  margin-left: 16px !important;
+  padding-left: 8px !important;
+  margin-top: 2px !important;
+  margin-bottom: 4px !important;
+}
+
+aside.nextra-sidebar ul ul li,
+aside.nextra-sidebar-container ul ul li {
+  position: relative;
+}
+
+/* -------------------------------------------------------------------------
+   MAIN CONTENT AREA
+   ------------------------------------------------------------------------- */
+main.nextra-content,
+article.nextra-content {
+  color: var(--notion-text-primary) !important;
+}
+
+/* -------------------------------------------------------------------------
+   NOTION DATABASE & CARD UTILITIES
+   ------------------------------------------------------------------------- */
+.notion-card {
+  background-color: var(--notion-card-bg);
+  border: 1px solid var(--notion-border);
+  border-radius: 8px;
+  transition: all 0.12s ease-in-out;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+.notion-card:hover {
+  background-color: var(--notion-card-hover);
+  border-color: var(--notion-border-strong);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transform: translateY(-1px);
+}
+
+.notion-callout {
+  background-color: var(--notion-callout-bg);
+  border: 1px solid var(--notion-border);
+  border-radius: 6px;
+  padding: 12px 16px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin: 16px 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* Notion Tag Pill Base */
+.notion-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.notion-tag-blue { background-color: var(--tag-blue-bg); color: var(--tag-blue-text); }
+.notion-tag-green { background-color: var(--tag-green-bg); color: var(--tag-green-text); }
+.notion-tag-yellow { background-color: var(--tag-yellow-bg); color: var(--tag-yellow-text); }
+.notion-tag-orange { background-color: var(--tag-orange-bg); color: var(--tag-orange-text); }
+.notion-tag-purple { background-color: var(--tag-purple-bg); color: var(--tag-purple-text); }
+.notion-tag-gray { background-color: var(--tag-gray-bg); color: var(--tag-gray-text); }
+.notion-tag-pink { background-color: var(--tag-pink-bg); color: var(--tag-pink-text); }
+.notion-tag-red { background-color: var(--tag-red-bg); color: var(--tag-red-text); }
+
+/* -------------------------------------------------------------------------
+   SCROLLBAR & ANIMATIONS
+   ------------------------------------------------------------------------- */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--notion-border-strong);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--notion-text-muted);
 }
 
 @keyframes fadeInCard {
   from {
     opacity: 0;
-    transform: translateY(6px) scale(0.98);
+    transform: translateY(4px) scale(0.99);
   }
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
 }
-
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.article-preview-scroll::-webkit-scrollbar {
-  width: 6px;
-}
-
-.article-preview-scroll::-webkit-scrollbar-track {
-  background: rgba(125, 125, 125, 0.05);
-}
-
-.article-preview-scroll::-webkit-scrollbar-thumb {
-  background: rgba(59, 130, 246, 0.4);
-  border-radius: 4px;
-}
-
-.article-preview-scroll::-webkit-scrollbar-thumb:hover {
-  background: rgba(59, 130, 246, 0.7);
-}
-
-/* Ensure full layout spans full width without sidebar placeholder */
-body:has([data-landing="true"]) aside.nextra-sidebar,
-body:has([data-landing="true"]) .nextra-toc {
-  display: none !important;
-}
-

@@ -1,0 +1,75 @@
+---
+title: Nodejs
+description: Libuv event loop phases, asynchronous I/O, cluster workers, streams, and V8 garbage collection.
+---
+
+# Node.js Runtime & Concurrency
+
+Technical reference for the Node.js JavaScript runtime, Libuv event loop architecture, streams, memory profiling, and high-performance server patterns.
+
+---
+
+### Libuv Event Loop Architecture
+
+The Node.js event loop executes in continuous cycles across distinct phases, orchestrating non-blocking asynchronous I/O:
+
+```
++-----------------------------------+
+|               timers              | -> Executes setTimeout & setInterval callbacks
++-----------------------------------+
+                  |
++-----------------------------------+
+|          pending callbacks        | -> Executes deferred I/O callbacks (system errors)
++-----------------------------------+
+                  |
++-----------------------------------+
+|            idle, prepare          | -> Internal libuv bookkeeping
++-----------------------------------+
+                  |
++-----------------------------------+
+|                poll               | -> Retrieves new I/O events; blocks if waiting
++-----------------------------------+
+                  |
++-----------------------------------+
+|               check               | -> Executes setImmediate() callbacks
++-----------------------------------+
+                  |
++-----------------------------------+
+|          close callbacks          | -> Executes close handlers (e.g. socket.on('close'))
++-----------------------------------+
+```
+
+#### Microtask Priority
+Between every phase transition of the event loop, Node.js exhausts all microtasks before advancing:
+1. `process.nextTick()` queue *(highest priority)*
+2. `Promise.then()` & `queueMicrotask()` queue
+
+---
+
+### Core Runtime Capabilities
+
+| Mechanism | Description | Best Practice |
+| :--- | :--- | :--- |
+| **Worker Threads** | Native OS threads sharing memory via `SharedArrayBuffer` | CPU-intensive workloads (cryptography, parsing, compression) |
+| **Cluster Module** | Forks child processes sharing master server ports | Multi-core process utilization for network servers |
+| **Streams & Buffers** | Backpressure-aware chunked memory processing | Handling large payloads without saturating V8 heap limits |
+| **V8 Heap Profiling** | `v8.getHeapSnapshot()`, `--inspect`, Chrome DevTools | Diagnosing closure leaks, unbounded caches, and event listener leaks |
+
+---
+
+### Stream Backpressure Handling
+
+When streaming data from a fast producer to a slow consumer:
+
+```typescript
+import { pipeline } from 'stream/promises';
+import { createReadStream, createWriteStream } from 'fs';
+import { createGzip } from 'zlib';
+
+// Robust stream piping with automatic backpressure and error teardown
+await pipeline(
+  createReadStream('large-dataset.csv'),
+  createGzip(),
+  createWriteStream('large-dataset.csv.gz')
+);
+```

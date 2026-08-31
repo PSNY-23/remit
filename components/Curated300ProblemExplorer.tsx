@@ -8,24 +8,47 @@ import {
   CuratedChapterGroup,
   CuratedTopicGroup,
 } from '@/data/curated300ProblemData';
+import {
+  Search,
+  X,
+  Star,
+  Copy,
+  Check,
+  ExternalLink,
+  Shuffle,
+  Folder,
+  Table as TableIcon,
+  LayoutGrid,
+  ChevronDown,
+  ChevronRight,
+  Globe,
+  Table2,
+  ArrowRightLeft,
+  Binary,
+  GitFork,
+  GitBranch,
+  Layers,
+  Network,
+  Target,
+  Cpu,
+} from 'lucide-react';
 
 type DifficultyFilter = 'All' | 'Easy' | 'Medium' | 'Hard';
 type PlatformFilter = 'All' | 'LeetCode' | 'GeeksforGeeks' | 'SPOJ' | 'HackerEarth';
 type StatusFilter = 'All' | 'Solved' | 'Unsolved' | 'Starred';
 type ViewMode = 'accordion' | 'table' | 'cards';
 
-const DIFFICULTY_COLORS: Record<string, { bg: string; text: string; border: string; dot: string }> = {
-  Easy: { bg: 'rgba(16, 185, 129, 0.12)', text: '#10b981', border: 'rgba(16, 185, 129, 0.3)', dot: '🟢' },
-  Medium: { bg: 'rgba(245, 158, 11, 0.12)', text: '#f59e0b', border: 'rgba(245, 158, 11, 0.3)', dot: '🟡' },
-  Hard: { bg: 'rgba(239, 68, 68, 0.12)', text: '#ef4444', border: 'rgba(239, 68, 68, 0.3)', dot: '🔴' },
-};
-
-const PLATFORM_COLORS: Record<string, { bg: string; text: string; border: string }> = {
-  LeetCode: { bg: 'rgba(245, 158, 11, 0.12)', text: '#f59e0b', border: 'rgba(245, 158, 11, 0.3)' },
-  GeeksforGeeks: { bg: 'rgba(34, 197, 94, 0.12)', text: '#22c55e', border: 'rgba(34, 197, 94, 0.3)' },
-  SPOJ: { bg: 'rgba(168, 85, 247, 0.12)', text: '#a855f7', border: 'rgba(168, 85, 247, 0.3)' },
-  HackerEarth: { bg: 'rgba(59, 130, 246, 0.12)', text: '#3b82f6', border: 'rgba(59, 130, 246, 0.3)' },
-  Other: { bg: 'rgba(148, 163, 184, 0.12)', text: '#94a3b8', border: 'rgba(148, 163, 184, 0.3)' },
+const CHAPTER_ICONS: Record<number, React.ReactNode> = {
+  1: <Table2 className="w-4 h-4" />,
+  2: <ArrowRightLeft className="w-4 h-4" />,
+  3: <Binary className="w-4 h-4" />,
+  4: <GitFork className="w-4 h-4" />,
+  5: <Search className="w-4 h-4" />,
+  6: <GitBranch className="w-4 h-4" />,
+  7: <Layers className="w-4 h-4" />,
+  8: <Network className="w-4 h-4" />,
+  9: <Target className="w-4 h-4" />,
+  10: <Cpu className="w-4 h-4" />,
 };
 
 export default function Curated300ProblemExplorer() {
@@ -166,8 +189,8 @@ export default function Curated300ProblemExplorer() {
         const matchesTopic = prob.topicTitle.toLowerCase().includes(query);
         const matchesChapter = prob.chapterTitle.toLowerCase().includes(query);
         const matchesPlatform = prob.platform.toLowerCase().includes(query);
-        const matchesDifficulty = prob.difficulty.toLowerCase().includes(query);
-        return matchesTitle || matchesId || matchesTopic || matchesChapter || matchesPlatform || matchesDifficulty;
+        const matchesDiff = prob.difficulty.toLowerCase().includes(query);
+        return matchesTitle || matchesId || matchesTopic || matchesChapter || matchesPlatform || matchesDiff;
       }
 
       return true;
@@ -220,7 +243,6 @@ export default function Curated300ProblemExplorer() {
   // Stats calculation
   const totalCount = CURATED_300_PROBLEMS.length;
   const solvedCount = solvedSet.size;
-  const starredCount = starredSet.size;
   const progressPercent = totalCount > 0 ? Math.round((solvedCount / totalCount) * 100) : 0;
 
   // Difficulty breakdown stats
@@ -254,7 +276,7 @@ export default function Curated300ProblemExplorer() {
   const pickRandomUnsolved = () => {
     const unsolvedList = CURATED_300_PROBLEMS.filter((p) => !solvedSet.has(p.id));
     if (unsolvedList.length === 0) {
-      alert('Congratulations! You have mastered all 377 high-frequency interview questions! 🎉');
+      alert('All 377 high-yield questions marked as solved!');
       return;
     }
     const rand = unsolvedList[Math.floor(Math.random() * unsolvedList.length)];
@@ -265,110 +287,110 @@ export default function Curated300ProblemExplorer() {
   };
 
   return (
-    <div className="not-prose my-8 font-sans text-slate-800 dark:text-slate-100">
-      {/* 🌟 STATS & DIFFICULTY OVERVIEW CARDS */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3.5 mb-6">
-        <div className="bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-xl p-4 shadow-sm flex flex-col justify-between">
-          <span className="text-xs uppercase font-semibold text-slate-500 dark:text-slate-400 tracking-wider">
-            Curated 300 Roadmap
+    <div className="not-prose my-8 font-sans text-[var(--notion-text-primary)]">
+      {/* STATS OVERVIEW CARDS */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+        <div className="bg-[var(--notion-card-bg)] border border-[var(--notion-border)] rounded-xl p-4 shadow-2xs flex flex-col justify-between">
+          <span className="text-xs uppercase font-medium tracking-wider text-[var(--notion-text-secondary)]">
+            Curated Roadmap
           </span>
           <div className="flex items-baseline gap-2 mt-1">
-            <span className="text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white">377</span>
-            <span className="text-xs text-blue-500 font-medium">10 Chapters • 45 Patterns</span>
+            <span className="text-2xl md:text-3xl font-bold text-[var(--notion-text-primary)]">377</span>
+            <span className="text-xs md:text-sm text-[var(--notion-text-muted)] font-medium">10 Chapters</span>
           </div>
         </div>
 
-        <div className="bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-xl p-4 shadow-sm flex flex-col justify-between">
+        <div className="bg-[var(--notion-card-bg)] border border-[var(--notion-border)] rounded-xl p-4 shadow-2xs flex flex-col justify-between">
           <div className="flex justify-between items-center">
-            <span className="text-xs uppercase font-semibold text-slate-500 dark:text-slate-400 tracking-wider">
+            <span className="text-xs uppercase font-medium tracking-wider text-[var(--notion-text-secondary)]">
               Solved Progress
             </span>
-            <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400">{progressPercent}%</span>
+            <span className="text-sm font-semibold text-[var(--notion-text-primary)]">{progressPercent}%</span>
           </div>
           <div className="mt-1">
             <div className="flex items-baseline gap-2">
-              <span className="text-2xl md:text-3xl font-extrabold text-emerald-600 dark:text-emerald-400">
+              <span className="text-2xl md:text-3xl font-bold text-[var(--notion-text-primary)]">
                 {isClient ? solvedCount : 0}
               </span>
-              <span className="text-xs text-slate-500 dark:text-slate-400">/ 377</span>
+              <span className="text-xs md:text-sm text-[var(--notion-text-muted)]">/ 377</span>
             </div>
-            <div className="w-full bg-slate-200 dark:bg-slate-700 h-1.5 rounded-full mt-2 overflow-hidden">
+            <div className="w-full bg-[var(--notion-divider)] h-2 rounded-full mt-2 overflow-hidden">
               <div
-                className="bg-emerald-500 h-full rounded-full transition-all duration-300 ease-out"
+                className="bg-[var(--notion-text-primary)] h-full rounded-full transition-all duration-300 ease-out"
                 style={{ width: `${progressPercent}%` }}
               />
             </div>
           </div>
         </div>
 
-        <div className="bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-xl p-4 shadow-sm flex flex-col justify-between">
-          <span className="text-xs uppercase font-semibold text-slate-500 dark:text-slate-400 tracking-wider">
-            Difficulty Distribution
+        <div className="bg-[var(--notion-card-bg)] border border-[var(--notion-border)] rounded-xl p-4 shadow-2xs flex flex-col justify-between">
+          <span className="text-xs uppercase font-medium tracking-wider text-[var(--notion-text-secondary)]">
+            Difficulty Solved
           </span>
-          <div className="flex items-center gap-2 mt-2 text-xs font-semibold">
-            <span className="text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 px-2 py-1 rounded border border-emerald-200 dark:border-emerald-800">
-              🟢 {isClient ? difficultyStats.Easy.solved : 0}/{difficultyStats.Easy.total}
+          <div className="flex items-center gap-2 mt-2 text-xs md:text-sm">
+            <span className="px-2 py-0.5 rounded-md bg-[var(--tag-gray-bg)] text-[var(--tag-gray-text)] border border-[var(--notion-border)] font-medium">
+              E: {isClient ? difficultyStats.Easy.solved : 0}/{difficultyStats.Easy.total}
             </span>
-            <span className="text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/40 px-2 py-1 rounded border border-amber-200 dark:border-amber-800">
-              🟡 {isClient ? difficultyStats.Medium.solved : 0}/{difficultyStats.Medium.total}
+            <span className="px-2 py-0.5 rounded-md bg-[var(--tag-gray-bg)] text-[var(--tag-gray-text)] border border-[var(--notion-border)] font-medium">
+              M: {isClient ? difficultyStats.Medium.solved : 0}/{difficultyStats.Medium.total}
             </span>
-            <span className="text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/40 px-2 py-1 rounded border border-rose-200 dark:border-rose-800">
-              🔴 {isClient ? difficultyStats.Hard.solved : 0}/{difficultyStats.Hard.total}
+            <span className="px-2 py-0.5 rounded-md bg-[var(--tag-gray-bg)] text-[var(--tag-gray-text)] border border-[var(--notion-border)] font-medium">
+              H: {isClient ? difficultyStats.Hard.solved : 0}/{difficultyStats.Hard.total}
             </span>
           </div>
         </div>
 
-        <div className="bg-gradient-to-br from-indigo-600 to-violet-600 rounded-xl p-4 text-white shadow-sm flex flex-col justify-between">
-          <span className="text-xs uppercase font-semibold text-indigo-100 tracking-wider">
-            High-Frequency Practice
+        <div className="bg-[var(--notion-card-bg)] border border-[var(--notion-border)] rounded-xl p-4 shadow-2xs flex flex-col justify-between">
+          <span className="text-xs uppercase font-medium tracking-wider text-[var(--notion-text-secondary)]">
+            Quick Practice
           </span>
           <button
             onClick={pickRandomUnsolved}
-            className="mt-2 w-full py-2 px-3 bg-white text-indigo-600 hover:bg-indigo-50 font-bold text-xs md:text-sm rounded-lg transition shadow flex items-center justify-center gap-1.5 cursor-pointer active:scale-95"
+            className="mt-2 w-full py-2 px-3 bg-[var(--notion-text-primary)] text-[var(--notion-bg)] hover:opacity-90 font-medium text-xs md:text-sm rounded-lg transition flex items-center justify-center gap-2 cursor-pointer active:scale-98"
           >
-            <span>🎲</span> Pick Random Unsolved
+            <Shuffle className="w-4 h-4" />
+            <span>Pick Random</span>
           </button>
         </div>
       </div>
 
-      {/* 🧭 CHAPTER SELECTOR TABS */}
-      <div className="mb-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-3 shadow-sm">
-        <div className="flex items-center justify-between mb-2.5 px-1">
+      {/* CHAPTER SELECTOR TABS */}
+      <div className="mb-6 bg-[var(--notion-card-bg)] border border-[var(--notion-border)] rounded-xl p-3.5 shadow-2xs">
+        <div className="flex items-center justify-between mb-3 px-1">
           <div className="flex items-center gap-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-              Select Chapter:
+            <span className="text-xs md:text-sm font-semibold uppercase tracking-wider text-[var(--notion-text-secondary)]">
+              Chapter:
             </span>
             {selectedChapterId !== 'all' && (
               <button
                 onClick={() => setSelectedChapterId('all')}
-                className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:underline cursor-pointer"
+                className="text-xs md:text-sm font-medium text-[var(--notion-text-primary)] hover:underline cursor-pointer"
               >
-                (View All Chapters)
+                (View All)
               </button>
             )}
           </div>
-          <span className="text-xs text-slate-400">
-            {filteredProblems.length} problem{filteredProblems.length === 1 ? '' : 's'} matching
+          <span className="text-xs md:text-sm text-[var(--notion-text-muted)]">
+            {filteredProblems.length} problem{filteredProblems.length === 1 ? '' : 's'}
           </span>
         </div>
 
-        <div className="flex gap-2 overflow-x-auto pb-1.5 scrollbar-thin scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-700">
+        <div className="flex gap-2.5 overflow-x-auto pb-1.5">
           <button
             onClick={() => setSelectedChapterId('all')}
-            className={`flex-shrink-0 px-3.5 py-2 rounded-lg text-xs font-semibold transition cursor-pointer flex items-center gap-1.5 ${
+            className={`flex-shrink-0 px-3.5 py-2 rounded-lg text-xs md:text-sm font-medium transition cursor-pointer flex items-center gap-2 border ${
               selectedChapterId === 'all'
-                ? 'bg-indigo-600 text-white shadow-sm'
-                : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
+                ? 'bg-[var(--notion-text-primary)] text-[var(--notion-bg)] border-[var(--notion-text-primary)]'
+                : 'bg-[var(--tag-gray-bg)] text-[var(--notion-text-secondary)] border-transparent hover:bg-[var(--notion-hover)]'
             }`}
           >
-            <span>🌐</span>
+            <Globe className="w-4 h-4" />
             <span>All Chapters (377)</span>
           </button>
 
           {CURATED_300_CHAPTERS.map((ch) => {
             const isSelected = selectedChapterId === ch.id;
             const stats = chapterStats[ch.id] || { solved: 0, total: ch.expectedCount };
-            const isCompleted = stats.solved === stats.total && stats.total > 0;
 
             return (
               <button
@@ -377,21 +399,19 @@ export default function Curated300ProblemExplorer() {
                   setSelectedChapterId(ch.id);
                   setOpenChapters((prev) => ({ ...prev, [ch.id]: true }));
                 }}
-                className={`flex-shrink-0 px-3 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer flex items-center gap-1.5 border ${
+                className={`flex-shrink-0 px-3.5 py-2 rounded-lg text-xs md:text-sm font-medium transition cursor-pointer flex items-center gap-2 border ${
                   isSelected
-                    ? 'bg-indigo-600 text-white border-indigo-600 shadow-sm'
-                    : isCompleted
-                    ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border-emerald-300 dark:border-emerald-800'
-                    : 'bg-slate-100 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 border-transparent hover:bg-slate-200 dark:hover:bg-slate-700'
+                    ? 'bg-[var(--notion-text-primary)] text-[var(--notion-bg)] border-[var(--notion-text-primary)]'
+                    : 'bg-[var(--tag-gray-bg)] text-[var(--notion-text-secondary)] border-transparent hover:bg-[var(--notion-hover)]'
                 }`}
               >
-                <span>{ch.icon}</span>
-                <span className="truncate max-w-[130px]">{ch.title.split('&')[0]}</span>
+                {CHAPTER_ICONS[ch.id] || <Folder className="w-4 h-4" />}
+                <span className="truncate max-w-[140px]">{ch.title.split('&')[0]}</span>
                 <span
-                  className={`text-[10px] px-1.5 py-0.5 rounded-full font-bold ${
+                  className={`text-[11px] px-2 py-0.5 rounded font-mono ${
                     isSelected
-                      ? 'bg-indigo-700 text-indigo-100'
-                      : 'bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-400'
+                      ? 'bg-[var(--notion-bg)] text-[var(--notion-text-primary)]'
+                      : 'bg-[var(--notion-hover)] text-[var(--notion-text-secondary)]'
                   }`}
                 >
                   {stats.solved > 0 ? `${stats.solved}/` : ''}
@@ -403,47 +423,47 @@ export default function Curated300ProblemExplorer() {
         </div>
       </div>
 
-      {/* 🔍 SEARCH & ADVANCED FILTER TOOLBAR */}
-      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-3.5 mb-6 shadow-sm flex flex-col md:flex-row gap-3 items-stretch md:items-center justify-between">
+      {/* SEARCH & FILTER TOOLBAR */}
+      <div className="bg-[var(--notion-card-bg)] border border-[var(--notion-border)] rounded-xl p-3.5 mb-6 shadow-2xs flex flex-col md:flex-row gap-3 items-stretch md:items-center justify-between">
         {/* Search Input */}
-        <div className="relative flex-1 min-w-[240px]">
-          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">🔍</span>
+        <div className="relative flex-1 min-w-[260px]">
+          <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--notion-text-muted)]" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search 377 high-frequency problems by title, pattern, or difficulty..."
-            className="w-full pl-9 pr-8 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:text-white placeholder-slate-400 transition"
+            placeholder="Search curated problems by title, pattern, or difficulty..."
+            className="w-full pl-10 pr-8 py-2 bg-[var(--notion-callout-bg)] border border-[var(--notion-border)] rounded-lg text-sm text-[var(--notion-text-primary)] placeholder-[var(--notion-text-muted)] focus:outline-none focus:border-[var(--notion-text-secondary)] transition"
           />
           {searchQuery && (
             <button
               onClick={() => setSearchQuery('')}
-              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-sm cursor-pointer p-1"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--notion-text-muted)] hover:text-[var(--notion-text-primary)] cursor-pointer p-1"
             >
-              ✕
+              <X className="w-4 h-4" />
             </button>
           )}
         </div>
 
-        {/* Filter Selectors & Pills */}
-        <div className="flex flex-wrap items-center gap-2">
+        {/* Filter Selectors & View Mode */}
+        <div className="flex flex-wrap items-center gap-2.5">
           {/* Difficulty Selector */}
           <select
             value={difficultyFilter}
             onChange={(e) => setDifficultyFilter(e.target.value as DifficultyFilter)}
-            className="px-2.5 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-medium text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer"
+            className="px-3 py-2 bg-[var(--notion-callout-bg)] border border-[var(--notion-border)] rounded-lg text-xs md:text-sm font-medium text-[var(--notion-text-primary)] focus:outline-none cursor-pointer"
           >
             <option value="All">All Difficulties</option>
-            <option value="Easy">🟢 Easy (54)</option>
-            <option value="Medium">🟡 Medium (253)</option>
-            <option value="Hard">🔴 Hard (70)</option>
+            <option value="Easy">Easy</option>
+            <option value="Medium">Medium</option>
+            <option value="Hard">Hard</option>
           </select>
 
           {/* Platform Selector */}
           <select
             value={platformFilter}
             onChange={(e) => setPlatformFilter(e.target.value as PlatformFilter)}
-            className="px-2.5 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-medium text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer"
+            className="px-3 py-2 bg-[var(--notion-callout-bg)] border border-[var(--notion-border)] rounded-lg text-xs md:text-sm font-medium text-[var(--notion-text-primary)] focus:outline-none cursor-pointer"
           >
             <option value="All">All Platforms</option>
             <option value="LeetCode">LeetCode</option>
@@ -456,65 +476,66 @@ export default function Curated300ProblemExplorer() {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value as StatusFilter)}
-            className="px-2.5 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-medium text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer"
+            className="px-3 py-2 bg-[var(--notion-callout-bg)] border border-[var(--notion-border)] rounded-lg text-xs md:text-sm font-medium text-[var(--notion-text-primary)] focus:outline-none cursor-pointer"
           >
             <option value="All">All Status</option>
-            <option value="Unsolved">⏳ Unsolved Only</option>
-            <option value="Solved">✅ Solved Only</option>
-            <option value="Starred">⭐ Starred Only</option>
+            <option value="Unsolved">Unsolved Only</option>
+            <option value="Solved">Solved Only</option>
+            <option value="Starred">Starred Only</option>
           </select>
 
           {/* View Mode Toggle */}
-          <div className="flex bg-slate-100 dark:bg-slate-800 p-0.5 rounded-lg border border-slate-200 dark:border-slate-700">
+          <div className="flex bg-[var(--tag-gray-bg)] p-0.5 rounded-lg border border-[var(--notion-border)]">
             <button
               onClick={() => setViewMode('accordion')}
-              title="Accordion / Pattern View"
-              className={`px-2 py-1 rounded text-xs font-medium transition cursor-pointer ${
+              title="Topics View"
+              className={`px-2.5 py-1.5 rounded-md text-xs md:text-sm font-medium transition cursor-pointer flex items-center gap-1.5 ${
                 viewMode === 'accordion'
-                  ? 'bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-400 shadow-sm'
-                  : 'text-slate-500 hover:text-slate-800 dark:text-slate-400'
+                  ? 'bg-[var(--notion-card-bg)] text-[var(--notion-text-primary)] shadow-2xs font-semibold'
+                  : 'text-[var(--notion-text-secondary)] hover:text-[var(--notion-text-primary)]'
               }`}
             >
-              📂 Topics
+              <Folder className="w-4 h-4" />
+              <span>Topics</span>
             </button>
             <button
               onClick={() => setViewMode('table')}
               title="Table View"
-              className={`px-2 py-1 rounded text-xs font-medium transition cursor-pointer ${
+              className={`px-2.5 py-1.5 rounded-md text-xs md:text-sm font-medium transition cursor-pointer flex items-center gap-1.5 ${
                 viewMode === 'table'
-                  ? 'bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-400 shadow-sm'
-                  : 'text-slate-500 hover:text-slate-800 dark:text-slate-400'
+                  ? 'bg-[var(--notion-card-bg)] text-[var(--notion-text-primary)] shadow-2xs font-semibold'
+                  : 'text-[var(--notion-text-secondary)] hover:text-[var(--notion-text-primary)]'
               }`}
             >
-              📋 Table
+              <TableIcon className="w-4 h-4" />
+              <span>Table</span>
             </button>
             <button
               onClick={() => setViewMode('cards')}
               title="Cards Grid View"
-              className={`px-2 py-1 rounded text-xs font-medium transition cursor-pointer ${
+              className={`px-2.5 py-1.5 rounded-md text-xs md:text-sm font-medium transition cursor-pointer flex items-center gap-1.5 ${
                 viewMode === 'cards'
-                  ? 'bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-400 shadow-sm'
-                  : 'text-slate-500 hover:text-slate-800 dark:text-slate-400'
+                  ? 'bg-[var(--notion-card-bg)] text-[var(--notion-text-primary)] shadow-2xs font-semibold'
+                  : 'text-[var(--notion-text-secondary)] hover:text-[var(--notion-text-primary)]'
               }`}
             >
-              🎴 Cards
+              <LayoutGrid className="w-4 h-4" />
+              <span>Cards</span>
             </button>
           </div>
 
           {/* Expand/Collapse All */}
           {viewMode === 'accordion' && (
-            <div className="flex gap-1">
+            <div className="flex gap-1.5 text-xs md:text-sm text-[var(--notion-text-secondary)]">
               <button
                 onClick={expandAll}
-                className="px-2 py-1.5 text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 cursor-pointer"
-                title="Expand All Chapters"
+                className="px-2 py-1 font-medium hover:text-[var(--notion-text-primary)] cursor-pointer"
               >
                 Expand All
               </button>
               <button
                 onClick={collapseAll}
-                className="px-2 py-1.5 text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 cursor-pointer"
-                title="Collapse All Chapters"
+                className="px-2 py-1 font-medium hover:text-[var(--notion-text-primary)] cursor-pointer"
               >
                 Collapse All
               </button>
@@ -523,13 +544,13 @@ export default function Curated300ProblemExplorer() {
         </div>
       </div>
 
-      {/* 🚀 PROBLEM LIST DISPLAY */}
+      {/* PROBLEM LIST DISPLAY */}
       {filteredProblems.length === 0 ? (
-        <div className="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-12 text-center my-6">
-          <div className="text-4xl mb-3">🔍</div>
-          <h3 className="text-lg font-bold text-slate-800 dark:text-slate-200 mb-1">No Problems Found</h3>
-          <p className="text-sm text-slate-500 dark:text-slate-400 max-w-md mx-auto mb-4">
-            No problems match your current search and filter combination. Try clearing some filters or searching for another keyword.
+        <div className="bg-[var(--notion-card-bg)] border border-[var(--notion-border)] rounded-xl p-12 text-center my-6">
+          <Search className="w-8 h-8 mx-auto mb-3 text-[var(--notion-text-muted)]" />
+          <h3 className="text-base font-semibold text-[var(--notion-text-primary)] mb-1">No Problems Found</h3>
+          <p className="text-sm text-[var(--notion-text-secondary)] max-w-md mx-auto mb-4">
+            No problems match your current search and filter combination.
           </p>
           <button
             onClick={() => {
@@ -539,13 +560,13 @@ export default function Curated300ProblemExplorer() {
               setStatusFilter('All');
               setSelectedChapterId('all');
             }}
-            className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-xs font-semibold hover:bg-indigo-700 transition cursor-pointer"
+            className="px-4 py-2 bg-[var(--notion-text-primary)] text-[var(--notion-bg)] rounded-lg text-sm font-medium hover:opacity-90 transition cursor-pointer"
           >
-            Reset All Filters
+            Reset Filters
           </button>
         </div>
       ) : viewMode === 'accordion' ? (
-        /* ACCORDION PATTERN VIEW */
+        /* ACCORDION PATTERN VIEW - 100% SINGLE COLUMN */
         <div className="space-y-4">
           {groupedData.map((chap) => {
             const isOpen = openChapters[chap.id] ?? false;
@@ -555,29 +576,29 @@ export default function Curated300ProblemExplorer() {
             return (
               <div
                 key={chap.id}
-                className="bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm transition hover:border-slate-300 dark:hover:border-slate-700"
+                className="bg-[var(--notion-card-bg)] border border-[var(--notion-border)] rounded-xl overflow-hidden transition"
               >
                 {/* Chapter Header */}
                 <div
                   onClick={() => toggleChapter(chap.id)}
-                  className="flex items-center justify-between p-4 cursor-pointer select-none bg-slate-50/70 dark:bg-slate-800/40 hover:bg-slate-100/80 dark:hover:bg-slate-800/80 transition"
+                  className="flex items-center justify-between p-4 cursor-pointer select-none bg-[var(--notion-callout-bg)] hover:bg-[var(--notion-hover)] transition border-b border-[var(--notion-border)]"
                 >
-                  <div className="flex items-center gap-3">
-                    <span className="text-xl p-2 bg-white dark:bg-slate-800 rounded-lg shadow-xs border border-slate-200 dark:border-slate-700">
-                      {chap.icon}
+                  <div className="flex items-center gap-3.5">
+                    <span className="p-2 bg-[var(--notion-card-bg)] rounded-lg border border-[var(--notion-border)] text-[var(--notion-text-primary)]">
+                      {CHAPTER_ICONS[chap.id] || <Folder className="w-5 h-5" />}
                     </span>
                     <div>
-                      <h2 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                      <h2 className="text-sm md:text-base font-bold text-[var(--notion-text-primary)] flex items-center gap-2">
                         <span>Chapter {chap.id}: {chap.title}</span>
                       </h2>
-                      <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 flex items-center gap-2">
-                        <span>{chap.topics.length} Pattern Groups</span>
+                      <div className="text-xs md:text-sm text-[var(--notion-text-secondary)] mt-0.5 flex items-center gap-2 font-normal">
+                        <span>{chap.topics.length} Patterns</span>
                         <span>•</span>
                         <span>{chap.totalMatchingProbs} Problems</span>
                         {stats.solved > 0 && (
                           <>
                             <span>•</span>
-                            <span className="text-emerald-600 dark:text-emerald-400 font-semibold">
+                            <span className="font-semibold text-[var(--notion-text-primary)]">
                               {stats.solved}/{stats.total} Solved ({chapProgress}%)
                             </span>
                           </>
@@ -586,99 +607,97 @@ export default function Curated300ProblemExplorer() {
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-3">
-                    {/* Chapter mini progress bar */}
-                    <div className="hidden sm:block w-24 bg-slate-200 dark:bg-slate-700 h-2 rounded-full overflow-hidden">
+                  <div className="flex items-center gap-3.5">
+                    <div className="hidden sm:block w-24 bg-[var(--notion-divider)] h-2 rounded-full overflow-hidden">
                       <div
-                        className="bg-emerald-500 h-full rounded-full transition-all duration-300"
+                        className="bg-[var(--notion-text-primary)] h-full rounded-full transition-all duration-300"
                         style={{ width: `${chapProgress}%` }}
                       />
                     </div>
-                    <span className="text-slate-400 text-lg transition-transform duration-200 font-mono">
-                      {isOpen ? '▲' : '▼'}
-                    </span>
+                    {isOpen ? (
+                      <ChevronDown className="w-5 h-5 text-[var(--notion-text-muted)]" />
+                    ) : (
+                      <ChevronRight className="w-5 h-5 text-[var(--notion-text-muted)]" />
+                    )}
                   </div>
                 </div>
 
                 {/* Chapter Content / Topics */}
                 {isOpen && (
-                  <div className="p-4 pt-2 divide-y divide-slate-100 dark:divide-slate-800/60">
+                  <div className="p-4 divide-y divide-[var(--notion-border)]">
                     {chap.topics.map((topic) => {
-                      const isTopicOpen = openTopics[topic.id] !== false; // default open
+                      const isTopicOpen = openTopics[topic.id] !== false;
                       const topicSolved = topic.problems.filter((p) => solvedSet.has(p.id)).length;
 
                       return (
-                        <div key={topic.id} className="py-3 first:pt-2 last:pb-1">
+                        <div key={topic.id} className="py-3.5 first:pt-1 last:pb-1">
                           {/* Topic Subheader */}
                           <div
                             onClick={() => toggleTopic(topic.id)}
-                            className="flex items-center justify-between py-1.5 px-2 rounded-lg cursor-pointer hover:bg-slate-100/70 dark:hover:bg-slate-800/50 transition mb-2"
+                            className="flex items-center justify-between py-1.5 px-2 rounded-lg cursor-pointer hover:bg-[var(--notion-hover)] transition mb-2"
                           >
-                            <div className="flex items-center gap-2">
-                              <span className="text-xs font-mono font-bold text-indigo-600 dark:text-indigo-400">
-                                Topic {topic.id}
+                            <div className="flex items-center gap-2.5">
+                              <span className="text-xs md:text-sm font-mono font-medium text-[var(--notion-text-muted)]">
+                                #{topic.id}
                               </span>
-                              <h3 className="text-sm font-semibold text-slate-800 dark:text-slate-200">
+                              <h3 className="text-sm md:text-base font-semibold text-[var(--notion-text-primary)]">
                                 {topic.title}
                               </h3>
-                              <span className="text-[11px] px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 font-medium">
-                                {topic.problems.length} problems
+                              <span className="text-xs px-2 py-0.5 rounded-md bg-[var(--tag-gray-bg)] text-[var(--notion-text-secondary)] font-medium">
+                                {topic.problems.length}
                               </span>
                             </div>
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-2.5">
                               {topicSolved > 0 && (
-                                <span className="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">
+                                <span className="text-xs md:text-sm font-medium text-[var(--notion-text-secondary)]">
                                   {topicSolved}/{topic.problems.length}
                                 </span>
                               )}
-                              <span className="text-slate-400 text-xs font-mono">
-                                {isTopicOpen ? '▾' : '▸'}
-                              </span>
+                              {isTopicOpen ? (
+                                <ChevronDown className="w-4 h-4 text-[var(--notion-text-muted)]" />
+                              ) : (
+                                <ChevronRight className="w-4 h-4 text-[var(--notion-text-muted)]" />
+                              )}
                             </div>
                           </div>
 
-                          {/* Problem Rows inside Topic */}
+                          {/* Problem Rows inside Topic - 100% SINGLE COLUMN */}
                           {isTopicOpen && (
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2 pl-2 pr-1">
+                            <div className="flex flex-col space-y-2 pl-2">
                               {topic.problems.map((prob) => {
                                 const isSolved = solvedSet.has(prob.id);
                                 const isStarred = starredSet.has(prob.id);
-                                const diffColor = DIFFICULTY_COLORS[prob.difficulty] || DIFFICULTY_COLORS.Medium;
-                                const platColor = PLATFORM_COLORS[prob.platform] || PLATFORM_COLORS.Other;
 
                                 return (
                                   <div
                                     key={prob.id}
-                                    className={`group flex items-center justify-between p-2.5 rounded-lg border transition duration-150 ${
+                                    className={`group flex items-center justify-between p-3 rounded-lg border transition duration-150 ${
                                       isSolved
-                                        ? 'bg-emerald-50/40 dark:bg-emerald-950/20 border-emerald-200/60 dark:border-emerald-900/40'
-                                        : 'bg-slate-50/60 dark:bg-slate-800/40 border-slate-200/80 dark:border-slate-800 hover:border-indigo-400 dark:hover:border-indigo-600 hover:bg-white dark:hover:bg-slate-800'
+                                        ? 'bg-[var(--notion-callout-bg)] border-[var(--notion-border)] opacity-80'
+                                        : 'bg-[var(--notion-card-bg)] border-[var(--notion-border)] hover:border-[var(--notion-border-strong)]'
                                     }`}
                                   >
-                                    <div className="flex items-center gap-2.5 min-w-0 flex-1 mr-2">
-                                      {/* Solved Checkbox */}
+                                    <div className="flex items-center gap-3 min-w-0 flex-1 mr-3">
                                       <input
                                         type="checkbox"
                                         checked={isSolved}
                                         onChange={() => toggleSolved(prob.id)}
                                         title={isSolved ? 'Mark as Unsolved' : 'Mark as Solved'}
-                                        className="w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500 border-slate-300 dark:border-slate-600 dark:bg-slate-700 cursor-pointer flex-shrink-0 accent-emerald-600"
+                                        className="w-4 h-4 rounded border-[var(--notion-border-strong)] cursor-pointer flex-shrink-0 accent-neutral-800 dark:accent-neutral-200"
                                       />
 
-                                      {/* Problem # badge */}
-                                      <span className="text-[11px] font-mono text-slate-400 dark:text-slate-500 flex-shrink-0 w-8">
+                                      <span className="text-xs md:text-sm font-mono text-[var(--notion-text-muted)] flex-shrink-0 w-8">
                                         #{prob.id}
                                       </span>
 
-                                      {/* Problem Title & Direct Link */}
                                       <a
                                         href={prob.url}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className={`text-xs md:text-sm font-medium hover:text-indigo-600 dark:hover:text-indigo-400 truncate flex-1 ${
+                                        className={`text-sm md:text-base font-medium hover:underline truncate flex-1 ${
                                           isSolved
-                                            ? 'text-slate-500 dark:text-slate-400 line-through'
-                                            : 'text-slate-800 dark:text-slate-200'
+                                            ? 'text-[var(--notion-text-muted)] line-through'
+                                            : 'text-[var(--notion-text-primary)]'
                                         }`}
                                         title={prob.title}
                                       >
@@ -686,48 +705,37 @@ export default function Curated300ProblemExplorer() {
                                       </a>
                                     </div>
 
-                                    {/* Difficulty, Platform & Actions */}
-                                    <div className="flex items-center gap-1.5 flex-shrink-0">
-                                      {/* Difficulty Badge */}
-                                      <span
-                                        style={{
-                                          backgroundColor: diffColor.bg,
-                                          color: diffColor.text,
-                                          borderColor: diffColor.border,
-                                        }}
-                                        className="text-[10px] font-semibold px-2 py-0.5 rounded border"
-                                      >
+                                    <div className="flex items-center gap-2 flex-shrink-0">
+                                      <span className="text-xs px-2 py-0.5 rounded-md bg-[var(--tag-gray-bg)] text-[var(--tag-gray-text)] border border-[var(--notion-border)] font-medium">
                                         {prob.difficulty}
                                       </span>
 
-                                      {/* Platform badge */}
-                                      <span
-                                        style={{
-                                          backgroundColor: platColor.bg,
-                                          color: platColor.text,
-                                          borderColor: platColor.border,
-                                        }}
-                                        className="text-[10px] font-semibold px-1.5 py-0.5 rounded border hidden sm:inline-block"
-                                      >
+                                      <span className="text-xs px-2 py-0.5 rounded-md bg-[var(--tag-gray-bg)] text-[var(--tag-gray-text)] border border-[var(--notion-border)] font-medium">
                                         {prob.platform === 'GeeksforGeeks' ? 'GFG' : prob.platform}
                                       </span>
 
-                                      {/* Star Bookmark */}
                                       <button
                                         onClick={() => toggleStarred(prob.id)}
                                         title={isStarred ? 'Remove Bookmark' : 'Bookmark Problem'}
-                                        className="p-1 text-xs text-slate-400 hover:text-amber-500 transition cursor-pointer"
+                                        className="p-1.5 text-[var(--notion-text-muted)] hover:text-[var(--notion-text-primary)] transition cursor-pointer"
                                       >
-                                        {isStarred ? '⭐' : '☆'}
+                                        <Star
+                                          className={`w-4 h-4 ${
+                                            isStarred ? 'fill-[var(--notion-text-primary)] text-[var(--notion-text-primary)]' : ''
+                                          }`}
+                                        />
                                       </button>
 
-                                      {/* Copy Link */}
                                       <button
                                         onClick={() => copyProblemLink(prob)}
                                         title={copiedId === prob.id ? 'Copied!' : 'Copy Link'}
-                                        className="p-1 text-xs text-slate-400 hover:text-indigo-500 transition cursor-pointer"
+                                        className="p-1.5 text-[var(--notion-text-muted)] hover:text-[var(--notion-text-primary)] transition cursor-pointer"
                                       >
-                                        {copiedId === prob.id ? '✓' : '🔗'}
+                                        {copiedId === prob.id ? (
+                                          <Check className="w-4 h-4 text-[var(--notion-text-primary)]" />
+                                        ) : (
+                                          <Copy className="w-4 h-4" />
+                                        )}
                                       </button>
                                     </div>
                                   </div>
@@ -746,100 +754,92 @@ export default function Curated300ProblemExplorer() {
         </div>
       ) : viewMode === 'table' ? (
         /* TABLE VIEW */
-        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm">
+        <div className="bg-[var(--notion-card-bg)] border border-[var(--notion-border)] rounded-xl overflow-hidden shadow-2xs">
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs md:text-sm">
-              <thead className="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-semibold border-b border-slate-200 dark:border-slate-700">
+            <table className="w-full text-left text-sm">
+              <thead className="bg-[var(--tag-gray-bg)] text-[var(--notion-text-secondary)] font-semibold border-b border-[var(--notion-border)]">
                 <tr>
-                  <th className="py-3 px-3 w-12 text-center">Status</th>
-                  <th className="py-3 px-3 w-14 font-mono">#</th>
-                  <th className="py-3 px-3">Problem Title</th>
-                  <th className="py-3 px-3 w-28">Difficulty</th>
-                  <th className="py-3 px-3">Chapter & Pattern</th>
-                  <th className="py-3 px-3 w-28">Platform</th>
-                  <th className="py-3 px-3 w-20 text-center">Actions</th>
+                  <th className="py-2.5 px-3.5 w-12 text-center">Status</th>
+                  <th className="py-2.5 px-3.5 w-14 font-mono">#</th>
+                  <th className="py-2.5 px-3.5">Problem Title</th>
+                  <th className="py-2.5 px-3.5 w-24">Difficulty</th>
+                  <th className="py-2.5 px-3.5">Chapter & Pattern</th>
+                  <th className="py-2.5 px-3.5 w-24">Platform</th>
+                  <th className="py-2.5 px-3.5 w-20 text-center">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-200">
+              <tbody className="divide-y divide-[var(--notion-border)] text-[var(--notion-text-primary)]">
                 {filteredProblems.map((prob) => {
                   const isSolved = solvedSet.has(prob.id);
                   const isStarred = starredSet.has(prob.id);
-                  const diffColor = DIFFICULTY_COLORS[prob.difficulty] || DIFFICULTY_COLORS.Medium;
-                  const platColor = PLATFORM_COLORS[prob.platform] || PLATFORM_COLORS.Other;
 
                   return (
                     <tr
                       key={prob.id}
-                      className={`hover:bg-slate-50 dark:hover:bg-slate-800/60 transition ${
-                        isSolved ? 'bg-emerald-50/20 dark:bg-emerald-950/10' : ''
+                      className={`hover:bg-[var(--notion-hover)] transition ${
+                        isSolved ? 'bg-[var(--notion-callout-bg)]' : ''
                       }`}
                     >
-                      <td className="py-2.5 px-3 text-center">
+                      <td className="py-2.5 px-3.5 text-center">
                         <input
                           type="checkbox"
                           checked={isSolved}
                           onChange={() => toggleSolved(prob.id)}
-                          className="w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500 border-slate-300 dark:border-slate-600 cursor-pointer accent-emerald-600"
+                          className="w-4 h-4 rounded border-[var(--notion-border-strong)] cursor-pointer accent-neutral-800 dark:accent-neutral-200"
                         />
                       </td>
-                      <td className="py-2.5 px-3 font-mono text-slate-400 dark:text-slate-500 font-medium">
+                      <td className="py-2.5 px-3.5 font-mono text-[var(--notion-text-muted)] font-medium text-xs md:text-sm">
                         {prob.id}
                       </td>
-                      <td className="py-2.5 px-3 font-medium">
+                      <td className="py-2.5 px-3.5 font-medium text-sm md:text-base">
                         <a
                           href={prob.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className={`hover:text-indigo-600 dark:hover:text-indigo-400 hover:underline ${
-                            isSolved ? 'line-through text-slate-400' : ''
+                          className={`hover:underline ${
+                            isSolved ? 'line-through text-[var(--notion-text-muted)]' : 'text-[var(--notion-text-primary)]'
                           }`}
                         >
                           {prob.title}
                         </a>
                       </td>
-                      <td className="py-2.5 px-3">
-                        <span
-                          style={{
-                            backgroundColor: diffColor.bg,
-                            color: diffColor.text,
-                            borderColor: diffColor.border,
-                          }}
-                          className="text-[10px] font-semibold px-2 py-0.5 rounded border inline-block"
-                        >
+                      <td className="py-2.5 px-3.5">
+                        <span className="text-xs px-2 py-0.5 rounded-md bg-[var(--tag-gray-bg)] text-[var(--tag-gray-text)] border border-[var(--notion-border)] font-medium">
                           {prob.difficulty}
                         </span>
                       </td>
-                      <td className="py-2.5 px-3 text-xs text-slate-500 dark:text-slate-400">
-                        <div className="font-semibold text-slate-700 dark:text-slate-300">
+                      <td className="py-2.5 px-3.5 text-xs md:text-sm text-[var(--notion-text-secondary)]">
+                        <div className="font-semibold text-[var(--notion-text-primary)]">
                           Ch {prob.chapterId}: {prob.chapterTitle.split('&')[0]}
                         </div>
-                        <div className="text-[11px] truncate max-w-[200px] text-slate-400">{prob.topicTitle}</div>
+                        <div className="text-xs truncate max-w-[220px] text-[var(--notion-text-muted)]">{prob.topicTitle}</div>
                       </td>
-                      <td className="py-2.5 px-3">
-                        <span
-                          style={{
-                            backgroundColor: platColor.bg,
-                            color: platColor.text,
-                            borderColor: platColor.border,
-                          }}
-                          className="text-[10px] font-semibold px-2 py-0.5 rounded border inline-block"
-                        >
+                      <td className="py-2.5 px-3.5">
+                        <span className="text-xs px-2 py-0.5 rounded-md bg-[var(--tag-gray-bg)] text-[var(--tag-gray-text)] border border-[var(--notion-border)] inline-block font-medium">
                           {prob.platform}
                         </span>
                       </td>
-                      <td className="py-2.5 px-3 text-center">
-                        <div className="flex items-center justify-center gap-1">
+                      <td className="py-2.5 px-3.5 text-center">
+                        <div className="flex items-center justify-center gap-1.5">
                           <button
                             onClick={() => toggleStarred(prob.id)}
-                            className="p-1 text-slate-400 hover:text-amber-500 cursor-pointer"
+                            className="p-1 text-[var(--notion-text-muted)] hover:text-[var(--notion-text-primary)] cursor-pointer"
                           >
-                            {isStarred ? '⭐' : '☆'}
+                            <Star
+                              className={`w-4 h-4 ${
+                                isStarred ? 'fill-[var(--notion-text-primary)] text-[var(--notion-text-primary)]' : ''
+                              }`}
+                            />
                           </button>
                           <button
                             onClick={() => copyProblemLink(prob)}
-                            className="p-1 text-slate-400 hover:text-indigo-500 cursor-pointer"
+                            className="p-1 text-[var(--notion-text-muted)] hover:text-[var(--notion-text-primary)] cursor-pointer"
                           >
-                            {copiedId === prob.id ? '✓' : '🔗'}
+                            {copiedId === prob.id ? (
+                              <Check className="w-4 h-4 text-[var(--notion-text-primary)]" />
+                            ) : (
+                              <Copy className="w-4 h-4" />
+                            )}
                           </button>
                         </div>
                       </td>
@@ -856,42 +856,26 @@ export default function Curated300ProblemExplorer() {
           {filteredProblems.map((prob) => {
             const isSolved = solvedSet.has(prob.id);
             const isStarred = starredSet.has(prob.id);
-            const diffColor = DIFFICULTY_COLORS[prob.difficulty] || DIFFICULTY_COLORS.Medium;
-            const platColor = PLATFORM_COLORS[prob.platform] || PLATFORM_COLORS.Other;
 
             return (
               <div
                 key={prob.id}
                 className={`p-3.5 rounded-xl border flex flex-col justify-between transition ${
                   isSolved
-                    ? 'bg-emerald-50/30 dark:bg-emerald-950/20 border-emerald-300 dark:border-emerald-800'
-                    : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:shadow-md hover:border-indigo-400 dark:hover:border-indigo-600'
+                    ? 'bg-[var(--notion-callout-bg)] border-[var(--notion-border)]'
+                    : 'bg-[var(--notion-card-bg)] border-[var(--notion-border)] hover:border-[var(--notion-border-strong)]'
                 }`}
               >
                 <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-[11px] font-mono font-bold text-slate-400">
+                  <div className="flex items-center justify-between mb-2.5">
+                    <span className="text-xs font-mono text-[var(--notion-text-muted)]">
                       #{prob.id}
                     </span>
                     <div className="flex items-center gap-1.5">
-                      <span
-                        style={{
-                          backgroundColor: diffColor.bg,
-                          color: diffColor.text,
-                          borderColor: diffColor.border,
-                        }}
-                        className="text-[10px] font-semibold px-2 py-0.5 rounded border"
-                      >
+                      <span className="text-xs px-2 py-0.5 rounded-md bg-[var(--tag-gray-bg)] text-[var(--tag-gray-text)] border border-[var(--notion-border)] font-medium">
                         {prob.difficulty}
                       </span>
-                      <span
-                        style={{
-                          backgroundColor: platColor.bg,
-                          color: platColor.text,
-                          borderColor: platColor.border,
-                        }}
-                        className="text-[10px] font-semibold px-2 py-0.5 rounded border"
-                      >
+                      <span className="text-xs px-2 py-0.5 rounded-md bg-[var(--tag-gray-bg)] text-[var(--tag-gray-text)] border border-[var(--notion-border)] font-medium">
                         {prob.platform}
                       </span>
                     </div>
@@ -901,49 +885,57 @@ export default function Curated300ProblemExplorer() {
                     href={prob.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`text-sm font-semibold hover:text-indigo-600 dark:hover:text-indigo-400 block line-clamp-2 mb-2 ${
-                      isSolved ? 'line-through text-slate-400' : 'text-slate-800 dark:text-slate-100'
+                    className={`text-sm md:text-base font-semibold hover:underline block line-clamp-2 mb-2 ${
+                      isSolved ? 'line-through text-[var(--notion-text-muted)]' : 'text-[var(--notion-text-primary)]'
                     }`}
                   >
                     {prob.title}
                   </a>
 
-                  <div className="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-1 mb-3">
+                  <div className="text-xs text-[var(--notion-text-muted)] line-clamp-1 mb-3">
                     {prob.chapterTitle} • {prob.topicTitle}
                   </div>
                 </div>
 
-                <div className="pt-2 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
-                  <label className="flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-400 cursor-pointer">
+                <div className="pt-2.5 border-t border-[var(--notion-border)] flex items-center justify-between">
+                  <label className="flex items-center gap-2 text-xs md:text-sm text-[var(--notion-text-secondary)] cursor-pointer">
                     <input
                       type="checkbox"
                       checked={isSolved}
                       onChange={() => toggleSolved(prob.id)}
-                      className="w-3.5 h-3.5 rounded text-emerald-600 accent-emerald-600"
+                      className="w-4 h-4 rounded accent-neutral-800 dark:accent-neutral-200"
                     />
                     <span>{isSolved ? 'Solved' : 'Mark Solved'}</span>
                   </label>
 
-                  <div className="flex items-center gap-1">
+                  <div className="flex items-center gap-1.5">
                     <button
                       onClick={() => toggleStarred(prob.id)}
-                      className="p-1 text-xs text-slate-400 hover:text-amber-500 cursor-pointer"
+                      className="p-1 text-[var(--notion-text-muted)] hover:text-[var(--notion-text-primary)] cursor-pointer"
                     >
-                      {isStarred ? '⭐' : '☆'}
+                      <Star
+                        className={`w-4 h-4 ${
+                          isStarred ? 'fill-[var(--notion-text-primary)] text-[var(--notion-text-primary)]' : ''
+                        }`}
+                      />
                     </button>
                     <button
                       onClick={() => copyProblemLink(prob)}
-                      className="p-1 text-xs text-slate-400 hover:text-indigo-500 cursor-pointer"
+                      className="p-1 text-[var(--notion-text-muted)] hover:text-[var(--notion-text-primary)] cursor-pointer"
                     >
-                      {copiedId === prob.id ? '✓' : '🔗'}
+                      {copiedId === prob.id ? (
+                        <Check className="w-4 h-4 text-[var(--notion-text-primary)]" />
+                      ) : (
+                        <Copy className="w-4 h-4" />
+                      )}
                     </button>
                     <a
                       href={prob.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-1 text-xs text-indigo-500 hover:text-indigo-700 cursor-pointer"
+                      className="p-1 text-[var(--notion-text-muted)] hover:text-[var(--notion-text-primary)] cursor-pointer"
                     >
-                      ↗
+                      <ExternalLink className="w-4 h-4" />
                     </a>
                   </div>
                 </div>

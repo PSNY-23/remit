@@ -1,0 +1,42 @@
+---
+title: Backend
+description: High-throughput API architectures, concurrency paradigms, caching strategies, and resilience patterns.
+---
+
+# Backend Systems
+
+Engineering reference for designing scalable, fault-tolerant backend services, API contracts, caching tiers, and distributed communication models.
+
+---
+
+### Core Pillars
+
+| Domain | Focus Areas | Key Concepts |
+| :--- | :--- | :--- |
+| **API Design & Protocols** | REST, GraphQL, gRPC, WebSockets, Server-Sent Events | Idempotency, Versioning, Protobuf Serialization, Multiplexing |
+| **Authentication & Security** | OAuth 2.1, OIDC, JWT, RBAC, ABAC, Web Security | CSRF, CORS, Rate Limiting, Token Revocation, XSS Mitigation |
+| **Caching Strategies** | Redis, Memcached, Multi-tier In-Memory Caching | Cache-Aside, Write-Through, Write-Behind, Cache Stampede |
+| **Resilience & Fault Tolerance** | Circuit Breakers, Bulkheads, Retries, Graceful Degradation | Exponential Backoff, Jitter, Dead Letter Queues, Timeouts |
+| **Observability & Telemetry** | Structured Logging, Distributed Tracing, Metrics | OpenTelemetry, Prometheus, RED Metrics, Correlation IDs |
+
+---
+
+### Key Architectural Concepts
+
+#### 1. Caching Invalidation Patterns
+
+- **Cache-Aside (Lazy Loading):** Application queries the cache; on a cache miss, it reads from the primary database, populates the cache, and returns. Best for read-heavy workloads with tolerable cold-start latency.
+- **Write-Through:** The application writes data to the cache, which synchronously persists it to the database before acknowledging. Guarantees consistency at the expense of higher write latency.
+- **Write-Behind (Write-Back):** Writes are acknowledged immediately after updating the cache and asynchronously flushed to the database in batches. Highest write throughput, with potential data loss risk if the cache fails before persistence.
+
+#### 2. Distributed Resilience Patterns
+
+```
+Client Request -> Rate Limiter -> API Gateway -> [ Circuit Breaker ] -> Downstream Service
+                                                          | (Tripped)
+                                                          v
+                                                   Fallback Handler
+```
+
+- **Circuit Breaker States:** `Closed` (normal operation), `Open` (short-circuits calls to fallback when error rates cross thresholds), `Half-Open` (allows probe requests to verify downstream recovery).
+- **Jitter in Retries:** Combining exponential backoff with randomized jitter prevents synchronized thundering herd spikes against recovering services.

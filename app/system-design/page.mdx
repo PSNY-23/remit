@@ -1,0 +1,64 @@
+---
+title: System Design
+description: Distributed systems principles, high-scale architectures, consensus algorithms, and system blueprints.
+---
+
+# System Design & Distributed Architecture
+
+Foundational principles, trade-offs, and blueprints for architecting high-availability, planetary-scale distributed systems.
+
+---
+
+### Core Distributed Systems Fundamentals
+
+| Theorem / Concept | Core Principle | Practical Implications |
+| :--- | :--- | :--- |
+| **CAP Theorem** | Consistency, Availability, Partition Tolerance (choose 2 under network partitions) | CP (Postgres, Spanner) vs AP (Cassandra, DynamoDB) |
+| **PACELC Theorem** | If Partition: Availability vs Consistency; Else: Latency vs Consistency | Models steady-state latency vs consistency trade-offs |
+| **Consensus Protocols** | State machine replication across unreliable nodes | Raft (etcd, Consul), Multi-Paxos, Zab (ZooKeeper) |
+| **Consistent Hashing** | Distributes keys uniformly across a hash ring with virtual nodes | Minimizes key re-indexing when adding/removing nodes |
+| **Vector Clocks** | Tracks causal relationships between distributed events | Detects concurrent update conflicts in leaderless storage |
+
+---
+
+### High-Scale Architecture Blueprint
+
+```
+Clients (Web, Mobile, External API)
+            |
+            v
+      DNS / Anycast Routing
+            |
+            v
+     CDN (Static Assets & Edge Caching)
+            |
+            v
+  Global Load Balancer (Layer 7 / Envoy / NGINX)
+            |
+            v
+      API Gateway (Rate Limiting, Auth, Routing)
+            |
+    +-------+-------+
+    |               |
+    v               v
+Microservice A  Microservice B
+    |               |
+    +-------+-------+
+            |
+            v
+Event Streaming / Message Broker (Apache Kafka)
+            |
+    +-------+-------+
+    |               |
+    v               v
+Primary DB       Read Replicas & Distributed Cache (Redis)
+```
+
+---
+
+### Standard System Design Framework
+
+1. **Scope & Requirements (3–5 min):** Establish functional vs non-functional requirements (QPS, target latency, SLA availability, data durability).
+2. **Back-of-the-Envelope Estimation (3–5 min):** Compute Read/Write QPS, 5-year storage growth, bandwidth requirements, and RAM needed for 20% hot-data caching.
+3. **High-Level Component Architecture (10–15 min):** Define client API contracts, database schema, data ingestion paths, and core service boundaries.
+4. **Deep Dive & Resilience Engineering (15–20 min):** Address database sharding keys, cache invalidation, single points of failure (SPOF), and idempotency keys for write retries.
