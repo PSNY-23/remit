@@ -1,46 +1,10 @@
 ---
-title: Frontend
-description: Core principles, JavaScript/TypeScript runtime internals, React mental models, Next.js architecture, and web performance.
+title: "Frontend"
+description: "Master interview questions, runtime mental models, architecture deep dives, and hand-coded frontend challenges."
 ---
 
-# Frontend Engineering
+import FrontendTrackView from '@/components/FrontendTrackView';
 
-Comprehensive reference architecture, mental models, and deep-dive guides for modern client-side engineering, component design systems, and web performance optimization.
+# Frontend
 
----
-
-### Core Pillars
-
-| Pillar | Focus Areas | Key Concepts |
-| :--- | :--- | :--- |
-| **JavaScript & Runtime** | Event Loop, V8 Engine, Execution Context, Closures | Microtasks vs Macrotasks, Memory Leaks, Garbage Collection |
-| **TypeScript Architecture** | Type System, Generics, Utility Types, Type Narrowing | Conditional Types, Mapped Types, Discriminated Unions |
-| **React Internals** | Reconciliation, Fiber Tree, Hooks, State Modeling | Concurrent Mode, Automatic Batching, Selective Hydration |
-| **Next.js & Frameworks** | App Router, Server Components (RSC), Streaming, Cache | Partial Prerendering, RSC Wire Format, Middleware |
-| **Web Performance** | Core Web Vitals, Critical Rendering Path, Bundling | LCP, INP, CLS, Tree-shaking, Code-splitting |
-
----
-
-### Key Conceptual Frameworks
-
-#### 1. React Server Components (RSC) vs Client Components
-
-- **Server Components:** Execute exclusively on the server at request or build time. Zero client-side JavaScript bundle footprint. Direct database/backend access with streaming HTML.
-- **Client Components:** Hydrated on the browser to attach event listeners, browser APIs, and state (`useState`, `useEffect`, `useReducer`). Indicated with the `'use client'` boundary.
-
-#### 2. Critical Rendering Path
-
-```
-DOM Construction -> CSSOM Construction -> Render Tree -> Layout (Reflow) -> Paint -> Compositing
-```
-
-- **Layout Thrashing:** Avoid interleaving style/layout reads (e.g. `offsetHeight`) with DOM writes to eliminate forced synchronous layouts.
-- **Resource Prioritization:** Optimize LCP with high-priority image fetching (`priority`), preload fonts, and defer non-critical scripts.
-
----
-
-### Architectural Patterns
-
-- **Compound Components:** Flexible component composition sharing implicit state via React Context (e.g., `<Select><Select.Option /></Select>`).
-- **State Machines & Store Design:** Isolating complex transition logic from presentation components using finite state machines or immutable state stores.
-- **Micro-Frontends & Module Federation:** Decoupling large enterprise codebases into independently deployable units while sharing common dependencies.
+<FrontendTrackView />
