@@ -6,10 +6,11 @@ import { Folder, FileText, ChevronRight } from 'lucide-react';
 import { ArticleMeta } from '@/lib/content';
 
 interface Props {
+  section: string;
   articles: ArticleMeta[];
 }
 
-export default function FrontendArticleExplorer({ articles }: Props) {
+export default function SectionArticleExplorer({ section, articles }: Props) {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
 
   const categories = useMemo(() => {
@@ -94,7 +95,7 @@ export default function FrontendArticleExplorer({ articles }: Props) {
               {list.map((article) => (
                 <Link
                   key={article.slug}
-                  href={`/articles/frontend/${article.slug}`}
+                  href={`/articles/${section}/${article.slug}`}
                   className="group flex items-center justify-between px-3.5 py-2.5 sm:px-4 sm:py-3 rounded-xl border border-[var(--notion-border)] bg-[var(--notion-card-bg)] hover:bg-[var(--notion-hover)] hover:border-[var(--notion-border-strong)] transition-all"
                 >
                   <div className="flex items-center gap-3 min-w-0 pr-2 flex-1 overflow-hidden">

@@ -7,11 +7,15 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  const frontendSlugs = getAllArticleSlugs('frontend').map(slug => ({
-    section: 'frontend',
-    slug,
-  }));
-  return frontendSlugs;
+  const sections = ['frontend', 'backend', 'databases', 'system-design', 'others', 'dsa'];
+  const params: { section: string; slug: string }[] = [];
+  for (const section of sections) {
+    const slugs = getAllArticleSlugs(section);
+    for (const slug of slugs) {
+      params.push({ section, slug });
+    }
+  }
+  return params;
 }
 
 export default async function GenericArticlePage({ params }: Props) {
@@ -22,13 +26,16 @@ export default async function GenericArticlePage({ params }: Props) {
     notFound();
   }
 
-  const capitalizedSection = section.charAt(0).toUpperCase() + section.slice(1);
+  const formattedSection = section
+    .split('-')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
 
   return (
     <ArticleViewer
       article={article}
       backHref={`/${section}`}
-      backLabel={`Back to ${capitalizedSection}`}
+      backLabel={`Back to ${formattedSection}`}
     />
   );
 }

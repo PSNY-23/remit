@@ -8,6 +8,7 @@ export interface ArticleMeta {
   title: string;
   category: string;
   description: string;
+  section?: string;
 }
 
 export interface ArticleDetail extends ArticleMeta {
@@ -35,6 +36,7 @@ export function getArticles(section: string): ArticleMeta[] {
       title: data.title || slug,
       category: data.category || 'General',
       description: data.description || '',
+      section,
     });
   }
 
@@ -55,6 +57,7 @@ export async function getArticle(section: string, slug: string): Promise<Article
     title: data.title || slug,
     category: data.category || 'General',
     description: data.description || '',
+    section,
     content,
     html,
   };
@@ -66,4 +69,11 @@ export function getAllArticleSlugs(section: string): string[] {
   return fs.readdirSync(dir)
     .filter(f => f.endsWith('.md'))
     .map(f => f.replace(/\.md$/, ''));
+}
+
+export function getAllSections(): string[] {
+  if (!fs.existsSync(contentRoot)) return [];
+  return fs.readdirSync(contentRoot, { withFileTypes: true })
+    .filter(dirent => dirent.isDirectory())
+    .map(dirent => dirent.name);
 }

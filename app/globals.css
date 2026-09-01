@@ -96,7 +96,13 @@ html,
 body {
   background-color: var(--notion-bg) !important;
   color: var(--notion-text-body) !important;
-  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  font-family:
+    var(--font-inter),
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    sans-serif !important;
   font-feature-settings: "cv02", "cv03", "cv04", "cv11", "ss01";
   letter-spacing: -0.011em;
   -webkit-font-smoothing: antialiased;
@@ -104,6 +110,15 @@ body {
   text-rendering: optimizeLegibility;
   margin: 0;
   padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 /* -------------------------------------------------------------------------
@@ -116,9 +131,84 @@ nav[aria-label="breadcrumb"],
 }
 
 /* -------------------------------------------------------------------------
-   FULL-HEIGHT SIDEBAR LAYOUT
+   HEADER & NAVBAR (UNIVERSAL NOTION AESTHETICS)
+   ------------------------------------------------------------------------- */
+.nextra-nav-container,
+.nextra-navbar {
+  position: sticky !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  margin: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: var(--nextra-navbar-height) !important;
+  z-index: 30 !important;
+  background-color: var(--notion-bg) !important;
+  border-bottom: 1px solid var(--notion-border) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+}
+
+/* Inner navbar */
+.nextra-navbar > div:not(.nextra-navbar-blur) {
+  height: 100% !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 10px !important;
+  padding-left: 14px !important;
+  padding-right: 14px !important;
+  box-sizing: border-box !important;
+}
+
+/* Navbar Brand Visibility */
+.navbar-brand-logo {
+  display: flex !important;
+  align-items: center !important;
+  margin-left: 36px !important;
+  transition: opacity 0.2s ease;
+}
+
+/* -------------------------------------------------------------------------
+   MOBILE LAYOUT (< 768px)
+   ------------------------------------------------------------------------- */
+@media (max-width: 767.98px) {
+  .nextra-nav-container + div,
+  body > div:has(> aside.nextra-sidebar),
+  body > div > div:has(> aside.nextra-sidebar) {
+    margin-left: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  main.nextra-content,
+  article.nextra-content {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+    padding: 20px 16px 80px !important;
+    box-sizing: border-box !important;
+  }
+}
+
+/* -------------------------------------------------------------------------
+   FULL-HEIGHT SIDEBAR & DESKTOP LAYOUT (>= 768px)
    ------------------------------------------------------------------------- */
 @media (min-width: 768px) {
+  .navbar-brand-logo {
+    display: none !important;
+  }
+
+  html.sidebar-collapsed .navbar-brand-logo {
+    display: flex !important;
+    margin-left: 38px !important;
+  }
+
   aside.nextra-sidebar,
   aside.nextra-sidebar.x\:hidden,
   aside.nextra-sidebar-container {
@@ -137,39 +227,15 @@ nav[aria-label="breadcrumb"],
     display: flex !important;
     flex-direction: column !important;
     margin: 0 !important;
-    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.22s ease !important;
+    transition:
+      transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+      opacity 0.22s ease !important;
     will-change: transform, opacity;
   }
 
-  /* Header Container */
-  .nextra-nav-container,
-  .nextra-navbar {
-    position: sticky !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    margin: 0 !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    height: var(--nextra-navbar-height) !important;
-    z-index: 30 !important;
-    background-color: var(--notion-bg) !important;
-    border-bottom: 1px solid var(--notion-border) !important;
-    backdrop-filter: blur(12px) !important;
-    -webkit-backdrop-filter: blur(12px) !important;
-  }
-
-  /* Inner navbar */
+  /* Inner navbar right padding on desktop */
   .nextra-navbar > div:not(.nextra-navbar-blur) {
-    height: 100% !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: flex-end !important;
-    gap: 10px !important;
-    padding-right: 18px !important;
-    box-sizing: border-box !important;
+    padding-right: 20px !important;
   }
 
   /* Main content wrapper with optimal reading width */
@@ -181,7 +247,10 @@ nav[aria-label="breadcrumb"],
     max-width: calc(100% - var(--sidebar-width)) !important;
     box-sizing: border-box !important;
     padding-left: 0 !important;
-    transition: margin-left 0.28s cubic-bezier(0.16, 1, 0.3, 1), width 0.28s cubic-bezier(0.16, 1, 0.3, 1), max-width 0.28s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    transition:
+      margin-left 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+      width 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+      max-width 0.28s cubic-bezier(0.16, 1, 0.3, 1) !important;
   }
 
   main.nextra-content,
@@ -326,43 +395,51 @@ aside.nextra-sidebar-container ul ul li {
 /* -------------------------------------------------------------------------
    ARTICLE TYPOGRAPHY & READING EXPERIENCE ENHANCEMENTS
    ------------------------------------------------------------------------- */
-main.nextra-content,
-article.nextra-content,
-article {
+main,
+article,
+.nextra-content {
   color: var(--notion-text-body) !important;
   font-size: 1rem !important;
   line-height: 1.75 !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
 }
 
 /* Headings with clear hierarchy and optical balance */
 article h1 {
   color: var(--notion-text-primary) !important;
-  font-size: 2.15rem !important;
+  font-size: clamp(1.6rem, 4vw, 2.15rem) !important;
   font-weight: 700 !important;
   letter-spacing: -0.025em !important;
   line-height: 1.25 !important;
   margin-top: 0 !important;
   margin-bottom: 1rem !important;
+  word-break: break-word !important;
+  overflow-wrap: break-word !important;
 }
 
 article h2 {
   color: var(--notion-text-primary) !important;
-  font-size: 1.45rem !important;
+  font-size: clamp(1.25rem, 3vw, 1.45rem) !important;
   font-weight: 650 !important;
   letter-spacing: -0.02em !important;
   line-height: 1.35 !important;
-  margin-top: 2.5rem !important;
+  margin-top: 2.25rem !important;
   margin-bottom: 0.75rem !important;
+  word-break: break-word !important;
+  overflow-wrap: break-word !important;
 }
 
 article h3 {
   color: var(--notion-text-primary) !important;
-  font-size: 1.15rem !important;
+  font-size: clamp(1.05rem, 2.5vw, 1.15rem) !important;
   font-weight: 600 !important;
   letter-spacing: -0.015em !important;
   line-height: 1.4 !important;
-  margin-top: 1.85rem !important;
+  margin-top: 1.75rem !important;
   margin-bottom: 0.5rem !important;
+  word-break: break-word !important;
+  overflow-wrap: break-word !important;
 }
 
 article h4,
@@ -373,15 +450,19 @@ article h6 {
   font-weight: 600 !important;
   margin-top: 1.5rem !important;
   margin-bottom: 0.4rem !important;
+  word-break: break-word !important;
+  overflow-wrap: break-word !important;
 }
 
 /* Paragraphs & Lists - Distinct breathing room */
 article p {
   color: var(--notion-text-body) !important;
-  font-size: 1rem !important;
+  font-size: 0.985rem !important;
   line-height: 1.75 !important;
   margin-top: 0 !important;
   margin-bottom: 1.25rem !important;
+  word-break: break-word !important;
+  overflow-wrap: break-word !important;
 }
 
 article ul,
@@ -389,6 +470,8 @@ article ol {
   padding-left: 1.35rem !important;
   margin-top: 0.5rem !important;
   margin-bottom: 1.25rem !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
 }
 
 article li {
@@ -396,6 +479,8 @@ article li {
   font-size: 0.985rem !important;
   line-height: 1.72 !important;
   margin-bottom: 0.45rem !important;
+  word-break: break-word !important;
+  overflow-wrap: break-word !important;
 }
 
 article strong,
@@ -412,7 +497,11 @@ article td a {
   text-decoration: underline !important;
   text-decoration-color: var(--notion-border-strong) !important;
   text-underline-offset: 3px !important;
-  transition: text-decoration-color 0.15s ease, opacity 0.15s ease !important;
+  transition:
+    text-decoration-color 0.15s ease,
+    opacity 0.15s ease !important;
+  word-break: break-word !important;
+  overflow-wrap: break-word !important;
 }
 
 article p a:hover,
@@ -434,11 +523,15 @@ article blockquote {
   padding-left: 1.15rem !important;
   margin: 1.5rem 0 !important;
   font-style: normal !important;
+  word-break: break-word !important;
+  overflow-wrap: break-word !important;
 }
 
 /* Code & Preformatted */
 article code:not(pre code) {
-  font-family: var(--font-mono), ui-monospace, SFMono-Regular, "JetBrains Mono", Consolas, monospace !important;
+  font-family:
+    var(--font-mono), ui-monospace, SFMono-Regular, "JetBrains Mono", Consolas,
+    monospace !important;
   background-color: var(--tag-gray-bg) !important;
   color: var(--notion-text-primary) !important;
   border: 1px solid var(--notion-border) !important;
@@ -446,24 +539,50 @@ article code:not(pre code) {
   padding: 0.15em 0.4em !important;
   font-size: 0.875em !important;
   font-weight: 500 !important;
+  word-break: break-word !important;
+  overflow-wrap: break-word !important;
 }
 
 article pre {
-  font-family: var(--font-mono), ui-monospace, SFMono-Regular, "JetBrains Mono", Consolas, monospace !important;
+  font-family:
+    var(--font-mono), ui-monospace, SFMono-Regular, "JetBrains Mono", Consolas,
+    monospace !important;
   border: 1px solid var(--notion-border) !important;
   border-radius: 8px !important;
   background-color: var(--notion-card-bg) !important;
-  font-size: 0.885rem !important;
+  font-size: 0.875rem !important;
   line-height: 1.6 !important;
+  padding: 14px 16px !important;
+  overflow-x: auto !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  margin: 1.25rem 0 !important;
+  white-space: pre !important;
+  -webkit-overflow-scrolling: touch !important;
 }
 
-/* Tables */
+article pre code {
+  font-family: inherit !important;
+  font-size: inherit !important;
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  color: var(--notion-text-primary) !important;
+  white-space: pre !important;
+}
+
+/* Tables with responsive horizontal scroll */
 article table {
   width: 100% !important;
+  max-width: 100% !important;
   border-collapse: collapse !important;
   margin: 1.75rem 0 !important;
-  font-size: 0.9rem !important;
+  font-size: 0.885rem !important;
   color: var(--notion-text-body) !important;
+  display: block !important;
+  overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+  box-sizing: border-box !important;
 }
 
 article th {
@@ -473,6 +592,7 @@ article th {
   border: 1px solid var(--notion-border) !important;
   padding: 10px 14px !important;
   text-align: left !important;
+  white-space: nowrap !important;
 }
 
 article td {
@@ -480,6 +600,16 @@ article td {
   padding: 10px 14px !important;
   color: var(--notion-text-body) !important;
   line-height: 1.6 !important;
+  min-width: 120px !important;
+}
+
+/* Article Images */
+article img {
+  max-width: 100% !important;
+  height: auto !important;
+  border-radius: 8px !important;
+  border: 1px solid var(--notion-border) !important;
+  margin: 1.25rem 0 !important;
 }
 
 /* -------------------------------------------------------------------------
@@ -491,6 +621,7 @@ article td {
   border-radius: 8px;
   transition: all 0.12s ease-in-out;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+  box-sizing: border-box;
 }
 
 .notion-card:hover {
@@ -512,6 +643,8 @@ article td {
   font-size: 0.95rem;
   line-height: 1.65;
   color: var(--notion-text-body);
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 /* Notion Tag Pill Base */
@@ -527,7 +660,10 @@ article td {
   white-space: nowrap;
 }
 
-.notion-tag-gray { background-color: var(--tag-gray-bg); color: var(--tag-gray-text); }
+.notion-tag-gray {
+  background-color: var(--tag-gray-bg);
+  color: var(--tag-gray-text);
+}
 
 /* -------------------------------------------------------------------------
    SCROLLBAR
