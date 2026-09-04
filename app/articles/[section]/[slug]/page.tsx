@@ -7,7 +7,7 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  const sections = ['frontend', 'backend', 'databases', 'system-design', 'others', 'dsa'];
+  const sections = ['frontend', 'backend', 'databases', 'system-design', 'others', 'dsa', 'handwritten'];
   const params: { section: string; slug: string }[] = [];
   for (const section of sections) {
     const slugs = getAllArticleSlugs(section);
