@@ -1,7 +1,7 @@
-import React from 'react';
-import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
-import { ArticleDetail } from '@/lib/content';
+import React from "react";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
+import { ArticleDetail } from "@/lib/content";
 
 interface Props {
   article: ArticleDetail;
@@ -11,7 +11,7 @@ interface Props {
 
 export default function ArticleViewer({ article, backHref, backLabel }: Props) {
   return (
-    <div className="article-viewer-container w-full max-w-200 mx-auto px-2 sm:px-4 py-4 sm:py-8 space-y-8 box-border">
+    <div className="article-viewer-container w-full max-w-4xl xl:max-w-5xl mx-auto px-2 sm:px-4 py-4 sm:py-8 space-y-8 box-border">
       {/* Top Back Navigation */}
       <div>
         <Link

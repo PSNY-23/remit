@@ -1,74 +1,67 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { PanelLeft, PanelLeftClose } from "lucide-react";
-import { setMenu, useMenu } from "nextra-theme-docs";
+import { usePathname } from "next/navigation";
 
 export default function SidebarToggleButton() {
-  const isMobileMenuOpen = useMenu();
-  const [isDesktopCollapsed, setIsDesktopCollapsed] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [target, setTarget] = useState<HTMLElement | null>(null);
   const [mounted, setMounted] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     setMounted(true);
-    const checkMobile = () => {
-      const mobile = window.innerWidth < 768;
-      setIsMobile(mobile);
-      if (mobile && isDesktopCollapsed) {
-        document.documentElement.classList.remove("sidebar-collapsed");
-        setIsDesktopCollapsed(false);
+
+    // Initial check of collapsed state
+    const saved =
+      typeof window !== "undefined" &&
+      localStorage.getItem("remit-sidebar-collapsed") === "true";
+    if (saved && window.innerWidth >= 768) {
+      document.documentElement.classList.add("sidebar-collapsed");
+      setIsCollapsed(true);
+    } else {
+      setIsCollapsed(
+        document.documentElement.classList.contains("sidebar-collapsed")
+      );
+    }
+
+    const attach = () => {
+      const navEl = document.querySelector(
+        "header.nextra-navbar nav"
+      ) as HTMLElement;
+      if (navEl) {
+        setTarget(navEl);
       }
     };
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, [isDesktopCollapsed]);
+
+    attach();
+    const timer = setTimeout(attach, 100);
+    return () => clearTimeout(timer);
+  }, [pathname]);
 
   const toggleSidebar = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
 
-    if (typeof window === "undefined") return;
-
-    if (window.innerWidth < 768) {
-      setMenu((prev: boolean) => !prev);
-    } else {
-      setIsDesktopCollapsed((prev) => {
-        const next = !prev;
-        document.documentElement.classList.toggle("sidebar-collapsed", next);
-        return next;
-      });
-    }
+    const next = !isCollapsed;
+    setIsCollapsed(next);
+    document.documentElement.classList.toggle("sidebar-collapsed", next);
+    try {
+      localStorage.setItem("remit-sidebar-collapsed", String(next));
+    } catch {}
   };
 
-  if (!mounted) return null;
-  if (!isMobile) return null;
+  if (!mounted || !target) return null;
 
-  const isOpen = isMobile ? isMobileMenuOpen : !isDesktopCollapsed;
-
-  const leftPosition = isMobile
-    ? "14px"
-    : isDesktopCollapsed
-      ? "16px"
-      : "calc(var(--sidebar-width, 260px) + 16px)";
-
-  return (
-    <div
-      style={{
-        position: "fixed",
-        top: "9px",
-        left: leftPosition,
-        zIndex: 9999,
-        transition: "left 0.28s cubic-bezier(0.16, 1, 0.3, 1)",
-        display: "flex",
-        alignItems: "center",
-      }}
-    >
+  return createPortal(
+    <div className="sidebar-desktop-toggle-button">
       <button
         onClick={toggleSidebar}
-        title={isOpen ? "Close sidebar" : "Open sidebar"}
-        aria-label={isOpen ? "Close sidebar" : "Open sidebar"}
+        title={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+        aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+        type="button"
         style={{
           display: "inline-flex",
           alignItems: "center",
@@ -84,20 +77,21 @@ export default function SidebarToggleButton() {
           transition: "all 0.12s ease-in-out",
         }}
       >
-        {isOpen ? (
-          <PanelLeftClose
+        {isCollapsed ? (
+          <PanelLeft
             size={16}
             strokeWidth={2}
             style={{ color: "var(--notion-text-primary)" }}
           />
         ) : (
-          <PanelLeft
+          <PanelLeftClose
             size={16}
             strokeWidth={2}
             style={{ color: "var(--notion-text-primary)" }}
           />
         )}
       </button>
-    </div>
+    </div>,
+    target
   );
 }

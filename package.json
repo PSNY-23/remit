@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@prisma/client": "6",
     "gray-matter": "^4.0.3",
     "lucide-react": "^1.38.0",
     "marked": "^18.0.11",
@@ -27,6 +28,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.3.1",
     "pagefind": "^1.5.2",
+    "prisma": "6",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

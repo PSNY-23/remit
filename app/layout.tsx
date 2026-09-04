@@ -5,8 +5,12 @@ import { Inter, JetBrains_Mono, IM_Fell_English } from "next/font/google";
 import SidebarTopBrand from "@/components/SidebarTopBrand";
 import SidebarToggleButton from "@/components/SidebarToggleButton";
 import ThemeToggleButton from "@/components/ThemeToggleButton";
+import { Brain } from "lucide-react";
+import { prisma } from "@/lib/prisma";
 import "nextra-theme-docs/style.css";
 import "./globals.css";
+
+export const dynamic = "force-dynamic";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -54,19 +58,55 @@ export default async function RootLayout({
     const pageMap = rawPageMap
       .filter((item: any) => {
         const name = item.name || item.route || "";
-        return !name.startsWith("[");
+        return (
+          !name.startsWith("[") &&
+          name !== "create" &&
+          item.route !== "/create" &&
+          name !== "articles" &&
+          item.route !== "/articles"
+        );
       })
       .map((item: any) => {
         const name = item.name || "";
-        if (name === "articles") {
-          return { ...item, display: "hidden" };
-        }
         if (flatSections.has(name)) {
           const { children, ...rest } = item;
           return rest;
         }
+        if (item.children) {
+          return {
+            ...item,
+            theme: { ...(item.theme || {}), collapsed: true },
+          };
+        }
         return item;
       });
+
+    // Fetch all database subjects so user-created subjects appear in sidebar
+    try {
+      const dbSubjects = await prisma.subject.findMany({
+        select: { slug: true, title: true },
+        orderBy: { order: "asc" },
+      });
+
+      const existingNames = new Set(
+        pageMap.map((item: any) => item.name || item.route?.replace(/^\//, "")),
+      );
+
+      for (const sub of dbSubjects) {
+        if (!existingNames.has(sub.slug)) {
+          pageMap.push({
+            name: sub.slug,
+            route: `/${sub.slug}`,
+            title: sub.title,
+            frontMatter: {
+              title: sub.title,
+            },
+          });
+        }
+      }
+    } catch (dbErr) {
+      console.error("Error fetching db subjects for sidebar:", dbErr);
+    }
 
     return (
       <html
@@ -74,18 +114,33 @@ export default async function RootLayout({
         className={`${inter.variable} ${jetbrainsMono.variable} ${imFellEnglish.variable}`}
         suppressHydrationWarning
       >
-        <Head faviconGlyph="🧠" />
+        <Head faviconGlyph="🧠">
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link
+            rel="preconnect"
+            href="https://fonts.gstatic.com"
+            crossOrigin="anonymous"
+          />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Cabin+Sketch:wght@700&family=Kalam:wght@700&family=Dekko&family=Yatra+One&display=swap"
+            rel="stylesheet"
+          />
+        </Head>
 
         <body suppressHydrationWarning>
           <SidebarTopBrand />
           <SidebarToggleButton />
           <Layout
+            sidebar={{
+              defaultMenuCollapseLevel: 1,
+              autoCollapse: true,
+            }}
             navbar={
               <Navbar
                 logoLink="/dsa"
                 logo={
                   <div
-                    className="navbar-brand-logo"
+                    className="mobile-only-logo"
                     style={{
                       display: "flex",
                       alignItems: "center",
@@ -95,8 +150,8 @@ export default async function RootLayout({
                   >
                     <div
                       style={{
-                        width: "24px",
-                        height: "24px",
+                        width: "26px",
+                        height: "26px",
                         borderRadius: "5px",
                         backgroundColor: "var(--notion-text-primary)",
                         color: "var(--notion-bg)",
@@ -106,9 +161,7 @@ export default async function RootLayout({
                         flexShrink: 0,
                       }}
                     >
-                      <span style={{ fontSize: "13px", lineHeight: 1 }}>
-                        🧠
-                      </span>
+                      <Brain size={16} strokeWidth={2.2} />
                     </div>
                     <span
                       style={{

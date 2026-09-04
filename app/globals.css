@@ -111,7 +111,7 @@ body {
   margin: 0;
   padding: 0;
   width: 100%;
-  overflow-x: hidden;
+  overflow-x: clip;
   box-sizing: border-box;
 }
 
@@ -122,93 +122,119 @@ body {
 }
 
 /* -------------------------------------------------------------------------
-   BREADCRUMBS
+   CLEAN UNIFIED 3-PART LAYOUT (SIDEBAR, HEADER, MAIN AREA)
    ------------------------------------------------------------------------- */
-.nextra-breadcrumb,
-nav[aria-label="breadcrumb"],
-.nextra-breadcrumb-container {
-  display: none !important;
-}
 
-/* -------------------------------------------------------------------------
-   HEADER & NAVBAR (UNIVERSAL NOTION AESTHETICS)
-   ------------------------------------------------------------------------- */
+/* Part 1: Header / Navbar - Fixed at top, overlays main area */
 .nextra-nav-container,
-.nextra-navbar {
-  position: sticky !important;
+.nextra-navbar,
+header.nextra-navbar {
+  position: fixed !important;
   top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  margin: 0 !important;
-  width: 100% !important;
-  max-width: 100% !important;
   height: var(--nextra-navbar-height) !important;
+  max-height: var(--nextra-navbar-height) !important;
   z-index: 30 !important;
   background-color: var(--notion-bg) !important;
   border-bottom: 1px solid var(--notion-border) !important;
   backdrop-filter: blur(12px) !important;
   -webkit-backdrop-filter: blur(12px) !important;
-}
-
-/* Inner navbar */
-.nextra-navbar > div:not(.nextra-navbar-blur) {
-  height: 100% !important;
-  width: 100% !important;
-  max-width: 100% !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: flex-end !important;
-  gap: 10px !important;
-  padding-left: 14px !important;
-  padding-right: 14px !important;
+  margin: 0 !important;
+  padding: 0 !important;
   box-sizing: border-box !important;
 }
 
-/* Navbar Brand Visibility */
-.navbar-brand-logo {
+/* Nextra's blur backdrop must be genuinely absolute so it does NOT push nav down into static flow */
+header.nextra-navbar .nextra-navbar-blur {
+  position: absolute !important;
+  inset: 0 !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  z-index: -1 !important;
+  border-bottom: none !important;
+  pointer-events: none !important;
+}
+
+/* Header inner flex bar: strictly full height and vertically centered */
+header.nextra-navbar nav {
+  position: relative !important;
+  max-width: 100% !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  max-height: 100% !important;
+  margin: 0 !important;
+  padding-left: 14px !important;
+  padding-right: 16px !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
   display: flex !important;
   align-items: center !important;
-  margin-left: 36px !important;
-  transition: opacity 0.2s ease;
+  box-sizing: border-box !important;
 }
 
-/* -------------------------------------------------------------------------
-   MOBILE LAYOUT (< 768px)
-   ------------------------------------------------------------------------- */
-@media (max-width: 767.98px) {
-  .nextra-nav-container + div,
-  body > div:has(> aside.nextra-sidebar),
-  body > div > div:has(> aside.nextra-sidebar) {
-    margin-left: 0 !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    padding: 0 !important;
-    box-sizing: border-box !important;
-  }
-
-  main.nextra-content,
-  article.nextra-content {
-    width: 100% !important;
-    max-width: 100% !important;
-    margin: 0 auto !important;
-    padding: 20px 16px 80px !important;
-    box-sizing: border-box !important;
-  }
+/* Ensure header buttons align vertically without rogue margins */
+header.nextra-navbar nav button {
+  align-items: center;
+  justify-content: center;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
-/* -------------------------------------------------------------------------
-   FULL-HEIGHT SIDEBAR & DESKTOP LAYOUT (>= 768px)
-   ------------------------------------------------------------------------- */
+/* Mobile drawer container fix */
+aside.nextra-mobile-nav {
+  position: fixed !important;
+  inset: 0 !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  padding-top: var(--nextra-navbar-height) !important;
+  z-index: 20 !important;
+}
+
+/* Desktop Header position & transition */
 @media (min-width: 768px) {
-  .navbar-brand-logo {
-    display: none !important;
+  .nextra-nav-container,
+  .nextra-navbar,
+  header.nextra-navbar {
+    left: var(--sidebar-width) !important;
+    width: calc(100% - var(--sidebar-width)) !important;
+    max-width: calc(100% - var(--sidebar-width)) !important;
+    right: 0 !important;
+    transition:
+      left 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+      width 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+      max-width 0.28s cubic-bezier(0.16, 1, 0.3, 1) !important;
   }
 
-  html.sidebar-collapsed .navbar-brand-logo {
-    display: flex !important;
-    margin-left: 38px !important;
+  /* When sidebar is collapsed, header expands to 100% full width */
+  html.sidebar-collapsed .nextra-nav-container,
+  html.sidebar-collapsed .nextra-navbar,
+  html.sidebar-collapsed header.nextra-navbar {
+    left: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
   }
+}
 
+/* Mobile Header: full width always */
+@media (max-width: 767.98px) {
+  .nextra-nav-container,
+  .nextra-navbar,
+  header.nextra-navbar {
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+/* Part 2: Desktop Sidebar - Fixed on left, collapsible */
+@media (min-width: 768px) {
   aside.nextra-sidebar,
   aside.nextra-sidebar.x\:hidden,
   aside.nextra-sidebar-container {
@@ -227,72 +253,224 @@ nav[aria-label="breadcrumb"],
     display: flex !important;
     flex-direction: column !important;
     margin: 0 !important;
+    transform: translateX(0);
+    opacity: 1;
     transition:
       transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
       opacity 0.22s ease !important;
     will-change: transform, opacity;
   }
 
-  /* Inner navbar right padding on desktop */
-  .nextra-navbar > div:not(.nextra-navbar-blur) {
-    padding-right: 20px !important;
+  /* Collapsed sidebar state */
+  html.sidebar-collapsed aside.nextra-sidebar,
+  html.sidebar-collapsed aside.nextra-sidebar.x\:hidden,
+  html.sidebar-collapsed aside.nextra-sidebar-container {
+    transform: translateX(-100%) !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
   }
+}
 
-  /* Main content wrapper with optimal reading width */
-  .nextra-nav-container + div,
+/* Mobile Sidebar: hidden on mobile (< 768px) */
+@media (max-width: 767.98px) {
+  aside.nextra-sidebar,
+  aside.nextra-sidebar.x\:hidden,
+  aside.nextra-sidebar-container {
+    display: none !important;
+  }
+}
+
+/* Part 3: Main Area - Stacked directly under header, expands to 100% */
+@media (min-width: 768px) {
+  /* Parent flex wrapper around content */
+  div:has(> aside.nextra-sidebar),
   body > div:has(> aside.nextra-sidebar),
-  body > div > div:has(> aside.nextra-sidebar) {
+  body > div > div:has(> aside.nextra-sidebar),
+  .nextra-nav-container + div {
     margin-left: var(--sidebar-width) !important;
     width: calc(100% - var(--sidebar-width)) !important;
     max-width: calc(100% - var(--sidebar-width)) !important;
+    min-height: 100vh !important;
+    padding: 0 !important;
+    padding-top: var(--nextra-navbar-height) !important;
     box-sizing: border-box !important;
-    padding-left: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
     transition:
       margin-left 0.28s cubic-bezier(0.16, 1, 0.3, 1),
       width 0.28s cubic-bezier(0.16, 1, 0.3, 1),
       max-width 0.28s cubic-bezier(0.16, 1, 0.3, 1) !important;
   }
 
-  main.nextra-content,
-  article.nextra-content {
-    width: 100% !important;
-    max-width: 860px !important;
-    margin: 0 auto !important;
-    padding: 32px 36px 96px !important;
-    box-sizing: border-box !important;
-  }
-
-  /* Collapsed sidebar state */
-  html.sidebar-collapsed aside.nextra-sidebar,
-  html.sidebar-collapsed aside.nextra-sidebar-container {
-    transform: translateX(-100%) !important;
-    opacity: 0 !important;
-    pointer-events: none !important;
-  }
-
-  html.sidebar-collapsed .nextra-nav-container + div,
+  /* When sidebar collapsed, main area expands to 100% full width */
+  html.sidebar-collapsed div:has(> aside.nextra-sidebar),
   html.sidebar-collapsed body > div:has(> aside.nextra-sidebar),
   html.sidebar-collapsed body > div > div:has(> aside.nextra-sidebar),
-  html.sidebar-collapsed main.nextra-content {
+  html.sidebar-collapsed .nextra-nav-container + div {
     margin-left: 0 !important;
-    left: 0 !important;
     width: 100% !important;
     max-width: 100% !important;
   }
+
+  /* Main content inner wrappers */
+  article.x\:w-full,
+  article.nextra-content,
+  main.nextra-content {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    flex: 1 1 auto !important;
+    box-sizing: border-box !important;
+    padding: 28px 40px 96px !important;
+    margin: 0 auto !important;
+  }
 }
 
-/* Hide Nextra Footer, Pagination, Edit Links & Timestamps */
+/* Mobile Main Area (< 768px) */
+@media (max-width: 767.98px) {
+  /* Parent flex container from Nextra must be full-width block */
+  div:has(> aside.nextra-sidebar),
+  body > div:has(> aside.nextra-sidebar),
+  body > div > div:has(> aside.nextra-sidebar),
+  .nextra-nav-container + div,
+  div:has(> article),
+  div:has(> main),
+  .x\:max-w-\(--nextra-content-width\),
+  [class*="nextra-content-width"] {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+    padding-top: var(--nextra-navbar-height) !important;
+    box-sizing: border-box !important;
+    display: block !important;
+  }
+
+  /* All TOC, ghost placeholder columns, or floated chrome must be eliminated */
+  .nextra-toc,
+  nav[aria-label="table of contents"],
+  [class*="nextra-toc"],
+  .x\:w-64:not(aside),
+  [class*="float-end"],
+  .x\:float-end {
+    display: none !important;
+    width: 0 !important;
+    max-width: 0 !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    flex: 0 0 0 !important;
+    float: none !important;
+  }
+
+  /* Article and main take 100% full viewport width with reduced side padding */
+  article,
+  article.x\:w-full,
+  article.nextra-content {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 auto !important;
+    padding: 14px 12px 64px !important;
+    box-sizing: border-box !important;
+    display: block !important;
+    flex: 1 1 100% !important;
+  }
+
+  article main,
+  article main.nextra-content {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 auto !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  main:not(article main) {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 auto !important;
+    padding: 14px 12px 64px !important;
+    box-sizing: border-box !important;
+    display: block !important;
+  }
+}
+
+/* Logo & Toggle Button Display Rules */
+@media (min-width: 768px) {
+  header.nextra-navbar nav {
+    justify-content: flex-start !important;
+  }
+
+  .mobile-only-logo,
+  header.nextra-navbar nav .mobile-only-logo,
+  header.nextra-navbar nav a:has(.mobile-only-logo),
+  .nextra-hamburger,
+  header.nextra-navbar nav .nextra-hamburger,
+  header.nextra-navbar nav button.nextra-hamburger {
+    display: none !important;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .mobile-only-logo,
+  header.nextra-navbar nav .mobile-only-logo {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  header.nextra-navbar nav a:has(.mobile-only-logo) {
+    display: inline-flex !important;
+    align-items: center !important;
+  }
+
+  .nextra-hamburger,
+  header.nextra-navbar nav .nextra-hamburger,
+  header.nextra-navbar nav button.nextra-hamburger {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  .sidebar-desktop-toggle-button {
+    display: none !important;
+  }
+}
+
+.sidebar-desktop-toggle-button {
+  order: -999;
+  margin-right: auto !important;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* Hide Nextra Boilerplate: breadcrumbs, TOC, pagination, footer, git links, copy page */
+.nextra-breadcrumb,
+nav[aria-label="breadcrumb"],
+.nextra-breadcrumb-container,
 footer,
 .nextra-footer,
 .nextra-sidebar-footer,
 .nextra-content-footer,
 .nextra-pagination,
 nav[aria-label="pagination"],
-.nextra-breadcrumb,
-nav[aria-label="breadcrumb"],
 .nextra-edit-link,
 .nextra-git-link,
-.nextra-timestamp {
+.nextra-timestamp,
+.nextra-toc,
+nav[aria-label="table of contents"],
+[class*="CopyPage"],
+button[title*="Copy page"] {
   display: none !important;
 }
 
@@ -687,28 +865,26 @@ article img {
 }
 
 /* -------------------------------------------------------------------------
-   ARTICLE LAYOUT OVERRIDES (Hide TOC & Center)
+   ARTICLE VIEWER CONTAINER (OPTIMAL EDITORIAL READING WIDTH)
    ------------------------------------------------------------------------- */
-body:has(.article-viewer-container) .nextra-toc {
-  display: none !important;
-}
-
-body:has(.article-viewer-container) main {
-  margin: 0 auto !important;
-  max-width: 100% !important;
-  padding: 0 !important;
-  width: 100% !important;
-  display: flex !important;
-  justify-content: center !important;
-  align-items: flex-start !important;
-}
-
-body:has(.article-viewer-container) .nextra-content {
-  display: flex !important;
-  justify-content: center !important;
+.article-viewer-container {
   width: 100% !important;
   max-width: 100% !important;
-  margin: 0 !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  box-sizing: border-box !important;
+}
+
+@media (min-width: 768px) {
+  .article-viewer-container {
+    max-width: 880px !important;
+  }
+}
+
+@media (min-width: 1280px) {
+  .article-viewer-container {
+    max-width: 960px !important;
+  }
 }
 
 /* -------------------------------------------------------------------------
@@ -725,7 +901,9 @@ body:has(.article-viewer-container) .nextra-content {
 .article-viewer-container h5,
 .article-viewer-container h6,
 .article-viewer-container a {
-  font-family: var(--font-im-fell), "IM Fell English", Georgia, Cambria, "Times New Roman", serif !important;
+  font-family:
+    var(--font-im-fell), "IM Fell English", Georgia, Cambria, "Times New Roman",
+    serif !important;
 }
 
 .article-viewer-container p,
@@ -771,18 +949,332 @@ body:has(.article-viewer-container) .nextra-content {
 
 /* Maintain crisp monospace for code snippets and pre blocks */
 .article-viewer-container code:not(pre code) {
-  font-family: var(--font-mono), ui-monospace, SFMono-Regular, "JetBrains Mono", Consolas, monospace !important;
+  font-family:
+    var(--font-mono), ui-monospace, SFMono-Regular, "JetBrains Mono", Consolas,
+    monospace !important;
   font-size: 1.05rem !important;
 }
 
 .article-viewer-container pre {
-  font-family: var(--font-mono), ui-monospace, SFMono-Regular, "JetBrains Mono", Consolas, monospace !important;
+  font-family:
+    var(--font-mono), ui-monospace, SFMono-Regular, "JetBrains Mono", Consolas,
+    monospace !important;
   font-size: 0.95rem !important;
 }
 
 .article-viewer-container pre code,
 .article-viewer-container kbd {
-  font-family: var(--font-mono), ui-monospace, SFMono-Regular, "JetBrains Mono", Consolas, monospace !important;
+  font-family:
+    var(--font-mono), ui-monospace, SFMono-Regular, "JetBrains Mono", Consolas,
+    monospace !important;
   font-size: inherit !important;
 }
 
+/* -------------------------------------------------------------------------
+   FULLSCREEN SPLIT-PANE MARKDOWN EDITOR (/create)
+   ------------------------------------------------------------------------- */
+.create-editor-fullscreen {
+  position: fixed;
+  inset: 0;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--notion-bg);
+  color: var(--notion-text-primary);
+  overflow: hidden;
+}
+
+.editor-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 48px;
+  min-height: 48px;
+  padding: 0 16px;
+  background-color: var(--notion-card-bg);
+  border-bottom: 1px solid var(--notion-border);
+  gap: 12px;
+}
+
+.editor-toolbar-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+}
+
+.editor-toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.editor-back-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  color: var(--notion-text-secondary);
+  border: 1px solid var(--notion-border);
+  background: var(--notion-card-bg);
+  transition: all 0.15s ease;
+}
+
+.editor-back-btn:hover {
+  background: var(--notion-hover);
+  color: var(--notion-text-primary);
+}
+
+.editor-field-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.editor-select-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.editor-select {
+  appearance: none;
+  background: var(--notion-bg);
+  color: var(--notion-text-primary);
+  border: 1px solid var(--notion-border);
+  border-radius: 6px;
+  padding: 5px 26px 5px 10px;
+  font-size: 13px;
+  font-weight: 500;
+  outline: none;
+  cursor: pointer;
+  height: 30px;
+}
+
+.editor-select:focus {
+  border-color: var(--notion-border-strong);
+}
+
+.editor-select:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.editor-select-icon {
+  position: absolute;
+  right: 8px;
+  pointer-events: none;
+  color: var(--notion-text-muted);
+}
+
+.editor-input {
+  background: var(--notion-bg);
+  color: var(--notion-text-primary);
+  border: 1px solid var(--notion-border);
+  border-radius: 6px;
+  padding: 5px 10px;
+  font-size: 13px;
+  outline: none;
+  height: 30px;
+}
+
+.editor-input:focus {
+  border-color: var(--notion-border-strong);
+}
+
+.editor-add-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  border: 1px solid var(--notion-border);
+  background: var(--notion-bg);
+  color: var(--notion-text-secondary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.editor-add-btn:hover {
+  background: var(--notion-hover);
+  color: var(--notion-text-primary);
+}
+
+.editor-error {
+  font-size: 12px;
+  color: #ef4444;
+  max-width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.editor-save-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background-color: var(--notion-text-primary);
+  color: var(--notion-bg);
+  border: none;
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.editor-save-btn:hover {
+  opacity: 0.9;
+}
+
+.editor-save-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.editor-meta-bar {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  background: var(--notion-bg);
+  border-bottom: 1px solid var(--notion-border);
+  gap: 12px;
+}
+
+.editor-title-input {
+  flex: 2;
+  font-size: 15px;
+  font-weight: 600;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--notion-text-primary);
+}
+
+.editor-title-input::placeholder {
+  color: var(--notion-text-muted);
+}
+
+.editor-desc-input {
+  flex: 3;
+  font-size: 13px;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--notion-text-body);
+}
+
+.editor-desc-input::placeholder {
+  color: var(--notion-text-muted);
+}
+
+.editor-slug-preview {
+  font-size: 11px;
+  color: var(--notion-text-muted);
+  white-space: nowrap;
+}
+
+.editor-slug-preview code {
+  color: var(--notion-text-secondary);
+}
+
+.editor-split-container {
+  flex: 1;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+}
+
+.editor-pane {
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.editor-pane-left {
+  background: var(--notion-card-bg);
+}
+
+.editor-pane-right {
+  background: var(--notion-bg);
+}
+
+.editor-divider {
+  width: 6px;
+  background-color: var(--notion-border);
+  cursor: col-resize;
+  position: relative;
+  transition: background-color 0.15s ease;
+  z-index: 10;
+  flex-shrink: 0;
+}
+
+.editor-divider:hover,
+.editor-divider:active {
+  background-color: var(--notion-text-muted);
+}
+
+.editor-with-gutter {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.editor-gutter {
+  width: 44px;
+  min-width: 44px;
+  padding: 16px 8px 16px 0;
+  text-align: right;
+  font-family: var(--font-mono), monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--notion-text-muted);
+  user-select: none;
+  border-right: 1px solid var(--notion-border);
+  background: var(--notion-card-bg);
+  overflow: hidden;
+}
+
+.editor-line-number {
+  height: calc(13px * 1.6);
+}
+
+.editor-textarea {
+  flex: 1;
+  height: 100%;
+  padding: 16px;
+  font-family: var(--font-mono), monospace;
+  font-size: 13.5px;
+  line-height: 1.6;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--notion-text-primary);
+  resize: none;
+  white-space: pre-wrap;
+  tab-size: 2;
+  overflow-y: auto;
+}
+
+.editor-preview-content {
+  flex: 1;
+  height: 100%;
+  padding: 32px 40px;
+  overflow-y: auto;
+  max-width: 760px;
+  margin: 0 auto;
+  width: 100%;
+}

@@ -1,9 +1,8 @@
-import fs from 'fs';
-import path from 'path';
-import matter from 'gray-matter';
-import { marked } from 'marked';
+import { prisma } from "./prisma";
+import { marked } from "marked";
 
 export interface ArticleMeta {
+  id: string;
   slug: string;
   title: string;
   category: string;
@@ -14,66 +13,118 @@ export interface ArticleMeta {
 export interface ArticleDetail extends ArticleMeta {
   content: string;
   html: string;
+  subjectId?: string;
+  chapterId?: string | null;
 }
 
-const contentRoot = path.join(process.cwd(), 'content');
+/**
+ * Get all articles for a given subject (section), grouped by chapter.
+ */
+export async function getArticles(section: string): Promise<ArticleMeta[]> {
+  const subject = await prisma.subject.findUnique({
+    where: { slug: section },
+  });
+  if (!subject) return [];
 
-export function getArticles(section: string): ArticleMeta[] {
-  const dir = path.join(contentRoot, section);
-  if (!fs.existsSync(dir)) return [];
+  const articles = await prisma.article.findMany({
+    where: { subjectId: subject.id },
+    include: { chapter: true },
+    orderBy: [{ chapter: { order: "asc" } }, { createdAt: "asc" }],
+  });
 
-  const files = fs.readdirSync(dir).filter(f => f.endsWith('.md'));
-  const articles: ArticleMeta[] = [];
+  return articles.map((a) => ({
+    id: a.id,
+    slug: a.slug,
+    title: a.title,
+    category: a.chapter?.title || "General",
+    description: a.description || "",
+    section,
+  }));
+}
 
-  for (const file of files) {
-    const slug = file.replace(/\.md$/, '');
-    const filePath = path.join(dir, file);
-    const fileContent = fs.readFileSync(filePath, 'utf8');
-    const { data } = matter(fileContent);
+/**
+ * Get a single article by subject slug and article slug.
+ */
+export async function getArticle(
+  section: string,
+  slug: string,
+): Promise<ArticleDetail | null> {
+  const subject = await prisma.subject.findUnique({
+    where: { slug: section },
+  });
+  if (!subject) return null;
 
-    articles.push({
-      slug,
-      title: data.title || slug,
-      category: data.category || 'General',
-      description: data.description || '',
-      section,
+  const article = await prisma.article.findUnique({
+    where: { subjectId_slug: { subjectId: subject.id, slug } },
+    include: { chapter: true },
+  });
+  if (!article) return null;
+
+  // If HTML is not pre-rendered, render and cache it
+  let html = article.html || "";
+  if (!html) {
+    html = await marked.parse(article.content, { gfm: true, breaks: true });
+    await prisma.article.update({
+      where: { id: article.id },
+      data: { html },
     });
   }
 
-  return articles;
-}
-
-export async function getArticle(section: string, slug: string): Promise<ArticleDetail | null> {
-  const filePath = path.join(contentRoot, section, `${slug}.md`);
-  if (!fs.existsSync(filePath)) return null;
-
-  const fileContent = fs.readFileSync(filePath, 'utf8');
-  const { data, content } = matter(fileContent);
-
-  const html = await marked.parse(content, { gfm: true, breaks: true });
-
   return {
-    slug,
-    title: data.title || slug,
-    category: data.category || 'General',
-    description: data.description || '',
+    id: article.id,
+    slug: article.slug,
+    title: article.title,
+    category: article.chapter?.title || "General",
+    description: article.description || "",
     section,
-    content,
+    content: article.content,
     html,
+    subjectId: article.subjectId,
+    chapterId: article.chapterId,
   };
 }
 
-export function getAllArticleSlugs(section: string): string[] {
-  const dir = path.join(contentRoot, section);
-  if (!fs.existsSync(dir)) return [];
-  return fs.readdirSync(dir)
-    .filter(f => f.endsWith('.md'))
-    .map(f => f.replace(/\.md$/, ''));
+/**
+ * Get all article slugs for a given subject (for static generation).
+ */
+export async function getAllArticleSlugs(section: string): Promise<string[]> {
+  const subject = await prisma.subject.findUnique({
+    where: { slug: section },
+  });
+  if (!subject) return [];
+
+  const articles = await prisma.article.findMany({
+    where: { subjectId: subject.id },
+    select: { slug: true },
+  });
+
+  return articles.map((a) => a.slug);
 }
 
-export function getAllSections(): string[] {
-  if (!fs.existsSync(contentRoot)) return [];
-  return fs.readdirSync(contentRoot, { withFileTypes: true })
-    .filter(dirent => dirent.isDirectory())
-    .map(dirent => dirent.name);
+/**
+ * Get all subject slugs (section names).
+ */
+export async function getAllSections(): Promise<string[]> {
+  const subjects = await prisma.subject.findMany({
+    select: { slug: true },
+    orderBy: { order: "asc" },
+  });
+  return subjects.map((s) => s.slug);
+}
+
+/**
+ * Get all subjects with their chapters (for navigation & editor dropdowns).
+ */
+export async function getSubjectsAndChapters() {
+  return prisma.subject.findMany({
+    include: {
+      chapters: {
+        orderBy: { order: "asc" },
+      },
+      _count: {
+        select: { articles: true },
+      },
+    },
+    orderBy: { order: "asc" },
+  });
 }

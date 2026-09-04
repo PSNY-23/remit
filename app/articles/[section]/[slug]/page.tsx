@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { getArticle, getAllArticleSlugs } from '@/lib/content';
+import { getArticle, getAllArticleSlugs, getAllSections } from '@/lib/content';
 import ArticleViewer from '@/components/ArticleViewer';
 
 interface Props {
@@ -7,10 +7,10 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  const sections = ['frontend', 'backend', 'databases', 'system-design', 'others', 'dsa', 'handwritten'];
+  const sections = await getAllSections();
   const params: { section: string; slug: string }[] = [];
   for (const section of sections) {
-    const slugs = getAllArticleSlugs(section);
+    const slugs = await getAllArticleSlugs(section);
     for (const slug of slugs) {
       params.push({ section, slug });
     }
