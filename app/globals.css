@@ -5,30 +5,30 @@
    ------------------------------------------------------------------------- */
 :root {
   /* Nextra internal RGB background tokens */
-  --nextra-bg: 255, 255, 255;
+  --nextra-bg: 240, 242, 245;
   --nextra-navbar-height: 48px;
   --sidebar-width: 260px;
   --nextra-content-width: 100%;
 
-  /* Light Mode - Warm Charcoal, Muted Neutral Body, Crisp Contrast */
-  --notion-bg: #ffffff;
-  --notion-sidebar-bg: #f8f8f7;
+  /* Light Mode - Calming Soft Gray Canvas (#f0f2f5) & Slate Text (#65676b) */
+  --notion-bg: #f0f2f5;
+  --notion-sidebar-bg: #e4e6eb;
   --notion-card-bg: #ffffff;
-  --notion-card-hover: #f3f3f1;
-  --notion-text-primary: #191919;
-  --notion-text-body: #37352f;
-  --notion-text-secondary: #6b6b6b;
-  --notion-text-muted: #949494;
+  --notion-card-hover: #f7f8fa;
+  --notion-text-primary: #1c1e21;
+  --notion-text-body: #65676b;
+  --notion-text-secondary: #65676b;
+  --notion-text-muted: #8a8d91;
   --notion-border: rgba(0, 0, 0, 0.08);
   --notion-border-strong: rgba(0, 0, 0, 0.14);
-  --notion-divider: #e8e8e6;
+  --notion-divider: #ced0d4;
   --notion-hover: rgba(0, 0, 0, 0.04);
   --notion-active: rgba(0, 0, 0, 0.08);
-  --notion-callout-bg: #f5f5f4;
+  --notion-callout-bg: #e4e6eb;
 
   /* Notion Tag Colors (Light) */
-  --tag-gray-bg: #f1f1ef;
-  --tag-gray-text: #50504e;
+  --tag-gray-bg: #e4e6eb;
+  --tag-gray-text: #65676b;
   --tag-brown-bg: #f4eeee;
   --tag-brown-text: #89632a;
   --tag-orange-bg: #faebdd;
@@ -52,15 +52,15 @@
   /* Nextra internal RGB background tokens */
   --nextra-bg: 20, 20, 20;
 
-  /* Dark Mode - Soft Off-White Headings, Soothing Muted Silver Body (No Glare) */
+  /* Dark Mode - Muted, Soothing Low-Glare Typography */
   --notion-bg: #141414;
   --notion-sidebar-bg: #1b1b1b;
   --notion-card-bg: #1c1c1c;
   --notion-card-hover: #242424;
-  --notion-text-primary: #ededed;
-  --notion-text-body: #c7c7c7;
-  --notion-text-secondary: #8e8e8e;
-  --notion-text-muted: #5e5e5e;
+  --notion-text-primary: #b4b7bd;
+  --notion-text-body: #989ba2;
+  --notion-text-secondary: #747780;
+  --notion-text-muted: #585b62;
   --notion-border: rgba(255, 255, 255, 0.08);
   --notion-border-strong: rgba(255, 255, 255, 0.14);
   --notion-divider: #262626;
@@ -70,7 +70,7 @@
 
   /* Notion Tag Colors (Dark) */
   --tag-gray-bg: #262626;
-  --tag-gray-text: #a1a1aa;
+  --tag-gray-text: #989ba2;
   --tag-brown-bg: #432e2b;
   --tag-brown-text: #d8a07c;
   --tag-orange-bg: #52331b;
@@ -685,3 +685,104 @@ article img {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--notion-text-muted);
 }
+
+/* -------------------------------------------------------------------------
+   ARTICLE LAYOUT OVERRIDES (Hide TOC & Center)
+   ------------------------------------------------------------------------- */
+body:has(.article-viewer-container) .nextra-toc {
+  display: none !important;
+}
+
+body:has(.article-viewer-container) main {
+  margin: 0 auto !important;
+  max-width: 100% !important;
+  padding: 0 !important;
+  width: 100% !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: flex-start !important;
+}
+
+body:has(.article-viewer-container) .nextra-content {
+  display: flex !important;
+  justify-content: center !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+}
+
+/* -------------------------------------------------------------------------
+   ARTICLE VIEWER TYPOGRAPHY (IM FELL ENGLISH - CLASSIC EDITORIAL PAPER)
+   ------------------------------------------------------------------------- */
+.article-viewer-container,
+.article-viewer-container p,
+.article-viewer-container li,
+.article-viewer-container blockquote,
+.article-viewer-container h1,
+.article-viewer-container h2,
+.article-viewer-container h3,
+.article-viewer-container h4,
+.article-viewer-container h5,
+.article-viewer-container h6,
+.article-viewer-container a {
+  font-family: var(--font-im-fell), "IM Fell English", Georgia, Cambria, "Times New Roman", serif !important;
+}
+
+.article-viewer-container p,
+.article-viewer-container li {
+  font-size: 1.285rem !important;
+  line-height: 1.55 !important;
+  letter-spacing: 0.005em !important;
+  margin-bottom: 0.9rem !important;
+}
+
+.article-viewer-container blockquote {
+  font-size: 1.25rem !important;
+  line-height: 1.55 !important;
+  margin: 1rem 0 !important;
+}
+
+.article-viewer-container h1 {
+  font-size: clamp(2.35rem, 5vw, 3.25rem) !important;
+  font-weight: 400 !important;
+  line-height: 1.22 !important;
+  letter-spacing: -0.015em !important;
+}
+
+.article-viewer-container h2 {
+  font-size: clamp(1.75rem, 3.6vw, 2.25rem) !important;
+  font-weight: 400 !important;
+  line-height: 1.3 !important;
+}
+
+.article-viewer-container h3 {
+  font-size: clamp(1.4rem, 2.8vw, 1.7rem) !important;
+  font-weight: 400 !important;
+  line-height: 1.35 !important;
+}
+
+.article-viewer-container h4,
+.article-viewer-container h5,
+.article-viewer-container h6 {
+  font-size: 1.25rem !important;
+  font-weight: 400 !important;
+  line-height: 1.4 !important;
+}
+
+/* Maintain crisp monospace for code snippets and pre blocks */
+.article-viewer-container code:not(pre code) {
+  font-family: var(--font-mono), ui-monospace, SFMono-Regular, "JetBrains Mono", Consolas, monospace !important;
+  font-size: 1.05rem !important;
+}
+
+.article-viewer-container pre {
+  font-family: var(--font-mono), ui-monospace, SFMono-Regular, "JetBrains Mono", Consolas, monospace !important;
+  font-size: 0.95rem !important;
+}
+
+.article-viewer-container pre code,
+.article-viewer-container kbd {
+  font-family: var(--font-mono), ui-monospace, SFMono-Regular, "JetBrains Mono", Consolas, monospace !important;
+  font-size: inherit !important;
+}
+

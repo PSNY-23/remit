@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import React, { useState, useMemo } from 'react';
-import Link from 'next/link';
-import { Folder, FileText, ChevronRight } from 'lucide-react';
-import { ArticleMeta } from '@/lib/content';
+import React, { useState, useMemo } from "react";
+import Link from "next/link";
+import { Folder, FileText, ChevronRight } from "lucide-react";
+import { ArticleMeta } from "@/lib/content";
 
 interface Props {
   section: string;
@@ -11,31 +11,31 @@ interface Props {
 }
 
 export default function SectionArticleExplorer({ section, articles }: Props) {
-  const [selectedCategory, setSelectedCategory] = useState<string>('All');
+  const [selectedCategory, setSelectedCategory] = useState<string>("All");
 
   const categories = useMemo(() => {
     const set = new Set<string>();
-    articles.forEach(a => set.add(a.category));
-    return ['All', ...Array.from(set)];
+    articles.forEach((a) => set.add(a.category));
+    return ["All", ...Array.from(set)];
   }, [articles]);
 
   const categoryCounts = useMemo(() => {
     const counts: Record<string, number> = { All: articles.length };
-    articles.forEach(a => {
+    articles.forEach((a) => {
       counts[a.category] = (counts[a.category] || 0) + 1;
     });
     return counts;
   }, [articles]);
 
   const filtered = useMemo(() => {
-    return articles.filter(a => {
-      return selectedCategory === 'All' || a.category === selectedCategory;
+    return articles.filter((a) => {
+      return selectedCategory === "All" || a.category === selectedCategory;
     });
   }, [articles, selectedCategory]);
 
   const grouped = useMemo(() => {
     const map = new Map<string, ArticleMeta[]>();
-    filtered.forEach(a => {
+    filtered.forEach((a) => {
       if (!map.has(a.category)) map.set(a.category, []);
       map.get(a.category)!.push(a);
     });
@@ -56,16 +56,16 @@ export default function SectionArticleExplorer({ section, articles }: Props) {
               onClick={() => setSelectedCategory(cat)}
               className={`flex items-center gap-2 sm:gap-2.5 px-3 py-2 sm:px-4 sm:py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all cursor-pointer border ${
                 isSelected
-                  ? 'bg-[var(--notion-hover)] border-[var(--notion-text-primary)] text-[var(--notion-text-primary)] font-semibold shadow-xs'
-                  : 'bg-[var(--notion-card-bg)] border-[var(--notion-border)] text-[var(--notion-text-secondary)] hover:bg-[var(--notion-hover)] hover:text-[var(--notion-text-primary)] hover:border-[var(--notion-border-strong)]'
+                  ? "bg-[var(--notion-hover)] border-[var(--notion-text-primary)] text-[var(--notion-text-primary)] font-semibold shadow-xs"
+                  : "bg-[var(--notion-card-bg)] border-[var(--notion-border)] text-[var(--notion-text-secondary)] hover:bg-[var(--notion-hover)] hover:text-[var(--notion-text-primary)] hover:border-[var(--notion-border-strong)]"
               }`}
             >
               <span>{cat}</span>
               <span
                 className={`text-[11px] sm:text-xs px-1.5 sm:px-2 py-0.5 rounded-md font-semibold transition-colors ${
                   isSelected
-                    ? 'bg-[var(--notion-text-primary)] text-[var(--notion-bg)]'
-                    : 'bg-[var(--tag-gray-bg)] text-[var(--notion-text-muted)]'
+                    ? "bg-[var(--notion-text-primary)] text-[var(--notion-bg)]"
+                    : "bg-[var(--tag-gray-bg)] text-[var(--notion-text-muted)]"
                 }`}
               >
                 {count}
@@ -77,8 +77,12 @@ export default function SectionArticleExplorer({ section, articles }: Props) {
 
       {/* Stats row */}
       <div className="flex items-center justify-between text-xs text-[var(--notion-text-muted)] px-1 pt-1 border-t border-[var(--notion-border)]">
-        <span>Showing {filtered.length} of {articles.length} questions</span>
-        {selectedCategory !== 'All' && <span>Filtered by {selectedCategory}</span>}
+        <span>
+          Showing {filtered.length} of {articles.length} questions
+        </span>
+        {selectedCategory !== "All" && (
+          <span>Filtered by {selectedCategory}</span>
+        )}
       </div>
 
       {/* Articles Categorized List */}
@@ -88,7 +92,9 @@ export default function SectionArticleExplorer({ section, articles }: Props) {
             <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[var(--notion-text-secondary)] pb-1 border-b border-[var(--notion-border)]">
               <Folder className="w-3.5 h-3.5" />
               <span>{cat}</span>
-              <span className="text-[var(--notion-text-muted)] font-normal">({list.length})</span>
+              <span className="text-[var(--notion-text-muted)] font-normal">
+                ({list.length})
+              </span>
             </div>
 
             <div className="flex flex-col space-y-1.5">

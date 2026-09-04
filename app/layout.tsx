@@ -1,7 +1,7 @@
 import { Layout, Navbar } from "nextra-theme-docs";
 import { Head } from "nextra/components";
 import { getPageMap } from "nextra/page-map";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono, IM_Fell_English } from "next/font/google";
 import SidebarTopBrand from "@/components/SidebarTopBrand";
 import SidebarToggleButton from "@/components/SidebarToggleButton";
 import ThemeToggleButton from "@/components/ThemeToggleButton";
@@ -18,6 +18,13 @@ const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-mono",
+});
+
+const imFellEnglish = IM_Fell_English({
+  weight: "400",
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-im-fell",
 });
 
 export const metadata = {
@@ -41,15 +48,19 @@ export default async function RootLayout({
       "databases",
       "nodejs",
       "system-design",
+      "handwritten",
     ]);
 
     const pageMap = rawPageMap
       .filter((item: any) => {
         const name = item.name || item.route || "";
-        return name !== "articles" && !name.startsWith("[");
+        return !name.startsWith("[");
       })
       .map((item: any) => {
         const name = item.name || "";
+        if (name === "articles") {
+          return { ...item, display: "hidden" };
+        }
         if (flatSections.has(name)) {
           const { children, ...rest } = item;
           return rest;
@@ -60,7 +71,7 @@ export default async function RootLayout({
     return (
       <html
         lang="en"
-        className={`${inter.variable} ${jetbrainsMono.variable}`}
+        className={`${inter.variable} ${jetbrainsMono.variable} ${imFellEnglish.variable}`}
         suppressHydrationWarning
       >
         <Head faviconGlyph="🧠" />

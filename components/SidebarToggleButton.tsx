@@ -43,6 +43,7 @@ export default function SidebarToggleButton() {
   };
 
   if (!mounted) return null;
+  if (!isMobile) return null;
 
   const isOpen = isMobile ? isMobileMenuOpen : !isDesktopCollapsed;
 
