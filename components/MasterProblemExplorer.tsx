@@ -34,6 +34,15 @@ import {
   FolderTree,
   Code2,
 } from 'lucide-react';
+import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 type PlatformFilter = 'All' | 'LeetCode' | 'GeeksforGeeks' | 'SPOJ' | 'HackerEarth';
 type StatusFilter = 'All' | 'Solved' | 'Unsolved' | 'Starred';
@@ -397,18 +406,18 @@ export default function MasterProblemExplorer() {
       <div className="bg-[var(--notion-card-bg)] border border-[var(--notion-border)] rounded-xl p-3.5 mb-6 shadow-2xs flex flex-col md:flex-row gap-3 items-stretch md:items-center justify-between">
         {/* Search Input */}
         <div className="relative flex-1 min-w-[260px]">
-          <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--notion-text-muted)]" />
-          <input
+          <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--notion-text-muted)] z-10" />
+          <Input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search problems by title, topic, platform, or #..."
-            className="w-full pl-10 pr-8 py-2 bg-[var(--notion-callout-bg)] border border-[var(--notion-border)] rounded-lg text-sm text-[var(--notion-text-primary)] placeholder-[var(--notion-text-muted)] focus:outline-none focus:border-[var(--notion-text-secondary)] transition"
+            className="w-full pl-10 pr-8 h-9 bg-[var(--notion-callout-bg)] border border-[var(--notion-border)] text-sm text-[var(--notion-text-primary)] placeholder-[var(--notion-text-muted)] focus-visible:ring-1 focus-visible:ring-[var(--notion-border-strong)]"
           />
           {searchQuery && (
             <button
               onClick={() => setSearchQuery('')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--notion-text-muted)] hover:text-[var(--notion-text-primary)] cursor-pointer p-1"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--notion-text-muted)] hover:text-[var(--notion-text-primary)] cursor-pointer p-1 z-10"
             >
               <X className="w-4 h-4" />
             </button>
@@ -418,29 +427,37 @@ export default function MasterProblemExplorer() {
         {/* Filter Selectors & View Toggle */}
         <div className="flex flex-wrap items-center gap-2.5">
           {/* Platform Selector */}
-          <select
+          <Select
             value={platformFilter}
-            onChange={(e) => setPlatformFilter(e.target.value as PlatformFilter)}
-            className="px-3 py-2 bg-[var(--notion-callout-bg)] border border-[var(--notion-border)] rounded-lg text-xs md:text-sm font-medium text-[var(--notion-text-primary)] focus:outline-none cursor-pointer"
+            onValueChange={(val) => setPlatformFilter(val as PlatformFilter)}
           >
-            <option value="All">All Platforms</option>
-            <option value="LeetCode">LeetCode</option>
-            <option value="GeeksforGeeks">GeeksforGeeks</option>
-            <option value="SPOJ">SPOJ</option>
-            <option value="HackerEarth">HackerEarth</option>
-          </select>
+            <SelectTrigger className="w-[140px] h-9 text-xs md:text-sm bg-[var(--notion-callout-bg)] border-[var(--notion-border)]">
+              <SelectValue placeholder="All Platforms" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="All">All Platforms</SelectItem>
+              <SelectItem value="LeetCode">LeetCode</SelectItem>
+              <SelectItem value="GeeksforGeeks">GeeksforGeeks</SelectItem>
+              <SelectItem value="SPOJ">SPOJ</SelectItem>
+              <SelectItem value="HackerEarth">HackerEarth</SelectItem>
+            </SelectContent>
+          </Select>
 
           {/* Status Selector */}
-          <select
+          <Select
             value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value as StatusFilter)}
-            className="px-3 py-2 bg-[var(--notion-callout-bg)] border border-[var(--notion-border)] rounded-lg text-xs md:text-sm font-medium text-[var(--notion-text-primary)] focus:outline-none cursor-pointer"
+            onValueChange={(val) => setStatusFilter(val as StatusFilter)}
           >
-            <option value="All">All Status</option>
-            <option value="Unsolved">Unsolved Only</option>
-            <option value="Solved">Solved Only</option>
-            <option value="Starred">Starred Only</option>
-          </select>
+            <SelectTrigger className="w-[130px] h-9 text-xs md:text-sm bg-[var(--notion-callout-bg)] border-[var(--notion-border)]">
+              <SelectValue placeholder="All Status" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="All">All Status</SelectItem>
+              <SelectItem value="Unsolved">Unsolved Only</SelectItem>
+              <SelectItem value="Solved">Solved Only</SelectItem>
+              <SelectItem value="Starred">Starred Only</SelectItem>
+            </SelectContent>
+          </Select>
 
           {/* View Mode Toggle */}
           <div className="flex bg-[var(--tag-gray-bg)] p-0.5 rounded-lg border border-[var(--notion-border)]">
@@ -635,12 +652,11 @@ export default function MasterProblemExplorer() {
                                     }`}
                                   >
                                     <div className="flex items-center gap-3 min-w-0 flex-1 mr-3">
-                                      <input
-                                        type="checkbox"
+                                      <Checkbox
                                         checked={isSolved}
-                                        onChange={() => toggleSolved(prob.id)}
+                                        onCheckedChange={() => toggleSolved(prob.id)}
                                         title={isSolved ? 'Mark as Unsolved' : 'Mark as Solved'}
-                                        className="w-4 h-4 rounded border-[var(--notion-border-strong)] cursor-pointer flex-shrink-0 accent-neutral-800 dark:accent-neutral-200"
+                                        className="flex-shrink-0"
                                       />
 
                                       <span className="text-xs md:text-sm font-mono text-[var(--notion-text-muted)] flex-shrink-0 w-8">
@@ -733,11 +749,10 @@ export default function MasterProblemExplorer() {
                       }`}
                     >
                       <td className="py-2.5 px-3.5 text-center">
-                        <input
-                          type="checkbox"
+                        <Checkbox
                           checked={isSolved}
-                          onChange={() => toggleSolved(prob.id)}
-                          className="w-4 h-4 rounded border-[var(--notion-border-strong)] cursor-pointer accent-neutral-800 dark:accent-neutral-200"
+                          onCheckedChange={() => toggleSolved(prob.id)}
+                          title={isSolved ? 'Mark as Unsolved' : 'Mark as Solved'}
                         />
                       </td>
                       <td className="py-2.5 px-3.5 font-mono text-[var(--notion-text-muted)] font-medium text-xs md:text-sm">
@@ -841,11 +856,9 @@ export default function MasterProblemExplorer() {
 
                 <div className="pt-2.5 border-t border-[var(--notion-border)] flex items-center justify-between">
                   <label className="flex items-center gap-2 text-xs md:text-sm text-[var(--notion-text-secondary)] cursor-pointer">
-                    <input
-                      type="checkbox"
+                    <Checkbox
                       checked={isSolved}
-                      onChange={() => toggleSolved(prob.id)}
-                      className="w-4 h-4 rounded accent-neutral-800 dark:accent-neutral-200"
+                      onCheckedChange={() => toggleSolved(prob.id)}
                     />
                     <span>{isSolved ? 'Solved' : 'Mark Solved'}</span>
                   </label>

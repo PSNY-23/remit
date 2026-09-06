@@ -2,9 +2,31 @@
 
 import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { marked } from "marked";
-import { ArrowLeft, Save, Plus, ChevronDown } from "lucide-react";
+import { renderMarkdown } from "@/lib/markdown";
+import { renderMermaidDiagrams } from "@/lib/mermaid";
+import { ArrowLeft, Save, Plus, Eye, PenLine, FolderPlus } from "lucide-react";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export interface InitialArticleData {
   id: string;
@@ -58,16 +80,27 @@ export default function ArticleEditor({
   const [selectedChapterId, setSelectedChapterId] = useState(
     initialArticle?.chapterId || ""
   );
-  const [newSubjectName, setNewSubjectName] = useState("");
-  const [newChapterName, setNewChapterName] = useState("");
-  const [showNewSubject, setShowNewSubject] = useState(false);
-  const [showNewChapter, setShowNewChapter] = useState(false);
+
+  // Topic creation dialog state
+  const [isCreateTopicOpen, setIsCreateTopicOpen] = useState(false);
+  const [createModalTab, setCreateModalTab] = useState<"chapter" | "subject">(
+    selectedSubjectId ? "chapter" : "subject"
+  );
+  const [modalParentSubjectId, setModalParentSubjectId] = useState(
+    selectedSubjectId || ""
+  );
+  const [newSubjectTitle, setNewSubjectTitle] = useState("");
+  const [newSubjectFirstChapter, setNewSubjectFirstChapter] = useState("");
+  const [newChapterTitle, setNewChapterTitle] = useState("");
+  const [modalSubmitting, setModalSubmitting] = useState(false);
+  const [modalError, setModalError] = useState("");
 
   // UI state
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [splitPercent, setSplitPercent] = useState(50);
   const [isDragging, setIsDragging] = useState(false);
+  const [mobileTab, setMobileTab] = useState<"edit" | "preview">("edit");
   const containerRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const previewRef = useRef<HTMLDivElement>(null);
@@ -75,20 +108,33 @@ export default function ArticleEditor({
   // Load subjects
   useEffect(() => {
     fetch("/api/subjects")
-      .then((r) => r.json())
+      .then(async (r) => {
+        if (!r.ok) return { subjects: [] };
+        return r.json().catch(() => ({ subjects: [] }));
+      })
       .then((data) => {
-        setSubjects(data.subjects || []);
+        setSubjects(data?.subjects || []);
         if (isEdit && initialArticle) {
           setSelectedSubjectId(initialArticle.subjectId);
+          setModalParentSubjectId(initialArticle.subjectId);
           if (initialArticle.chapterId) {
             setSelectedChapterId(initialArticle.chapterId);
           }
         }
       })
-      .catch(console.error);
+      .catch((err) => {
+        console.warn("Could not fetch subjects:", err);
+      });
   }, [isEdit, initialArticle]);
 
-  // Auto-generate slug from title ONLY in create mode (in edit mode keep existing unless user wants to change)
+  // Keep modalParentSubjectId in sync with selected subject
+  useEffect(() => {
+    if (selectedSubjectId) {
+      setModalParentSubjectId(selectedSubjectId);
+    }
+  }, [selectedSubjectId]);
+
+  // Auto-generate slug from title ONLY in create mode
   useEffect(() => {
     if (!isEdit) {
       setSlug(slugify(title));
@@ -101,15 +147,18 @@ export default function ArticleEditor({
     return sub?.chapters || [];
   }, [subjects, selectedSubjectId]);
 
-  // Live preview
+  // Live preview with KaTeX, syntax highlighting, and Mermaid
   const preview = useMemo(() => {
     if (!content) return "";
-    try {
-      return marked.parse(content, { gfm: true, breaks: true }) as string;
-    } catch {
-      return "";
-    }
+    return renderMarkdown(content);
   }, [content]);
+
+  // Dynamic Mermaid diagrams rendering on preview update
+  useEffect(() => {
+    if (previewRef.current) {
+      renderMermaidDiagrams(previewRef.current);
+    }
+  }, [preview]);
 
   // Line numbers
   const lineCount = useMemo(() => {
@@ -168,12 +217,142 @@ export default function ArticleEditor({
     const textarea = textareaRef.current;
     const scrollRatio =
       textarea.scrollTop / (textarea.scrollHeight - textarea.clientHeight || 1);
-    const preview = previewRef.current;
-    preview.scrollTop =
-      scrollRatio * (preview.scrollHeight - preview.clientHeight);
+    const prev = previewRef.current;
+    prev.scrollTop =
+      scrollRatio * (prev.scrollHeight - prev.clientHeight);
   };
 
-  // Save / Update
+  // Create new Subject via dialog
+  const handleCreateSubjectSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newSubjectTitle.trim() || modalSubmitting) return;
+
+    setModalSubmitting(true);
+    setModalError("");
+
+    try {
+      const res = await fetch("/api/subjects", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title: newSubjectTitle.trim() }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setModalError(data.error || "Failed to create subject");
+        setModalSubmitting(false);
+        return;
+      }
+
+      const createdSubject = data.subject;
+      let createdChapter = null;
+
+      if (newSubjectFirstChapter.trim()) {
+        const chRes = await fetch("/api/chapters", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            title: newSubjectFirstChapter.trim(),
+            subjectId: createdSubject.id,
+          }),
+        });
+        const chData = await chRes.json();
+        if (chRes.ok) {
+          createdChapter = chData.chapter;
+        }
+      }
+
+      const newSubjectEntry: SubjectData = {
+        id: createdSubject.id,
+        title: createdSubject.title,
+        slug: createdSubject.slug,
+        chapters: createdChapter
+          ? [
+              {
+                id: createdChapter.id,
+                title: createdChapter.title,
+                slug: createdChapter.slug,
+              },
+            ]
+          : [],
+      };
+
+      setSubjects((prev) => [...prev, newSubjectEntry]);
+      setSelectedSubjectId(createdSubject.id);
+      if (createdChapter) {
+        setSelectedChapterId(createdChapter.id);
+      } else {
+        setSelectedChapterId("");
+      }
+
+      // Reset & close
+      setNewSubjectTitle("");
+      setNewSubjectFirstChapter("");
+      setIsCreateTopicOpen(false);
+    } catch (err: any) {
+      setModalError(err.message || "Failed to create subject");
+    } finally {
+      setModalSubmitting(false);
+    }
+  };
+
+  // Create new Chapter via dialog
+  const handleCreateChapterSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newChapterTitle.trim() || !modalParentSubjectId || modalSubmitting) return;
+
+    setModalSubmitting(true);
+    setModalError("");
+
+    try {
+      const res = await fetch("/api/chapters", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: newChapterTitle.trim(),
+          subjectId: modalParentSubjectId,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setModalError(data.error || "Failed to create chapter");
+        setModalSubmitting(false);
+        return;
+      }
+
+      const createdChapter = data.chapter;
+
+      setSubjects((prev) =>
+        prev.map((s) =>
+          s.id === modalParentSubjectId
+            ? {
+                ...s,
+                chapters: [
+                  ...s.chapters,
+                  {
+                    id: createdChapter.id,
+                    title: createdChapter.title,
+                    slug: createdChapter.slug,
+                  },
+                ],
+              }
+            : s
+        )
+      );
+
+      setSelectedSubjectId(modalParentSubjectId);
+      setSelectedChapterId(createdChapter.id);
+
+      // Reset & close
+      setNewChapterTitle("");
+      setIsCreateTopicOpen(false);
+    } catch (err: any) {
+      setModalError(err.message || "Failed to create chapter");
+    } finally {
+      setModalSubmitting(false);
+    }
+  };
+
+  // Save / Update Article
   const handleSave = async () => {
     setError("");
 
@@ -185,15 +364,14 @@ export default function ArticleEditor({
       setError("Content is required");
       return;
     }
-    if (!selectedSubjectId && !newSubjectName.trim()) {
-      setError("Select a subject or create a new one");
+    if (!selectedSubjectId) {
+      setError("Select a subject for your article");
       return;
     }
 
     setSaving(true);
     try {
       if (isEdit && initialArticle) {
-        // Edit mode: PUT /api/articles/[id]
         const body: any = {
           title: title.trim(),
           slug: slug.trim() || slugify(title),
@@ -220,23 +398,15 @@ export default function ArticleEditor({
         router.refresh();
         router.push(`/articles/${subjectSlug}/${body.slug}`);
       } else {
-        // Create mode: POST /api/articles
         const body: any = {
           title: title.trim(),
           slug: slug.trim() || slugify(title),
           description: description.trim(),
           content,
+          subjectId: selectedSubjectId,
         };
 
-        if (newSubjectName.trim()) {
-          body.newSubjectName = newSubjectName.trim();
-        } else {
-          body.subjectId = selectedSubjectId;
-        }
-
-        if (newChapterName.trim()) {
-          body.newChapterName = newChapterName.trim();
-        } else if (selectedChapterId) {
+        if (selectedChapterId) {
           body.chapterId = selectedChapterId;
         }
 
@@ -271,139 +441,288 @@ export default function ArticleEditor({
       {/* Top Toolbar */}
       <div className="editor-toolbar">
         <div className="editor-toolbar-left">
-          <Link
-            href={backHref}
-            className="editor-back-btn"
-            style={{ textDecoration: "none" }}
+          <Button
+            variant="outline"
+            size="icon"
+            className="h-8 w-8 shrink-0"
+            asChild
             title="Go Back"
           >
-            <ArrowLeft size={16} />
-          </Link>
+            <Link href={backHref}>
+              <ArrowLeft size={15} />
+            </Link>
+          </Button>
 
-          {/* Subject Selector */}
-          <div className="editor-field-group">
-            {showNewSubject ? (
-              <input
-                type="text"
-                placeholder="New subject name..."
-                value={newSubjectName}
-                onChange={(e) => setNewSubjectName(e.target.value)}
-                className="editor-input"
-                autoFocus
-              />
-            ) : (
-              <div className="editor-select-wrapper">
-                <select
-                  value={selectedSubjectId}
-                  onChange={(e) => {
-                    setSelectedSubjectId(e.target.value);
-                    setSelectedChapterId("");
-                  }}
-                  className="editor-select"
-                >
-                  <option value="">Select Subject</option>
-                  {subjects.map((s) => (
-                    <option key={s.id} value={s.id}>
-                      {s.title}
-                    </option>
-                  ))}
-                </select>
-                <ChevronDown size={12} className="editor-select-icon" />
-              </div>
-            )}
-            <button
-              onClick={() => {
-                setShowNewSubject(!showNewSubject);
-                if (showNewSubject) setNewSubjectName("");
-              }}
-              className="editor-add-btn"
-              title={showNewSubject ? "Cancel" : "New Subject"}
-            >
-              <Plus size={14} />
-            </button>
-          </div>
+          {/* Subject Select */}
+          <Select
+            value={selectedSubjectId || ""}
+            onValueChange={(val) => {
+              setSelectedSubjectId(val);
+              setSelectedChapterId("");
+            }}
+          >
+            <SelectTrigger className="w-[125px] sm:w-[155px] h-8 text-xs">
+              <SelectValue placeholder="Select Subject" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Subjects</SelectLabel>
+                {subjects.map((s) => (
+                  <SelectItem key={s.id} value={s.id}>
+                    {s.title}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
 
-          {/* Chapter Selector */}
-          <div className="editor-field-group">
-            {showNewChapter ? (
-              <input
-                type="text"
-                placeholder="New chapter name..."
-                value={newChapterName}
-                onChange={(e) => setNewChapterName(e.target.value)}
-                className="editor-input"
+          {/* Chapter Select */}
+          <Select
+            value={selectedChapterId || ""}
+            onValueChange={(val) => setSelectedChapterId(val)}
+            disabled={!selectedSubjectId}
+          >
+            <SelectTrigger className="w-[125px] sm:w-[155px] h-8 text-xs">
+              <SelectValue
+                placeholder={
+                  selectedSubjectId ? "Select Chapter" : "Choose Subject First"
+                }
               />
-            ) : (
-              <div className="editor-select-wrapper">
-                <select
-                  value={selectedChapterId}
-                  onChange={(e) => setSelectedChapterId(e.target.value)}
-                  className="editor-select"
-                  disabled={!selectedSubjectId && !newSubjectName}
-                >
-                  <option value="">Select Chapter</option>
-                  {chapters.map((c) => (
-                    <option key={c.id} value={c.id}>
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Chapters</SelectLabel>
+                {chapters.length === 0 ? (
+                  <div className="py-3 px-2 text-xs text-[var(--notion-text-muted)] text-center">
+                    No chapters yet
+                  </div>
+                ) : (
+                  chapters.map((c) => (
+                    <SelectItem key={c.id} value={c.id}>
                       {c.title}
-                    </option>
-                  ))}
-                </select>
-                <ChevronDown size={12} className="editor-select-icon" />
-              </div>
-            )}
-            <button
-              onClick={() => {
-                setShowNewChapter(!showNewChapter);
-                if (showNewChapter) setNewChapterName("");
-              }}
-              className="editor-add-btn"
-              title={showNewChapter ? "Cancel" : "New Chapter"}
-            >
-              <Plus size={14} />
-            </button>
-          </div>
+                    </SelectItem>
+                  ))
+                )}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+
+          {/* Create Subject or Chapter Dialog */}
+          <Dialog open={isCreateTopicOpen} onOpenChange={setIsCreateTopicOpen}>
+            <DialogTrigger asChild>
+              <Button
+                variant="outline"
+                size="sm"
+                className="h-8 gap-1 text-xs px-2.5 shrink-0"
+                title="Create New Subject or Chapter"
+                onClick={() => {
+                  setIsCreateTopicOpen(true);
+                  setCreateModalTab(selectedSubjectId ? "chapter" : "subject");
+                  setModalError("");
+                }}
+              >
+                <Plus size={13} />
+                <span className="hidden sm:inline">New Topic</span>
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle className="flex items-center gap-2 text-base">
+                  <FolderPlus size={18} />
+                  <span>Add Subject or Chapter</span>
+                </DialogTitle>
+                <DialogDescription>
+                  Create a new subject track or a chapter under an existing subject.
+                </DialogDescription>
+              </DialogHeader>
+
+              <Tabs
+                value={createModalTab}
+                onValueChange={(val) => {
+                  setCreateModalTab(val as "subject" | "chapter");
+                  setModalError("");
+                }}
+                className="w-full"
+              >
+                <TabsList className="grid w-full grid-cols-2">
+                  <TabsTrigger value="chapter">New Chapter</TabsTrigger>
+                  <TabsTrigger value="subject">New Subject</TabsTrigger>
+                </TabsList>
+
+                {modalError && (
+                  <div className="mt-2 text-xs text-red-500 bg-red-500/10 p-2 rounded-md border border-red-500/20">
+                    {modalError}
+                  </div>
+                )}
+
+                {/* Chapter Creation Tab */}
+                <TabsContent value="chapter" className="space-y-3 pt-2">
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-semibold text-[var(--notion-text-muted)]">
+                      Parent Subject *
+                    </label>
+                    <Select
+                      value={modalParentSubjectId || ""}
+                      onValueChange={setModalParentSubjectId}
+                    >
+                      <SelectTrigger className="w-full h-9 text-xs">
+                        <SelectValue placeholder="Select parent subject" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {subjects.map((s) => (
+                          <SelectItem key={s.id} value={s.id}>
+                            {s.title}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-semibold text-[var(--notion-text-muted)]">
+                      Chapter Title *
+                    </label>
+                    <Input
+                      placeholder="e.g. Caching Strategies, Indexing..."
+                      value={newChapterTitle}
+                      onChange={(e) => setNewChapterTitle(e.target.value)}
+                      autoFocus
+                      className="h-9 text-sm"
+                    />
+                  </div>
+                  <DialogFooter className="pt-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setIsCreateTopicOpen(false)}
+                      type="button"
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      size="sm"
+                      onClick={handleCreateChapterSubmit}
+                      disabled={
+                        modalSubmitting ||
+                        !newChapterTitle.trim() ||
+                        !modalParentSubjectId
+                      }
+                    >
+                      {modalSubmitting ? "Creating..." : "Create Chapter"}
+                    </Button>
+                  </DialogFooter>
+                </TabsContent>
+
+                {/* Subject Creation Tab */}
+                <TabsContent value="subject" className="space-y-3 pt-2">
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-semibold text-[var(--notion-text-muted)]">
+                      Subject Title *
+                    </label>
+                    <Input
+                      placeholder="e.g. Distributed Systems, Kubernetes..."
+                      value={newSubjectTitle}
+                      onChange={(e) => setNewSubjectTitle(e.target.value)}
+                      autoFocus
+                      className="h-9 text-sm"
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-semibold text-[var(--notion-text-muted)]">
+                      First Chapter (Optional)
+                    </label>
+                    <Input
+                      placeholder="e.g. Architecture Overview (optional)"
+                      value={newSubjectFirstChapter}
+                      onChange={(e) => setNewSubjectFirstChapter(e.target.value)}
+                      className="h-9 text-sm"
+                    />
+                    <p className="text-[11px] text-[var(--notion-text-muted)]">
+                      Optionally create the first chapter under this subject right away.
+                    </p>
+                  </div>
+                  <DialogFooter className="pt-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setIsCreateTopicOpen(false)}
+                      type="button"
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      size="sm"
+                      onClick={handleCreateSubjectSubmit}
+                      disabled={modalSubmitting || !newSubjectTitle.trim()}
+                    >
+                      {modalSubmitting ? "Creating..." : "Create Subject"}
+                    </Button>
+                  </DialogFooter>
+                </TabsContent>
+              </Tabs>
+            </DialogContent>
+          </Dialog>
         </div>
 
         <div className="editor-toolbar-right">
           {error && <span className="editor-error">{error}</span>}
-          <button
+          <Button
             onClick={handleSave}
             disabled={saving}
-            className="editor-save-btn"
+            size="sm"
+            className="h-8 gap-1.5 text-xs font-semibold px-3"
           >
-            <Save size={14} />
-            <span>{saving ? (isEdit ? "Updating..." : "Saving...") : (isEdit ? "Update" : "Save")}</span>
-          </button>
+            <Save size={13} />
+            <span>
+              {saving ? (isEdit ? "Updating..." : "Saving...") : isEdit ? "Update" : "Save"}
+            </span>
+          </Button>
         </div>
       </div>
 
-      {/* Title & Description Bar */}
+      {/* Title Bar */}
       <div className="editor-meta-bar">
-        <input
+        <label htmlFor="article-title-input" className="editor-title-label">
+          Title:
+        </label>
+        <Input
+          id="article-title-input"
           type="text"
-          placeholder="Article title..."
+          placeholder="Enter article title..."
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="editor-title-input"
+          className="editor-title-input border-0 shadow-none px-1 h-auto py-1 focus-visible:ring-0 text-base font-semibold"
         />
-        <input
-          type="text"
-          placeholder="Short description (optional)"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          className="editor-desc-input"
-        />
-        {slug && (
-          <span className="editor-slug-preview">
-            slug: <code>{slug}</code>
-          </span>
-        )}
+      </div>
+
+      {/* Mobile Mode Switcher Bar */}
+      <div className="editor-mobile-mode-bar">
+        <span className="editor-mode-status-text">
+          {mobileTab === "edit" ? "Markdown Editor" : "Live Preview"}
+        </span>
+        <div className="editor-mode-segmented">
+          <button
+            type="button"
+            onClick={() => setMobileTab("edit")}
+            className={`editor-mode-pill ${mobileTab === "edit" ? "active" : ""}`}
+          >
+            <PenLine size={13} />
+            <span>Edit</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setMobileTab("preview")}
+            className={`editor-mode-pill ${mobileTab === "preview" ? "active" : ""}`}
+          >
+            <Eye size={13} />
+            <span>Preview</span>
+          </button>
+        </div>
       </div>
 
       {/* Split Pane */}
       <div
         ref={containerRef}
-        className="editor-split-container"
+        className={`editor-split-container mobile-view-${mobileTab}`}
         style={{ cursor: isDragging ? "col-resize" : undefined }}
       >
         {/* Left: Editor */}
@@ -447,8 +766,29 @@ export default function ArticleEditor({
           <div
             ref={previewRef}
             className="article-viewer-container editor-preview-content"
-            dangerouslySetInnerHTML={{ __html: preview }}
-          />
+          >
+            {title && (
+              <div className="editor-preview-doc-header">
+                <h1 className="editor-preview-doc-title">{title}</h1>
+              </div>
+            )}
+            <div
+              className="prose prose-neutral dark:prose-invert max-w-none text-[var(--notion-text-body)]"
+              dangerouslySetInnerHTML={{ __html: preview }}
+            />
+
+            <div className="editor-mobile-back-to-edit-container">
+              <Button
+                variant="default"
+                size="sm"
+                className="rounded-full shadow-lg gap-2 text-xs font-semibold px-4 py-2"
+                onClick={() => setMobileTab("edit")}
+              >
+                <PenLine size={14} />
+                <span>Back to Editor</span>
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

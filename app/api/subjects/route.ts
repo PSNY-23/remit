@@ -6,20 +6,28 @@ import { prisma } from "@/lib/prisma";
  * Returns all subjects with their chapters and article counts.
  */
 export async function GET() {
-  const subjects = await prisma.subject.findMany({
-    include: {
-      chapters: {
-        include: {
-          _count: { select: { articles: true } },
+  try {
+    const subjects = await prisma.subject.findMany({
+      include: {
+        chapters: {
+          include: {
+            _count: { select: { articles: true } },
+          },
+          orderBy: { order: "asc" },
         },
-        orderBy: { order: "asc" },
+        _count: { select: { articles: true } },
       },
-      _count: { select: { articles: true } },
-    },
-    orderBy: { order: "asc" },
-  });
+      orderBy: { order: "asc" },
+    });
 
-  return NextResponse.json({ subjects });
+    return NextResponse.json({ subjects: subjects || [] });
+  } catch (err) {
+    console.error("Error in GET /api/subjects:", err);
+    return NextResponse.json(
+      { subjects: [], error: "Database connection temporarily unavailable" },
+      { status: 200 },
+    );
+  }
 }
 
 /**
@@ -33,10 +41,7 @@ export async function POST(request: NextRequest) {
     const { title, slug, description } = body;
 
     if (!title || typeof title !== "string" || title.trim().length === 0) {
-      return NextResponse.json(
-        { error: "Title is required" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Title is required" }, { status: 400 });
     }
 
     const subjectSlug =
@@ -54,7 +59,7 @@ export async function POST(request: NextRequest) {
     if (existing) {
       return NextResponse.json(
         { error: "A subject with this slug already exists" },
-        { status: 409 }
+        { status: 409 },
       );
     }
 
@@ -74,7 +79,7 @@ export async function POST(request: NextRequest) {
     console.error("POST /api/subjects error:", error);
     return NextResponse.json(
       { error: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

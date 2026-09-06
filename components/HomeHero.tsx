@@ -4,6 +4,9 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+
 export default function HomeHero() {
   const [displayText, setDisplayText] = useState('');
   const fullText = "Pankaj's Notebook";
@@ -24,10 +27,13 @@ export default function HomeHero() {
   return (
     <div className="w-full max-w-2xl mx-auto min-h-[62vh] flex flex-col items-center justify-center text-center px-2 sm:px-4 py-8 select-none">
       {/* Subtle Status Pill */}
-      <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[var(--notion-border)] bg-[var(--notion-card-bg)] text-xs text-[var(--notion-text-secondary)] mb-6 shadow-xs">
+      <Badge
+        variant="outline"
+        className="gap-2 px-3.5 py-1.5 rounded-full border-[var(--notion-border)] bg-[var(--notion-card-bg)] text-xs text-[var(--notion-text-secondary)] mb-6 shadow-xs font-normal"
+      >
         <span className="w-2 h-2 rounded-full bg-neutral-900 dark:bg-neutral-100 animate-pulse" />
         <span>All my notes</span>
-      </div>
+      </Badge>
 
       {/* Animated Big Title with harmonious text and cursor sizing */}
       <h1
@@ -49,20 +55,27 @@ export default function HomeHero() {
 
       {/* Action Buttons with High-Contrast Colors */}
       <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3.5 w-full sm:w-auto">
-        <Link
-          href="/dsa-list/full"
-          className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-neutral-900 text-white dark:bg-white dark:text-neutral-950 text-sm font-semibold hover:opacity-90 transition-all shadow-sm !no-underline"
+        <Button
+          asChild
+          size="lg"
+          className="w-full sm:w-auto rounded-xl px-6 py-3 h-auto text-sm font-semibold shadow-sm !no-underline"
           style={{ color: 'var(--notion-bg)', backgroundColor: 'var(--notion-text-primary)' }}
         >
-          <span>Explore 1,001 Problems</span>
-          <ArrowRight className="w-4 h-4" />
-        </Link>
-        <Link
-          href="/frontend"
-          className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl border border-[var(--notion-border-strong)] bg-[var(--notion-card-bg)] hover:bg-[var(--notion-hover)] text-sm font-semibold text-[var(--notion-text-primary)] transition-all !no-underline"
+          <Link href="/dsa-list/full">
+            <span>Explore 1,001 Problems</span>
+            <ArrowRight className="w-4 h-4 ml-1" />
+          </Link>
+        </Button>
+        <Button
+          asChild
+          variant="outline"
+          size="lg"
+          className="w-full sm:w-auto rounded-xl px-6 py-3 h-auto border-[var(--notion-border-strong)] bg-[var(--notion-card-bg)] hover:bg-[var(--notion-hover)] text-sm font-semibold text-[var(--notion-text-primary)] !no-underline"
         >
-          <span>Frontend Track</span>
-        </Link>
+          <Link href="/frontend">
+            <span>Frontend Track</span>
+          </Link>
+        </Button>
       </div>
     </div>
   );

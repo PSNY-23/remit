@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import { Sun, Moon } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function ThemeToggleButton() {
   const { resolvedTheme, setTheme } = useTheme();
@@ -14,52 +15,26 @@ export default function ThemeToggleButton() {
 
   if (!mounted) {
     return (
-      <div
-        style={{
-          width: "28px",
-          height: "28px",
-          borderRadius: "5px",
-          border: "1px solid var(--notion-border)",
-          backgroundColor: "var(--notion-card-bg)",
-        }}
-      />
+      <div className="w-7 h-7 rounded-md border border-[var(--notion-border)] bg-[var(--notion-card-bg)]" />
     );
   }
 
   const isDark = resolvedTheme === "dark";
 
   return (
-    <button
+    <Button
+      variant="outline"
+      size="icon"
       onClick={() => setTheme(isDark ? "light" : "dark")}
       title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
       aria-label="Toggle Theme"
-      style={{
-        display: "inline-flex",
-        alignItems: "center",
-        justifyContent: "center",
-        width: "28px",
-        height: "28px",
-        borderRadius: "5px",
-        border: "1px solid var(--notion-border)",
-        backgroundColor: "var(--notion-card-bg)",
-        color: "var(--notion-text-primary)",
-        cursor: "pointer",
-        transition: "all 0.12s ease-in-out",
-      }}
+      className="w-7 h-7 rounded-md border-[var(--notion-border)] bg-[var(--notion-card-bg)] text-[var(--notion-text-primary)] hover:bg-[var(--notion-hover)]"
     >
       {isDark ? (
-        <Sun
-          size={15}
-          strokeWidth={2}
-          style={{ color: "var(--notion-text-primary)" }}
-        />
+        <Sun size={14} strokeWidth={2} />
       ) : (
-        <Moon
-          size={15}
-          strokeWidth={2}
-          style={{ color: "var(--notion-text-primary)" }}
-        />
+        <Moon size={14} strokeWidth={2} />
       )}
-    </button>
+    </Button>
   );
 }

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { marked } from "marked";
+import { renderMarkdown } from "@/lib/markdown";
 import { revalidatePath } from "next/cache";
 
 interface Params {
@@ -55,13 +55,10 @@ export async function PUT(request: NextRequest, { params }: Params) {
     if (subjectId !== undefined) updateData.subjectId = subjectId;
     if (chapterId !== undefined) updateData.chapterId = chapterId || null;
 
-    // If content changed, re-render HTML
+    // If content changed, re-render HTML with rich markdown (KaTeX math, syntax highlighting, Mermaid)
     if (content !== undefined) {
       updateData.content = content;
-      updateData.html = await marked.parse(content, {
-        gfm: true,
-        breaks: true,
-      });
+      updateData.html = renderMarkdown(content);
     }
 
     const article = await prisma.article.update({

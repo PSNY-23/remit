@@ -4,6 +4,8 @@ import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { Folder, FileText, ChevronRight } from 'lucide-react';
 import { ArticleMeta } from '@/lib/content';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 
 interface Props {
   articles: ArticleMeta[];
@@ -50,26 +52,28 @@ export default function FrontendArticleExplorer({ articles }: Props) {
           const count = categoryCounts[cat] || 0;
 
           return (
-            <button
+            <Button
               key={cat}
+              variant={isSelected ? "secondary" : "outline"}
               onClick={() => setSelectedCategory(cat)}
-              className={`flex items-center gap-2 sm:gap-2.5 px-3 py-2 sm:px-4 sm:py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all cursor-pointer border ${
+              className={`h-auto flex items-center gap-2 sm:gap-2.5 px-3 py-2 sm:px-4 sm:py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all cursor-pointer border ${
                 isSelected
                   ? 'bg-[var(--notion-hover)] border-[var(--notion-text-primary)] text-[var(--notion-text-primary)] font-semibold shadow-xs'
                   : 'bg-[var(--notion-card-bg)] border-[var(--notion-border)] text-[var(--notion-text-secondary)] hover:bg-[var(--notion-hover)] hover:text-[var(--notion-text-primary)] hover:border-[var(--notion-border-strong)]'
               }`}
             >
               <span>{cat}</span>
-              <span
-                className={`text-[11px] sm:text-xs px-1.5 sm:px-2 py-0.5 rounded-md font-semibold transition-colors ${
+              <Badge
+                variant={isSelected ? "default" : "secondary"}
+                className={`text-[11px] sm:text-xs px-1.5 sm:px-2 py-0.5 rounded-md font-semibold ${
                   isSelected
                     ? 'bg-[var(--notion-text-primary)] text-[var(--notion-bg)]'
                     : 'bg-[var(--tag-gray-bg)] text-[var(--notion-text-muted)]'
                 }`}
               >
                 {count}
-              </span>
-            </button>
+              </Badge>
+            </Button>
           );
         })}
       </div>

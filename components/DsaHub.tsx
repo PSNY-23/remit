@@ -12,10 +12,10 @@ import {
   Target,
   Star,
   Trophy,
-  Clock,
   Folder,
   ArrowUpRight,
 } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
 
 interface DsaTopic {
   id: string;
@@ -186,28 +186,6 @@ export default function DsaHub() {
             </div>
           </div>
         </Link>
-
-        <Link
-          href="/others/time-complexity"
-          className="notion-card"
-          style={{
-            padding: '14px 16px',
-            textDecoration: 'none',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '12px',
-          }}
-        >
-          <Clock size={20} style={{ color: 'var(--notion-text-primary)' }} />
-          <div>
-            <div style={{ fontSize: '13px', fontWeight: 700, color: 'var(--notion-text-primary)' }}>
-              Time Complexity Guide
-            </div>
-            <div style={{ fontSize: '11px', color: 'var(--notion-text-muted)' }}>
-              Big-O rules & loop patterns
-            </div>
-          </div>
-        </Link>
       </div>
 
       {/* Section Header */}
@@ -225,7 +203,9 @@ export default function DsaHub() {
         <span style={{ fontSize: '13px', fontWeight: 700, color: 'var(--notion-text-primary)' }}>
           Data Structures & Playbooks
         </span>
-        <span className="notion-tag notion-tag-gray">{topics.length} modules</span>
+        <Badge variant="secondary" className="text-[11px] font-medium px-2 py-0.5">
+          {topics.length} modules
+        </Badge>
       </div>
 
       {/* Notion Database Gallery Cards */}
@@ -253,7 +233,9 @@ export default function DsaHub() {
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '10px' }}>
                 <div>{topic.icon}</div>
-                <span className={`notion-tag ${topic.tagColor}`}>{topic.tag}</span>
+                <Badge variant="outline" className="text-[11px] font-medium">
+                  {topic.tag}
+                </Badge>
               </div>
 
               <div style={{ fontSize: '16px', fontWeight: 700, color: 'var(--notion-text-primary)', marginBottom: '6px' }}>
@@ -268,18 +250,13 @@ export default function DsaHub() {
             <div>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', marginBottom: '10px' }}>
                 {topic.subtopics.slice(0, 2).map((sub, i) => (
-                  <span
+                  <Badge
                     key={i}
-                    style={{
-                      fontSize: '10.5px',
-                      padding: '1px 6px',
-                      borderRadius: '4px',
-                      backgroundColor: 'var(--notion-hover)',
-                      color: 'var(--notion-text-secondary)',
-                    }}
+                    variant="notion"
+                    className="text-[10.5px] px-1.5 py-0 font-normal"
                   >
                     {sub}
-                  </span>
+                  </Badge>
                 ))}
               </div>
 

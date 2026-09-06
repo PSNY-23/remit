@@ -1,5 +1,5 @@
 import { prisma } from "./prisma";
-import { marked } from "marked";
+import { renderMarkdown } from "./markdown";
 
 export interface ArticleMeta {
   id: string;
@@ -63,7 +63,7 @@ export async function getArticle(
   // If HTML is not pre-rendered, render and cache it
   let html = article.html || "";
   if (!html) {
-    html = await marked.parse(article.content, { gfm: true, breaks: true });
+    html = renderMarkdown(article.content);
     await prisma.article.update({
       where: { id: article.id },
       data: { html },

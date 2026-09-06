@@ -5,6 +5,8 @@ import { createPortal } from "react-dom";
 import { PanelLeft, PanelLeftClose } from "lucide-react";
 import { usePathname } from "next/navigation";
 
+import { Button } from "@/components/ui/button";
+
 export default function SidebarToggleButton() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [target, setTarget] = useState<HTMLElement | null>(null);
@@ -57,40 +59,27 @@ export default function SidebarToggleButton() {
 
   return createPortal(
     <div className="sidebar-desktop-toggle-button">
-      <button
+      <Button
         onClick={toggleSidebar}
         title={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
         aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
         type="button"
-        style={{
-          display: "inline-flex",
-          alignItems: "center",
-          justifyContent: "center",
-          width: "30px",
-          height: "30px",
-          borderRadius: "6px",
-          border: "1px solid var(--notion-border)",
-          backgroundColor: "var(--notion-card-bg)",
-          color: "var(--notion-text-primary)",
-          cursor: "pointer",
-          boxShadow: "0 1px 2px rgba(0, 0, 0, 0.04)",
-          transition: "all 0.12s ease-in-out",
-        }}
+        variant="outline"
+        size="icon"
+        className="h-[30px] w-[30px] rounded-md border-[var(--notion-border)] bg-[var(--notion-card-bg)] text-[var(--notion-text-primary)] hover:bg-[var(--notion-hover)] shadow-xs"
       >
         {isCollapsed ? (
           <PanelLeft
-            size={16}
+            className="w-4 h-4 text-[var(--notion-text-primary)]"
             strokeWidth={2}
-            style={{ color: "var(--notion-text-primary)" }}
           />
         ) : (
           <PanelLeftClose
-            size={16}
+            className="w-4 h-4 text-[var(--notion-text-primary)]"
             strokeWidth={2}
-            style={{ color: "var(--notion-text-primary)" }}
           />
         )}
-      </button>
+      </Button>
     </div>,
     target
   );

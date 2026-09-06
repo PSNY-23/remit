@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { marked } from "marked";
+import { renderMarkdown } from "@/lib/markdown";
 import { revalidatePath } from "next/cache";
 
 function slugify(text: string): string {
@@ -153,8 +153,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Render HTML
-    const html = await marked.parse(content, { gfm: true, breaks: true });
+    // Render HTML with rich markdown (KaTeX math, syntax highlighting, Mermaid)
+    const html = renderMarkdown(content);
 
     const article = await prisma.article.create({
       data: {
