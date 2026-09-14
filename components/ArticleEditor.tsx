@@ -4,7 +4,20 @@ import React, { useState, useEffect, useRef, useCallback, useMemo } from "react"
 import { useRouter } from "next/navigation";
 import { renderMarkdown } from "@/lib/markdown";
 import { renderMermaidDiagrams } from "@/lib/mermaid";
-import { ArrowLeft, Save, Plus, Eye, PenLine, FolderPlus } from "lucide-react";
+import {
+  ArrowLeft,
+  Save,
+  Plus,
+  Eye,
+  PenLine,
+  FolderPlus,
+  ImagePlus,
+  UploadCloud,
+  Loader2,
+  X,
+  Image as ImageIcon,
+  Link2,
+} from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -104,6 +117,201 @@ export default function ArticleEditor({
   const containerRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const previewRef = useRef<HTMLDivElement>(null);
+
+  // Image Upload Dialog & Drag/Paste state
+  const [isImageDialogOpen, setIsImageDialogOpen] = useState(false);
+  const [imageModalTab, setImageModalTab] = useState<"upload" | "url">("upload");
+  const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null);
+  const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
+  const [imageAltText, setImageAltText] = useState("");
+  const [directImageUrl, setDirectImageUrl] = useState("");
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
+  const [imageUploadError, setImageUploadError] = useState("");
+  const [isDraggingOverEditor, setIsDraggingOverEditor] = useState(false);
+  const [globalUploadStatus, setGlobalUploadStatus] = useState("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Cleanup preview URL on unmount or change
+  useEffect(() => {
+    return () => {
+      if (imagePreviewUrl) {
+        URL.revokeObjectURL(imagePreviewUrl);
+      }
+    };
+  }, [imagePreviewUrl]);
+
+  // Insert markdown snippet at current textarea cursor position
+  const insertMarkdownAtCursor = useCallback((textToInsert: string) => {
+    const textarea = textareaRef.current;
+    if (!textarea) {
+      setContent((prev) => (prev ? prev + "\n\n" : "") + textToInsert);
+      return;
+    }
+    const start = textarea.selectionStart ?? 0;
+    const end = textarea.selectionEnd ?? 0;
+    const prevContent = textarea.value;
+    const nextContent =
+      prevContent.substring(0, start) + textToInsert + prevContent.substring(end);
+    setContent(nextContent);
+    requestAnimationFrame(() => {
+      textarea.focus();
+      const pos = start + textToInsert.length;
+      textarea.setSelectionRange(pos, pos);
+    });
+  }, []);
+
+  // Upload file to /api/upload (Vercel Blob)
+  const uploadImageFile = async (file: File): Promise<{ url: string; filename: string }> => {
+    if (!file.type.startsWith("image/")) {
+      throw new Error("Only image files (JPEG, PNG, WebP, GIF, SVG, AVIF) are allowed.");
+    }
+    if (file.size > 10 * 1024 * 1024) {
+      throw new Error(`File size is ${(file.size / (1024 * 1024)).toFixed(1)}MB. Maximum allowed is 10MB.`);
+    }
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const res = await fetch("/api/upload", {
+      method: "POST",
+      body: formData,
+    });
+
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      throw new Error(data.error || "Failed to upload image to Vercel Blob.");
+    }
+    return { url: data.url, filename: data.filename || file.name };
+  };
+
+  // Select file in modal
+  const handleFileSelect = (file: File) => {
+    setImageUploadError("");
+    if (!file.type.startsWith("image/")) {
+      setImageUploadError("Please choose an image file (JPEG, PNG, WebP, GIF, SVG).");
+      return;
+    }
+    if (file.size > 10 * 1024 * 1024) {
+      setImageUploadError(`File is ${(file.size / (1024 * 1024)).toFixed(1)}MB. Maximum size is 10MB.`);
+      return;
+    }
+    setSelectedImageFile(file);
+    const objectUrl = URL.createObjectURL(file);
+    setImagePreviewUrl(objectUrl);
+    if (!imageAltText) {
+      const cleanName = file.name.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ");
+      setImageAltText(cleanName);
+    }
+  };
+
+  // Submit from Image Modal (Upload Tab)
+  const handleDialogUploadSubmit = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    if (!selectedImageFile || isUploadingImage) return;
+
+    setIsUploadingImage(true);
+    setImageUploadError("");
+
+    try {
+      const result = await uploadImageFile(selectedImageFile);
+      const alt = imageAltText.trim() || selectedImageFile.name.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ");
+      insertMarkdownAtCursor(`\n![${alt}](${result.url})\n`);
+      setSelectedImageFile(null);
+      setImagePreviewUrl(null);
+      setImageAltText("");
+      setIsImageDialogOpen(false);
+    } catch (err: any) {
+      setImageUploadError(err.message || "Failed to upload image.");
+    } finally {
+      setIsUploadingImage(false);
+    }
+  };
+
+  // Submit from Image Modal (URL Tab)
+  const handleDialogUrlSubmit = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    if (!directImageUrl.trim()) return;
+
+    const alt = imageAltText.trim() || "image";
+    insertMarkdownAtCursor(`\n![${alt}](${directImageUrl.trim()})\n`);
+    setDirectImageUrl("");
+    setImageAltText("");
+    setIsImageDialogOpen(false);
+  };
+
+  // Handle Paste from Clipboard (Ctrl+V) in Editor
+  const handleTextareaPaste = async (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
+    const items = e.clipboardData?.items;
+    if (!items) return;
+
+    for (let i = 0; i < items.length; i++) {
+      const item = items[i];
+      if (item.type.startsWith("image/")) {
+        e.preventDefault();
+        const file = item.getAsFile();
+        if (!file) return;
+
+        const placeholder = `\n![Uploading screenshot...]()\n`;
+        insertMarkdownAtCursor(placeholder);
+        setGlobalUploadStatus("Uploading image to Vercel Blob...");
+
+        try {
+          const result = await uploadImageFile(file);
+          setContent((prev) =>
+            prev.replace(placeholder, `\n![screenshot](${result.url})\n`)
+          );
+        } catch (err: any) {
+          setContent((prev) => prev.replace(placeholder, ""));
+          setError(err.message || "Failed to upload pasted image.");
+        } finally {
+          setGlobalUploadStatus("");
+        }
+        return;
+      }
+    }
+  };
+
+  // Handle Drag & Drop over Editor
+  const handleTextareaDragOver = (e: React.DragEvent<HTMLTextAreaElement>) => {
+    if (e.dataTransfer?.types?.includes("Files")) {
+      e.preventDefault();
+      setIsDraggingOverEditor(true);
+    }
+  };
+
+  const handleTextareaDragLeave = (e: React.DragEvent<HTMLTextAreaElement>) => {
+    e.preventDefault();
+    setIsDraggingOverEditor(false);
+  };
+
+  const handleTextareaDrop = async (e: React.DragEvent<HTMLTextAreaElement>) => {
+    const files = e.dataTransfer?.files;
+    if (!files || files.length === 0) return;
+
+    const imageFiles = Array.from(files).filter((f) => f.type.startsWith("image/"));
+    if (imageFiles.length === 0) return;
+
+    e.preventDefault();
+    setIsDraggingOverEditor(false);
+
+    for (const file of imageFiles) {
+      const placeholder = `\n![Uploading ${file.name}...]()\n`;
+      insertMarkdownAtCursor(placeholder);
+      setGlobalUploadStatus(`Uploading ${file.name} to Vercel Blob...`);
+
+      try {
+        const result = await uploadImageFile(file);
+        const alt = file.name.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ");
+        setContent((prev) =>
+          prev.replace(placeholder, `\n![${alt}](${result.url})\n`)
+        );
+      } catch (err: any) {
+        setContent((prev) => prev.replace(placeholder, ""));
+        setError(err.message || `Failed to upload ${file.name}.`);
+      } finally {
+        setGlobalUploadStatus("");
+      }
+    }
+  };
 
   // Load subjects
   useEffect(() => {
@@ -661,9 +869,233 @@ export default function ArticleEditor({
               </Tabs>
             </DialogContent>
           </Dialog>
+
+          {/* Insert Image Dialog */}
+          <Dialog open={isImageDialogOpen} onOpenChange={setIsImageDialogOpen}>
+            <DialogTrigger asChild>
+              <Button
+                variant="outline"
+                size="sm"
+                className="h-8 gap-1 text-xs px-2.5 shrink-0"
+                title="Upload or Insert Image"
+                onClick={() => {
+                  setIsImageDialogOpen(true);
+                  setImageUploadError("");
+                  setSelectedImageFile(null);
+                  setImagePreviewUrl(null);
+                  setImageAltText("");
+                  setDirectImageUrl("");
+                }}
+              >
+                <ImagePlus size={13} />
+                <span className="hidden sm:inline">Add Image</span>
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[460px]">
+              <DialogHeader>
+                <DialogTitle className="flex items-center gap-2 text-base">
+                  <ImageIcon size={18} />
+                  <span>Insert Image</span>
+                </DialogTitle>
+                <DialogDescription>
+                  Upload an image to Vercel Blob storage or insert an external image URL.
+                </DialogDescription>
+              </DialogHeader>
+
+              <Tabs
+                value={imageModalTab}
+                onValueChange={(val) => {
+                  setImageModalTab(val as "upload" | "url");
+                  setImageUploadError("");
+                }}
+                className="w-full"
+              >
+                <TabsList className="grid w-full grid-cols-2">
+                  <TabsTrigger value="upload">Upload Image</TabsTrigger>
+                  <TabsTrigger value="url">Image URL</TabsTrigger>
+                </TabsList>
+
+                {imageUploadError && (
+                  <div className="mt-2 text-xs text-red-500 bg-red-500/10 p-2.5 rounded-md border border-red-500/20 leading-relaxed">
+                    {imageUploadError}
+                  </div>
+                )}
+
+                {/* Upload Image Tab */}
+                <TabsContent value="upload" className="space-y-3 pt-2">
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) handleFileSelect(file);
+                    }}
+                    accept="image/png,image/jpeg,image/webp,image/gif,image/svg+xml,image/avif"
+                    className="hidden"
+                  />
+
+                  {!selectedImageFile ? (
+                    <div
+                      className="image-dropzone"
+                      onClick={() => fileInputRef.current?.click()}
+                      onDragOver={(e) => {
+                        e.preventDefault();
+                        e.currentTarget.classList.add("dragover");
+                      }}
+                      onDragLeave={(e) => {
+                        e.currentTarget.classList.remove("dragover");
+                      }}
+                      onDrop={(e) => {
+                        e.preventDefault();
+                        e.currentTarget.classList.remove("dragover");
+                        const file = e.dataTransfer.files?.[0];
+                        if (file) handleFileSelect(file);
+                      }}
+                    >
+                      <div className="w-10 h-10 rounded-full bg-blue-500/10 text-blue-500 flex items-center justify-center">
+                        <UploadCloud size={20} />
+                      </div>
+                      <div className="text-xs font-semibold text-[var(--notion-text-primary)]">
+                        Click to browse or drag & drop image here
+                      </div>
+                      <div className="text-[11px] text-[var(--notion-text-muted)]">
+                        Supports PNG, JPG, WebP, GIF, SVG (up to 10MB)
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="space-y-2">
+                      <div className="image-preview-wrapper">
+                        {imagePreviewUrl && (
+                          <img
+                            src={imagePreviewUrl}
+                            alt="Preview"
+                            className="max-h-[160px] object-contain"
+                          />
+                        )}
+                        <button
+                          type="button"
+                          className="absolute top-2 right-2 bg-black/60 hover:bg-black/80 text-white rounded-full p-1 transition-colors"
+                          onClick={() => {
+                            setSelectedImageFile(null);
+                            setImagePreviewUrl(null);
+                            setImageAltText("");
+                            if (fileInputRef.current) fileInputRef.current.value = "";
+                          }}
+                          title="Remove file"
+                        >
+                          <X size={14} />
+                        </button>
+                      </div>
+                      <div className="flex items-center justify-between text-xs text-[var(--notion-text-muted)] px-1">
+                        <span className="truncate max-w-[260px] font-medium text-[var(--notion-text-secondary)]">
+                          {selectedImageFile.name}
+                        </span>
+                        <span>
+                          {(selectedImageFile.size / (1024 * 1024)).toFixed(2)} MB
+                        </span>
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-semibold text-[var(--notion-text-muted)]">
+                      Alt Text / Caption (Optional)
+                    </label>
+                    <Input
+                      placeholder="e.g. Architecture Diagram"
+                      value={imageAltText}
+                      onChange={(e) => setImageAltText(e.target.value)}
+                      className="h-9 text-sm"
+                    />
+                  </div>
+
+                  <DialogFooter className="pt-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setIsImageDialogOpen(false)}
+                      type="button"
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      size="sm"
+                      onClick={handleDialogUploadSubmit}
+                      disabled={!selectedImageFile || isUploadingImage}
+                      className="gap-1.5"
+                    >
+                      {isUploadingImage ? (
+                        <>
+                          <Loader2 size={13} className="animate-spin" />
+                          <span>Uploading...</span>
+                        </>
+                      ) : (
+                        <>
+                          <UploadCloud size={13} />
+                          <span>Upload & Insert</span>
+                        </>
+                      )}
+                    </Button>
+                  </DialogFooter>
+                </TabsContent>
+
+                {/* Direct Image URL Tab */}
+                <TabsContent value="url" className="space-y-3 pt-2">
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-semibold text-[var(--notion-text-muted)]">
+                      Image URL *
+                    </label>
+                    <Input
+                      placeholder="https://example.com/image.png"
+                      value={directImageUrl}
+                      onChange={(e) => setDirectImageUrl(e.target.value)}
+                      autoFocus
+                      className="h-9 text-sm"
+                    />
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-semibold text-[var(--notion-text-muted)]">
+                      Alt Text (Optional)
+                    </label>
+                    <Input
+                      placeholder="e.g. Diagram description"
+                      value={imageAltText}
+                      onChange={(e) => setImageAltText(e.target.value)}
+                      className="h-9 text-sm"
+                    />
+                  </div>
+
+                  <DialogFooter className="pt-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setIsImageDialogOpen(false)}
+                      type="button"
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      size="sm"
+                      onClick={handleDialogUrlSubmit}
+                      disabled={!directImageUrl.trim()}
+                    >
+                      Insert Image
+                    </Button>
+                  </DialogFooter>
+                </TabsContent>
+              </Tabs>
+            </DialogContent>
+          </Dialog>
         </div>
 
         <div className="editor-toolbar-right">
+          {globalUploadStatus && (
+            <div className="flex items-center gap-1.5 text-xs text-blue-500 animate-pulse bg-blue-500/10 px-2.5 py-1 rounded-md border border-blue-500/20">
+              <Loader2 size={12} className="animate-spin" />
+              <span>{globalUploadStatus}</span>
+            </div>
+          )}
           {error && <span className="editor-error">{error}</span>}
           <Button
             onClick={handleSave}
@@ -730,7 +1162,7 @@ export default function ArticleEditor({
           className="editor-pane editor-pane-left"
           style={{ width: `${splitPercent}%` }}
         >
-          <div className="editor-with-gutter">
+          <div className="editor-with-gutter relative">
             <div className="editor-gutter" aria-hidden="true">
               {Array.from({ length: lineCount }, (_, i) => (
                 <div key={i} className="editor-line-number">
@@ -743,11 +1175,26 @@ export default function ArticleEditor({
               value={content}
               onChange={(e) => setContent(e.target.value)}
               onKeyDown={handleKeyDown}
+              onPaste={handleTextareaPaste}
+              onDrop={handleTextareaDrop}
+              onDragOver={handleTextareaDragOver}
+              onDragLeave={handleTextareaDragLeave}
               onScroll={handleEditorScroll}
               className="editor-textarea"
-              placeholder="Write your markdown here..."
+              placeholder="Write your markdown here... (Drag & drop or paste images here)"
               spellCheck={false}
             />
+            {isDraggingOverEditor && (
+              <div className="editor-drop-overlay">
+                <UploadCloud size={36} className="text-blue-500 animate-bounce mb-2" />
+                <span className="font-semibold text-sm text-white">
+                  Drop image to upload to Vercel Blob
+                </span>
+                <span className="text-xs text-white/70 mt-1">
+                  Supports PNG, JPG, WebP, GIF, SVG
+                </span>
+              </div>
+            )}
           </div>
         </div>
 

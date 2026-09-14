@@ -19,6 +19,10 @@
   --notion-text-body: #65676b;
   --notion-text-secondary: #65676b;
   --notion-text-muted: #8a8d91;
+  --sidebar-text: #1f2937;
+  --sidebar-text-hover: #0f172a;
+  --sidebar-text-active: #0f172a;
+  --sidebar-text-muted: #4b5563;
   --notion-border: rgba(0, 0, 0, 0.08);
   --notion-border-strong: rgba(0, 0, 0, 0.14);
   --notion-divider: #ced0d4;
@@ -79,10 +83,14 @@
   --notion-sidebar-bg: #1b1b1b;
   --notion-card-bg: #1c1c1c;
   --notion-card-hover: #242424;
-  --notion-text-primary: #b4b7bd;
-  --notion-text-body: #989ba2;
-  --notion-text-secondary: #747780;
-  --notion-text-muted: #585b62;
+  --notion-text-primary: #e2e8f0;
+  --notion-text-body: #cbd5e1;
+  --notion-text-secondary: #94a3b8;
+  --notion-text-muted: #64748b;
+  --sidebar-text: #e2e8f0;
+  --sidebar-text-hover: #ffffff;
+  --sidebar-text-active: #ffffff;
+  --sidebar-text-muted: #94a3b8;
   --notion-border: rgba(255, 255, 255, 0.08);
   --notion-border-strong: rgba(255, 255, 255, 0.14);
   --notion-divider: #262626;
@@ -544,7 +552,12 @@ aside.nextra-sidebar-container > div {
   overflow-y: auto !important;
 }
 
-/* Sidebar Navigation Links */
+/* Sidebar High-Contrast Clear Readability */
+aside.nextra-sidebar,
+aside.nextra-sidebar-container {
+  color: var(--sidebar-text) !important;
+}
+
 aside.nextra-sidebar a,
 aside.nextra-sidebar button,
 aside.nextra-sidebar-container a,
@@ -554,10 +567,19 @@ aside.nextra-sidebar-container button {
   padding: 6px 10px !important;
   border-radius: 6px !important;
   margin-bottom: 2px !important;
-  color: var(--notion-text-secondary) !important;
+  color: var(--sidebar-text) !important;
+  opacity: 1 !important;
   transition: all 0.1s ease-in-out !important;
   display: flex !important;
   align-items: center !important;
+}
+
+aside.nextra-sidebar a span,
+aside.nextra-sidebar button span,
+aside.nextra-sidebar-container a span,
+aside.nextra-sidebar-container button span {
+  color: inherit !important;
+  opacity: 1 !important;
 }
 
 aside.nextra-sidebar a:hover,
@@ -565,7 +587,7 @@ aside.nextra-sidebar button:hover,
 aside.nextra-sidebar-container a:hover,
 aside.nextra-sidebar-container button:hover {
   background-color: var(--notion-hover) !important;
-  color: var(--notion-text-primary) !important;
+  color: var(--sidebar-text-hover) !important;
 }
 
 aside.nextra-sidebar a[data-active="true"],
@@ -574,14 +596,39 @@ aside.nextra-sidebar a[aria-current="page"],
 aside.nextra-sidebar-container a[data-active="true"],
 aside.nextra-sidebar-container a.active {
   background-color: var(--notion-hover) !important;
-  color: var(--notion-text-primary) !important;
+  color: var(--sidebar-text-active) !important;
   font-weight: 600 !important;
 }
 
+aside.nextra-sidebar svg,
+aside.nextra-sidebar-container svg {
+  color: var(--sidebar-text) !important;
+  opacity: 0.85 !important;
+}
+
+aside.nextra-sidebar a:hover svg,
+aside.nextra-sidebar button:hover svg,
 aside.nextra-sidebar a[data-active="true"] svg,
 aside.nextra-sidebar a.active svg,
 aside.nextra-sidebar a[aria-current="page"] svg {
-  color: var(--notion-text-primary) !important;
+  color: var(--sidebar-text-active) !important;
+  opacity: 1 !important;
+}
+
+/* Sidebar Section Titles & Group Headings */
+aside.nextra-sidebar [class*="title"],
+aside.nextra-sidebar [class*="heading"],
+aside.nextra-sidebar [class*="group"],
+aside.nextra-sidebar summary,
+aside.nextra-sidebar li {
+  color: var(--sidebar-text) !important;
+}
+
+aside.nextra-sidebar [class*="title"]:not(a),
+aside.nextra-sidebar [class*="heading"]:not(a),
+aside.nextra-sidebar summary {
+  font-weight: 600 !important;
+  color: var(--sidebar-text-active) !important;
 }
 
 aside.nextra-sidebar > div > ul,
@@ -1572,4 +1619,81 @@ article img {
   width: 100%;
   overflow-x: auto;
 }
+
+/* -------------------------------------------------------------------------
+   IMAGE UPLOADS & MARKDOWN IMAGES
+   ------------------------------------------------------------------------- */
+.article-viewer-container img,
+.editor-preview-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 1.5rem auto;
+  display: block;
+  border: 1px solid var(--notion-border);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.article-viewer-container img:hover,
+.editor-preview-content img:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.09);
+}
+
+.editor-drop-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(4px);
+  border: 2px dashed #3b82f6;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  pointer-events: none;
+}
+
+.image-dropzone {
+  border: 2px dashed var(--notion-border);
+  border-radius: 8px;
+  padding: 24px 16px;
+  text-align: center;
+  cursor: pointer;
+  background-color: var(--notion-card-bg);
+  transition: all 0.15s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.image-dropzone:hover,
+.image-dropzone.dragover {
+  border-color: #3b82f6;
+  background-color: var(--notion-hover);
+}
+
+.image-preview-wrapper {
+  position: relative;
+  width: 100%;
+  max-height: 200px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--notion-border);
+  background: var(--notion-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-preview-wrapper img {
+  max-width: 100%;
+  max-height: 190px;
+  object-fit: contain;
+  margin: 0;
+}
+
 
