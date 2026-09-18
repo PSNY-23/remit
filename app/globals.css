@@ -667,8 +667,8 @@ main,
 article,
 .nextra-content {
   color: var(--notion-text-body) !important;
-  font-size: 1rem !important;
-  line-height: 1.75 !important;
+  font-size: 1.02rem !important;
+  line-height: 1.62 !important;
   max-width: 100% !important;
   box-sizing: border-box !important;
 }
@@ -676,36 +676,36 @@ article,
 /* Headings with clear hierarchy and optical balance */
 article h1 {
   color: var(--notion-text-primary) !important;
-  font-size: clamp(1.6rem, 4vw, 2.15rem) !important;
+  font-size: clamp(1.7rem, 4vw, 2.2rem) !important;
   font-weight: 700 !important;
   letter-spacing: -0.025em !important;
-  line-height: 1.25 !important;
+  line-height: 1.22 !important;
   margin-top: 0 !important;
-  margin-bottom: 1rem !important;
+  margin-bottom: 0.9rem !important;
   word-break: break-word !important;
   overflow-wrap: break-word !important;
 }
 
 article h2 {
   color: var(--notion-text-primary) !important;
-  font-size: clamp(1.25rem, 3vw, 1.45rem) !important;
+  font-size: clamp(1.3rem, 3vw, 1.52rem) !important;
   font-weight: 650 !important;
   letter-spacing: -0.02em !important;
-  line-height: 1.35 !important;
-  margin-top: 2.25rem !important;
-  margin-bottom: 0.75rem !important;
+  line-height: 1.3 !important;
+  margin-top: 2rem !important;
+  margin-bottom: 0.7rem !important;
   word-break: break-word !important;
   overflow-wrap: break-word !important;
 }
 
 article h3 {
   color: var(--notion-text-primary) !important;
-  font-size: clamp(1.05rem, 2.5vw, 1.15rem) !important;
+  font-size: clamp(1.1rem, 2.5vw, 1.22rem) !important;
   font-weight: 600 !important;
   letter-spacing: -0.015em !important;
-  line-height: 1.4 !important;
-  margin-top: 1.75rem !important;
-  margin-bottom: 0.5rem !important;
+  line-height: 1.35 !important;
+  margin-top: 1.6rem !important;
+  margin-bottom: 0.45rem !important;
   word-break: break-word !important;
   overflow-wrap: break-word !important;
 }
@@ -714,10 +714,10 @@ article h4,
 article h5,
 article h6 {
   color: var(--notion-text-primary) !important;
-  font-size: 1rem !important;
+  font-size: 1.04rem !important;
   font-weight: 600 !important;
-  margin-top: 1.5rem !important;
-  margin-bottom: 0.4rem !important;
+  margin-top: 1.4rem !important;
+  margin-bottom: 0.35rem !important;
   word-break: break-word !important;
   overflow-wrap: break-word !important;
 }
@@ -725,10 +725,10 @@ article h6 {
 /* Paragraphs & Lists - Distinct breathing room */
 article p {
   color: var(--notion-text-body) !important;
-  font-size: 0.985rem !important;
-  line-height: 1.75 !important;
+  font-size: 1.02rem !important;
+  line-height: 1.6 !important;
   margin-top: 0 !important;
-  margin-bottom: 1.25rem !important;
+  margin-bottom: 1.15rem !important;
   word-break: break-word !important;
   overflow-wrap: break-word !important;
 }
@@ -736,17 +736,17 @@ article p {
 article ul,
 article ol {
   padding-left: 1.35rem !important;
-  margin-top: 0.5rem !important;
-  margin-bottom: 1.25rem !important;
+  margin-top: 0.45rem !important;
+  margin-bottom: 1.15rem !important;
   max-width: 100% !important;
   box-sizing: border-box !important;
 }
 
 article li {
   color: var(--notion-text-body) !important;
-  font-size: 0.985rem !important;
-  line-height: 1.72 !important;
-  margin-bottom: 0.45rem !important;
+  font-size: 1.01rem !important;
+  line-height: 1.58 !important;
+  margin-bottom: 0.4rem !important;
   word-break: break-word !important;
   overflow-wrap: break-word !important;
 }
@@ -805,7 +805,7 @@ article code:not(pre code) {
   border: 1px solid var(--notion-border) !important;
   border-radius: 4px !important;
   padding: 0.15em 0.4em !important;
-  font-size: 0.875em !important;
+  font-size: 0.9em !important;
   font-weight: 500 !important;
   word-break: break-word !important;
   overflow-wrap: break-word !important;
@@ -821,7 +821,7 @@ article
   border: 1px solid var(--notion-border) !important;
   border-radius: 8px !important;
   background-color: var(--notion-card-bg) !important;
-  font-size: 0.875rem !important;
+  font-size: 0.925rem !important;
   line-height: 1.6 !important;
   padding: 14px 16px !important;
   overflow-x: auto !important;
@@ -852,7 +852,7 @@ article table {
   max-width: 100% !important;
   border-collapse: collapse !important;
   margin: 1.75rem 0 !important;
-  font-size: 0.885rem !important;
+  font-size: 0.94rem !important;
   color: var(--notion-text-body) !important;
   display: block !important;
   overflow-x: auto !important;
@@ -1004,9 +1004,9 @@ article img {
 }
 
 .article-viewer-container h1 {
-  font-size: clamp(2.1rem, 4.2vw, 2.6rem) !important;
+  font-size: clamp(2.18rem, 4.2vw, 2.68rem) !important;
   font-weight: 700 !important;
-  line-height: 1.2 !important;
+  line-height: 1.18 !important;
   letter-spacing: -0.022em !important;
   color: var(--notion-text-primary) !important;
   margin-top: 0 !important;
@@ -1014,19 +1014,19 @@ article img {
 }
 
 .article-viewer-container p {
-  font-size: 1.18rem !important;
-  line-height: 1.65 !important;
+  font-size: 1.21rem !important;
+  line-height: 1.55 !important;
   letter-spacing: -0.003em !important;
   margin-top: 0 !important;
-  margin-bottom: 1.25rem !important;
+  margin-bottom: 1.15rem !important;
   color: var(--notion-text-primary) !important;
 }
 
 .article-viewer-container li {
-  font-size: 1.15rem !important;
-  line-height: 1.62 !important;
+  font-size: 1.18rem !important;
+  line-height: 1.52 !important;
   letter-spacing: -0.003em !important;
-  margin-bottom: 0.5rem !important;
+  margin-bottom: 0.45rem !important;
   color: var(--notion-text-primary) !important;
 }
 
@@ -1037,47 +1037,47 @@ article img {
 }
 
 .article-viewer-container h2 {
-  font-size: clamp(1.45rem, 3vw, 1.7rem) !important;
+  font-size: clamp(1.5rem, 3vw, 1.76rem) !important;
   font-weight: 700 !important;
-  line-height: 1.3 !important;
+  line-height: 1.26 !important;
   letter-spacing: -0.015em !important;
   color: var(--notion-text-primary) !important;
-  margin-top: 2.25rem !important;
-  margin-bottom: 0.95rem !important;
+  margin-top: 2.1rem !important;
+  margin-bottom: 0.85rem !important;
 }
 
 .article-viewer-container h3 {
-  font-size: clamp(1.22rem, 2.5vw, 1.38rem) !important;
+  font-size: clamp(1.26rem, 2.5vw, 1.42rem) !important;
   font-weight: 650 !important;
-  line-height: 1.35 !important;
+  line-height: 1.3 !important;
   letter-spacing: -0.012em !important;
   color: var(--notion-text-primary) !important;
-  margin-top: 1.85rem !important;
-  margin-bottom: 0.7rem !important;
+  margin-top: 1.75rem !important;
+  margin-bottom: 0.65rem !important;
 }
 
 .article-viewer-container h4,
 .article-viewer-container h5,
 .article-viewer-container h6 {
-  font-size: 1.12rem !important;
+  font-size: 1.15rem !important;
   font-weight: 600 !important;
-  line-height: 1.4 !important;
+  line-height: 1.35 !important;
   color: var(--notion-text-primary) !important;
-  margin-top: 1.4rem !important;
-  margin-bottom: 0.45rem !important;
+  margin-top: 1.35rem !important;
+  margin-bottom: 0.4rem !important;
 }
 
 /* Blockquote: Crisp solid vertical bar, non-italicized bold/medium serif */
 .article-viewer-container blockquote {
-  font-size: 1.15rem !important;
+  font-size: 1.18rem !important;
   font-weight: 600 !important;
   font-style: normal !important;
-  line-height: 1.6 !important;
+  line-height: 1.5 !important;
   border-left: 3.5px solid #cbd5e1 !important;
   padding-left: 1.25rem !important;
   padding-top: 0.25rem !important;
   padding-bottom: 0.25rem !important;
-  margin: 1.4rem 0 !important;
+  margin: 1.35rem 0 !important;
   color: #374151 !important;
 }
 
@@ -1098,7 +1098,7 @@ article img {
 
 .article-viewer-container th {
   font-family: inherit !important;
-  font-size: 1.12rem !important;
+  font-size: 1.15rem !important;
   font-weight: 700 !important;
   color: var(--notion-text-primary) !important;
   text-align: left !important;
@@ -1111,10 +1111,10 @@ article img {
 
 .article-viewer-container td {
   font-family: inherit !important;
-  font-size: 1.12rem !important;
-  line-height: 1.6 !important;
+  font-size: 1.15rem !important;
+  line-height: 1.48 !important;
   color: var(--notion-text-primary) !important;
-  padding: 13px 14px 13px 0 !important;
+  padding: 12px 14px 12px 0 !important;
   border: none !important;
   border-bottom: 1px solid var(--notion-border) !important;
   vertical-align: middle !important;
@@ -1125,14 +1125,14 @@ article img {
   font-family:
     var(--font-mono), ui-monospace, SFMono-Regular, "JetBrains Mono", Consolas,
     monospace !important;
-  font-size: 0.86em !important;
+  font-size: 0.88em !important;
 }
 
 .article-viewer-container pre {
   font-family:
     var(--font-mono), ui-monospace, SFMono-Regular, "JetBrains Mono", Consolas,
     monospace !important;
-  font-size: 13.5px !important;
+  font-size: 14px !important;
 }
 
 .article-viewer-container pre code,
@@ -1387,7 +1387,7 @@ article img {
 }
 
 .editor-preview-doc-title {
-  font-size: 2rem;
+  font-size: 2.1rem;
   font-weight: 700;
   line-height: 1.25;
   color: var(--notion-text-primary);
@@ -1558,7 +1558,7 @@ article img {
   }
 
   .editor-preview-doc-title {
-    font-size: 1.5rem;
+    font-size: 1.55rem;
   }
 
   /* Floating/bottom back to edit action */
@@ -1633,8 +1633,8 @@ article img {
   border-radius: 8px !important;
   padding: 16px 18px !important;
   font-family: var(--font-mono), monospace !important;
-  font-size: 13.5px !important;
-  line-height: 1.6 !important;
+  font-size: 14px !important;
+  line-height: 1.52 !important;
   overflow-x: auto !important;
   margin: 1.25em 0 !important;
   scrollbar-width: thin;
