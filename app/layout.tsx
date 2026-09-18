@@ -1,7 +1,7 @@
 import { Layout, Navbar } from "nextra-theme-docs";
 import { Head } from "nextra/components";
 import { getPageMap } from "nextra/page-map";
-import { Inter, JetBrains_Mono, IM_Fell_English } from "next/font/google";
+import { Inter, JetBrains_Mono, Newsreader } from "next/font/google";
 import SidebarTopBrand from "@/components/SidebarTopBrand";
 import SidebarToggleButton from "@/components/SidebarToggleButton";
 import ThemeToggleButton from "@/components/ThemeToggleButton";
@@ -9,7 +9,6 @@ import { Brain } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import "nextra-theme-docs/style.css";
 import "katex/dist/katex.min.css";
-import "highlight.js/styles/github-dark.css";
 import "./globals.css";
 
 export const dynamic = "force-dynamic";
@@ -26,11 +25,10 @@ const jetbrainsMono = JetBrains_Mono({
   variable: "--font-mono",
 });
 
-const imFellEnglish = IM_Fell_English({
-  weight: "400",
+const newsreader = Newsreader({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-im-fell",
+  variable: "--font-serif",
 });
 
 export const metadata = {
@@ -70,6 +68,24 @@ export default async function RootLayout({
       })
       .map((item: any) => {
         const name = item.name || "";
+        if (item.route === "/" || name === "index") {
+          return {
+            ...item,
+            type: "doc",
+            frontMatter: {
+              ...(item.frontMatter || {}),
+              sidebar: true,
+              theme: {
+                ...(item.frontMatter?.theme || {}),
+                sidebar: true,
+              },
+            },
+            theme: {
+              ...(item.theme || {}),
+              sidebar: true,
+            },
+          };
+        }
         if (flatSections.has(name)) {
           const { children, ...rest } = item;
           return rest;
@@ -113,7 +129,7 @@ export default async function RootLayout({
     return (
       <html
         lang="en"
-        className={`${inter.variable} ${jetbrainsMono.variable} ${imFellEnglish.variable}`}
+        className={`${inter.variable} ${jetbrainsMono.variable} ${newsreader.variable}`}
         suppressHydrationWarning
       >
         <Head faviconGlyph="🧠">

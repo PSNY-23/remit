@@ -1,23 +1,19 @@
-import React from "react";
+import HomeHero from "@/components/HomeHero";
 import { useMDXComponents } from "@/mdx-components";
 
-export default function ArticlesLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function Page() {
   const { wrapper: Wrapper } = useMDXComponents({});
 
   return (
     <Wrapper
       toc={[]}
       metadata={{
-        title: "Articles",
-        filePath: "app/articles/layout.tsx",
+        title: "Welcome to Remit",
+        filePath: "app/page.tsx",
       }}
       sourceCode=""
     >
-      {children}
+      <HomeHero />
     </Wrapper>
   );
 }

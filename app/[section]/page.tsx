@@ -36,7 +36,14 @@ export default async function DynamicSubjectPage({ params }: Props) {
   const { wrapper: Wrapper } = useMDXComponents({});
 
   return (
-    <Wrapper toc={[]} metadata={{ title: subject.title }}>
+    <Wrapper
+      toc={[]}
+      metadata={{
+        title: subject.title,
+        filePath: `app/[section]/page.tsx`,
+      }}
+      sourceCode=""
+    >
       <div className="w-full max-w-none">
         <h1 className="text-3xl font-bold tracking-tight mb-2 text-(--notion-text-primary)">
           {subject.title}

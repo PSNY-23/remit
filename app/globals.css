@@ -75,28 +75,28 @@
 
 .dark,
 [data-theme="dark"] {
-  /* Nextra internal RGB background tokens */
-  --nextra-bg: 20, 20, 20;
+  /* Nextra internal RGB background tokens (One Dark Pro muted slate: #282c34) */
+  --nextra-bg: 40, 44, 52;
 
-  /* Dark Mode - Muted, Soothing Low-Glare Typography */
-  --notion-bg: #141414;
-  --notion-sidebar-bg: #1b1b1b;
-  --notion-card-bg: #1c1c1c;
-  --notion-card-hover: #242424;
-  --notion-text-primary: #e2e8f0;
-  --notion-text-body: #cbd5e1;
-  --notion-text-secondary: #94a3b8;
-  --notion-text-muted: #64748b;
-  --sidebar-text: #e2e8f0;
+  /* Dark Mode - Faded, Soothing Muted Dark (One Dark Pro aesthetic - easy on the eyes) */
+  --notion-bg: #282c34;
+  --notion-sidebar-bg: #21252b;
+  --notion-card-bg: #2c313a;
+  --notion-card-hover: #353b45;
+  --notion-text-primary: #e5e9f0;
+  --notion-text-body: #abb2bf;
+  --notion-text-secondary: #9da5b4;
+  --notion-text-muted: #6b7382;
+  --sidebar-text: #abb2bf;
   --sidebar-text-hover: #ffffff;
   --sidebar-text-active: #ffffff;
-  --sidebar-text-muted: #94a3b8;
+  --sidebar-text-muted: #9da5b4;
   --notion-border: rgba(255, 255, 255, 0.08);
-  --notion-border-strong: rgba(255, 255, 255, 0.14);
-  --notion-divider: #262626;
-  --notion-hover: rgba(255, 255, 255, 0.05);
-  --notion-active: rgba(255, 255, 255, 0.09);
-  --notion-callout-bg: #1e1e1e;
+  --notion-border-strong: rgba(255, 255, 255, 0.15);
+  --notion-divider: #3b4048;
+  --notion-hover: rgba(255, 255, 255, 0.06);
+  --notion-active: rgba(255, 255, 255, 0.1);
+  --notion-callout-bg: #2d323b;
 
   /* shadcn UI variables (Dark) */
   --background: var(--notion-bg);
@@ -119,25 +119,25 @@
   --input: var(--notion-border);
   --ring: var(--notion-border-strong);
 
-  /* Notion Tag Colors (Dark) */
-  --tag-gray-bg: #262626;
-  --tag-gray-text: #989ba2;
-  --tag-brown-bg: #432e2b;
+  /* Notion Tag Colors (Dark - Soft One Dark Pro Accents) */
+  --tag-gray-bg: #353b45;
+  --tag-gray-text: #abb2bf;
+  --tag-brown-bg: #433630;
   --tag-brown-text: #d8a07c;
-  --tag-orange-bg: #52331b;
-  --tag-orange-text: #fca962;
-  --tag-yellow-bg: #563e15;
-  --tag-yellow-text: #fad25d;
-  --tag-green-bg: #244229;
-  --tag-green-text: #80ca8c;
-  --tag-blue-bg: #1a3d5e;
-  --tag-blue-text: #85b7eb;
-  --tag-purple-bg: #3f2c61;
-  --tag-purple-text: #c4a5f7;
-  --tag-pink-bg: #4e2c3b;
-  --tag-pink-text: #f290b2;
-  --tag-red-bg: #4d2325;
-  --tag-red-text: #f28b8b;
+  --tag-orange-bg: #4a3828;
+  --tag-orange-text: #d19a66;
+  --tag-yellow-bg: #4a4325;
+  --tag-yellow-text: #e5c07b;
+  --tag-green-bg: #283a2d;
+  --tag-green-text: #98c379;
+  --tag-blue-bg: #22384e;
+  --tag-blue-text: #61afef;
+  --tag-purple-bg: #3c2e4d;
+  --tag-purple-text: #c678dd;
+  --tag-pink-bg: #482d3e;
+  --tag-pink-text: #e06c75;
+  --tag-red-bg: #45272a;
+  --tag-red-text: #e06c75;
 }
 
 /* -------------------------------------------------------------------------
@@ -811,7 +811,10 @@ article code:not(pre code) {
   overflow-wrap: break-word !important;
 }
 
-article pre {
+article
+  pre:not(.article-viewer-container pre):not(:has(.hljs)):not(
+    .editor-preview-content pre
+  ) {
   font-family:
     var(--font-mono), ui-monospace, SFMono-Regular, "JetBrains Mono", Consolas,
     monospace !important;
@@ -829,7 +832,11 @@ article pre {
   -webkit-overflow-scrolling: touch !important;
 }
 
-article pre code {
+article
+  pre:not(.article-viewer-container pre):not(:has(.hljs)):not(
+    .editor-preview-content pre
+  )
+  code {
   font-family: inherit !important;
   font-size: inherit !important;
   background: transparent !important;
@@ -978,7 +985,7 @@ article img {
 }
 
 /* -------------------------------------------------------------------------
-   ARTICLE VIEWER TYPOGRAPHY (IM FELL ENGLISH - CLASSIC EDITORIAL PAPER)
+   ARTICLE VIEWER TYPOGRAPHY (EDITORIAL SERIF - MATCHING DESIGN REFERENCE)
    ------------------------------------------------------------------------- */
 .article-viewer-container,
 .article-viewer-container p,
@@ -992,49 +999,125 @@ article img {
 .article-viewer-container h6,
 .article-viewer-container a {
   font-family:
-    var(--font-im-fell), "IM Fell English", Georgia, Cambria, "Times New Roman",
-    serif !important;
-}
-
-.article-viewer-container p,
-.article-viewer-container li {
-  font-size: 1.285rem !important;
-  line-height: 1.55 !important;
-  letter-spacing: 0.005em !important;
-  margin-bottom: 0.9rem !important;
-}
-
-.article-viewer-container blockquote {
-  font-size: 1.25rem !important;
-  line-height: 1.55 !important;
-  margin: 1rem 0 !important;
+    var(--font-serif), "Newsreader", Charter, "Bitstream Charter", "Sitka Text",
+    Cambria, Georgia, serif !important;
 }
 
 .article-viewer-container h1 {
-  font-size: clamp(2.35rem, 5vw, 3.25rem) !important;
-  font-weight: 400 !important;
-  line-height: 1.22 !important;
-  letter-spacing: -0.015em !important;
+  font-size: clamp(2.1rem, 4.2vw, 2.6rem) !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+  letter-spacing: -0.022em !important;
+  color: var(--notion-text-primary) !important;
+  margin-top: 0 !important;
+  margin-bottom: 0.85rem !important;
+}
+
+.article-viewer-container p {
+  font-size: 1.18rem !important;
+  line-height: 1.65 !important;
+  letter-spacing: -0.003em !important;
+  margin-top: 0 !important;
+  margin-bottom: 1.25rem !important;
+  color: var(--notion-text-primary) !important;
+}
+
+.article-viewer-container li {
+  font-size: 1.15rem !important;
+  line-height: 1.62 !important;
+  letter-spacing: -0.003em !important;
+  margin-bottom: 0.5rem !important;
+  color: var(--notion-text-primary) !important;
+}
+
+.article-viewer-container hr {
+  border: 0 !important;
+  border-top: 1px solid var(--notion-border) !important;
+  margin: 2rem 0 !important;
 }
 
 .article-viewer-container h2 {
-  font-size: clamp(1.75rem, 3.6vw, 2.25rem) !important;
-  font-weight: 400 !important;
+  font-size: clamp(1.45rem, 3vw, 1.7rem) !important;
+  font-weight: 700 !important;
   line-height: 1.3 !important;
+  letter-spacing: -0.015em !important;
+  color: var(--notion-text-primary) !important;
+  margin-top: 2.25rem !important;
+  margin-bottom: 0.95rem !important;
 }
 
 .article-viewer-container h3 {
-  font-size: clamp(1.4rem, 2.8vw, 1.7rem) !important;
-  font-weight: 400 !important;
+  font-size: clamp(1.22rem, 2.5vw, 1.38rem) !important;
+  font-weight: 650 !important;
   line-height: 1.35 !important;
+  letter-spacing: -0.012em !important;
+  color: var(--notion-text-primary) !important;
+  margin-top: 1.85rem !important;
+  margin-bottom: 0.7rem !important;
 }
 
 .article-viewer-container h4,
 .article-viewer-container h5,
 .article-viewer-container h6 {
-  font-size: 1.25rem !important;
-  font-weight: 400 !important;
+  font-size: 1.12rem !important;
+  font-weight: 600 !important;
   line-height: 1.4 !important;
+  color: var(--notion-text-primary) !important;
+  margin-top: 1.4rem !important;
+  margin-bottom: 0.45rem !important;
+}
+
+/* Blockquote: Crisp solid vertical bar, non-italicized bold/medium serif */
+.article-viewer-container blockquote {
+  font-size: 1.15rem !important;
+  font-weight: 600 !important;
+  font-style: normal !important;
+  line-height: 1.6 !important;
+  border-left: 3.5px solid #cbd5e1 !important;
+  padding-left: 1.25rem !important;
+  padding-top: 0.25rem !important;
+  padding-bottom: 0.25rem !important;
+  margin: 1.4rem 0 !important;
+  color: #374151 !important;
+}
+
+.dark .article-viewer-container blockquote,
+[data-theme="dark"] .article-viewer-container blockquote {
+  border-left-color: rgba(255, 255, 255, 0.25) !important;
+  color: #e2e8f0 !important;
+}
+
+/* Tables: Open layout, bottom dividers only, clean serif headers */
+.article-viewer-container table {
+  width: 100% !important;
+  border-collapse: collapse !important;
+  margin: 1.75rem 0 !important;
+  border: none !important;
+  display: table !important;
+}
+
+.article-viewer-container th {
+  font-family: inherit !important;
+  font-size: 1.12rem !important;
+  font-weight: 700 !important;
+  color: var(--notion-text-primary) !important;
+  text-align: left !important;
+  padding: 10px 14px 10px 0 !important;
+  background-color: transparent !important;
+  border: none !important;
+  border-bottom: 1.5px solid var(--notion-text-primary) !important;
+  white-space: nowrap !important;
+}
+
+.article-viewer-container td {
+  font-family: inherit !important;
+  font-size: 1.12rem !important;
+  line-height: 1.6 !important;
+  color: var(--notion-text-primary) !important;
+  padding: 13px 14px 13px 0 !important;
+  border: none !important;
+  border-bottom: 1px solid var(--notion-border) !important;
+  vertical-align: middle !important;
 }
 
 /* Maintain crisp monospace for code snippets and pre blocks */
@@ -1042,14 +1125,14 @@ article img {
   font-family:
     var(--font-mono), ui-monospace, SFMono-Regular, "JetBrains Mono", Consolas,
     monospace !important;
-  font-size: 1.05rem !important;
+  font-size: 0.86em !important;
 }
 
 .article-viewer-container pre {
   font-family:
     var(--font-mono), ui-monospace, SFMono-Regular, "JetBrains Mono", Consolas,
     monospace !important;
-  font-size: 0.95rem !important;
+  font-size: 13.5px !important;
 }
 
 .article-viewer-container pre code,
@@ -1121,8 +1204,6 @@ article img {
   background: var(--notion-hover);
   color: var(--notion-text-primary);
 }
-
-
 
 .editor-error {
   font-size: 12px;
@@ -1527,41 +1608,354 @@ article img {
   text-rendering: auto;
 }
 
-/* Syntax Highlighting & Code Blocks in Article Viewer & Editor Preview */
+/* ==========================================================================
+   Syntax Highlighting & Code Blocks in Article Viewer & Editor Preview
+   Adaptive Themes: Light background in Light Mode, Dark in Dark Mode
+   ========================================================================== */
+
+/* Light Mode: Clean light code card with GitHub Light syntax highlighting */
+.article-viewer-container .prose,
+.editor-preview-content .prose {
+  --tw-prose-pre-bg: #f6f8fa !important;
+  --tw-prose-pre-code: #24292e !important;
+}
+
 .prose pre:has(.hljs),
-.article-viewer-container pre {
-  background-color: #121214 !important;
-  color: #e4e4e7 !important;
-  border: 1px solid var(--notion-border);
-  border-radius: 8px;
-  padding: 16px 18px;
-  font-family: var(--font-mono), monospace;
-  font-size: 13.5px;
-  line-height: 1.6;
-  overflow-x: auto;
-  margin: 1.25em 0;
+.prose pre:has(code[class*="language-"]),
+.prose pre.hljs,
+.article-viewer-container pre,
+.article-viewer-container pre:has(.hljs),
+.article-viewer-container pre:has(code[class*="language-"]),
+.editor-preview-content pre {
+  background-color: #f6f8fa !important;
+  color: #24292e !important;
+  border: 1px solid var(--notion-border) !important;
+  border-radius: 8px !important;
+  padding: 16px 18px !important;
+  font-family: var(--font-mono), monospace !important;
+  font-size: 13.5px !important;
+  line-height: 1.6 !important;
+  overflow-x: auto !important;
+  margin: 1.25em 0 !important;
   scrollbar-width: thin;
 }
 
 .prose pre code,
-.article-viewer-container pre code {
+.prose pre:has(.hljs) code,
+.prose pre:has(code[class*="language-"]) code,
+.article-viewer-container pre code,
+.article-viewer-container pre code.hljs,
+.editor-preview-content pre code,
+pre:has(.hljs) code,
+pre code.hljs,
+code.hljs {
   background: transparent !important;
   padding: 0 !important;
-  font-size: inherit;
-  color: inherit;
+  font-size: inherit !important;
+  color: #24292e !important;
   border: none !important;
+  white-space: pre !important;
 }
 
-/* Inline Code */
+/* Light Theme Syntax Tokens (GitHub Light) */
+.article-viewer-container pre code .hljs-keyword,
+.article-viewer-container pre code .hljs-type,
+.article-viewer-container pre code .hljs-doctag,
+.prose pre code .hljs-keyword,
+.prose pre code .hljs-type,
+.prose pre code .hljs-doctag,
+.editor-preview-content pre code .hljs-keyword,
+.editor-preview-content pre code .hljs-type,
+.editor-preview-content pre code .hljs-doctag,
+.hljs-keyword,
+.hljs-type,
+.hljs-doctag {
+  color: #d73a49 !important;
+}
+
+.article-viewer-container pre code .hljs-title,
+.article-viewer-container pre code .hljs-title.function_,
+.article-viewer-container pre code .hljs-title.class_,
+.prose pre code .hljs-title,
+.prose pre code .hljs-title.function_,
+.prose pre code .hljs-title.class_,
+.editor-preview-content pre code .hljs-title,
+.editor-preview-content pre code .hljs-title.function_,
+.editor-preview-content pre code .hljs-title.class_,
+.hljs-title,
+.hljs-title.function_,
+.hljs-title.class_ {
+  color: #6f42c1 !important;
+}
+
+.article-viewer-container pre code .hljs-string,
+.article-viewer-container pre code .hljs-meta .hljs-string,
+.prose pre code .hljs-string,
+.prose pre code .hljs-meta .hljs-string,
+.editor-preview-content pre code .hljs-string,
+.editor-preview-content pre code .hljs-meta .hljs-string,
+.hljs-string,
+.hljs-meta .hljs-string {
+  color: #032f62 !important;
+}
+
+.article-viewer-container pre code .hljs-number,
+.article-viewer-container pre code .hljs-literal,
+.article-viewer-container pre code .hljs-operator,
+.article-viewer-container pre code .hljs-variable,
+.prose pre code .hljs-number,
+.prose pre code .hljs-literal,
+.prose pre code .hljs-operator,
+.prose pre code .hljs-variable,
+.editor-preview-content pre code .hljs-number,
+.editor-preview-content pre code .hljs-literal,
+.editor-preview-content pre code .hljs-operator,
+.editor-preview-content pre code .hljs-variable,
+.hljs-number,
+.hljs-literal,
+.hljs-operator,
+.hljs-variable {
+  color: #005cc5 !important;
+}
+
+.article-viewer-container pre code .hljs-comment,
+.article-viewer-container pre code .hljs-quote,
+.prose pre code .hljs-comment,
+.prose pre code .hljs-quote,
+.editor-preview-content pre code .hljs-comment,
+.editor-preview-content pre code .hljs-quote,
+.hljs-comment,
+.hljs-quote {
+  color: #6a737d !important;
+}
+
+.article-viewer-container pre code .hljs-built_in,
+.article-viewer-container pre code .hljs-symbol,
+.prose pre code .hljs-built_in,
+.prose pre code .hljs-symbol,
+.editor-preview-content pre code .hljs-built_in,
+.editor-preview-content pre code .hljs-symbol,
+.hljs-built_in,
+.hljs-symbol {
+  color: #e36209 !important;
+}
+
+.article-viewer-container pre code .hljs-meta,
+.article-viewer-container pre code .hljs-meta .hljs-keyword,
+.prose pre code .hljs-meta,
+.prose pre code .hljs-meta .hljs-keyword,
+.editor-preview-content pre code .hljs-meta,
+.editor-preview-content pre code .hljs-meta .hljs-keyword,
+.hljs-meta {
+  color: #005cc5 !important;
+}
+
+.article-viewer-container pre code .hljs-params,
+.article-viewer-container pre code .hljs-punctuation,
+.article-viewer-container pre code .hljs-property,
+.prose pre code .hljs-params,
+.prose pre code .hljs-punctuation,
+.prose pre code .hljs-property,
+.editor-preview-content pre code .hljs-params,
+.editor-preview-content pre code .hljs-punctuation,
+.editor-preview-content pre code .hljs-property,
+.hljs-params,
+.hljs-punctuation,
+.hljs-property {
+  color: #24292e !important;
+}
+
+/* Dark Mode: Sleek dark code card with GitHub Dark syntax highlighting */
+.dark .article-viewer-container .prose,
+[data-theme="dark"] .article-viewer-container .prose,
+.dark .editor-preview-content .prose,
+[data-theme="dark"] .editor-preview-content .prose {
+  --tw-prose-pre-bg: #21252b !important;
+  --tw-prose-pre-code: #abb2bf !important;
+}
+
+.dark .prose pre:has(.hljs),
+[data-theme="dark"] .prose pre:has(.hljs),
+.dark .prose pre:has(code[class*="language-"]),
+[data-theme="dark"] .prose pre:has(code[class*="language-"]),
+.dark .prose pre.hljs,
+[data-theme="dark"] .prose pre.hljs,
+.dark .article-viewer-container pre,
+[data-theme="dark"] .article-viewer-container pre,
+.dark .article-viewer-container pre:has(.hljs),
+[data-theme="dark"] .article-viewer-container pre:has(.hljs),
+.dark .article-viewer-container pre:has(code[class*="language-"]),
+[data-theme="dark"] .article-viewer-container pre:has(code[class*="language-"]),
+.dark .editor-preview-content pre,
+[data-theme="dark"] .editor-preview-content pre {
+  background-color: #21252b !important;
+  color: #abb2bf !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.dark .prose pre code,
+[data-theme="dark"] .prose pre code,
+.dark .prose pre:has(.hljs) code,
+[data-theme="dark"] .prose pre:has(.hljs) code,
+.dark .article-viewer-container pre code,
+[data-theme="dark"] .article-viewer-container pre code,
+.dark .article-viewer-container pre code.hljs,
+[data-theme="dark"] .article-viewer-container pre code.hljs,
+.dark .editor-preview-content pre code,
+[data-theme="dark"] .editor-preview-content pre code,
+.dark pre:has(.hljs) code,
+[data-theme="dark"] pre:has(.hljs) code,
+.dark pre code.hljs,
+[data-theme="dark"] pre code.hljs {
+  color: #abb2bf !important;
+}
+
+/* Dark Theme Syntax Tokens (GitHub Dark) */
+.dark .article-viewer-container pre code .hljs-keyword,
+[data-theme="dark"] .article-viewer-container pre code .hljs-keyword,
+.dark .article-viewer-container pre code .hljs-type,
+[data-theme="dark"] .article-viewer-container pre code .hljs-type,
+.dark .article-viewer-container pre code .hljs-doctag,
+[data-theme="dark"] .article-viewer-container pre code .hljs-doctag,
+.dark .prose pre code .hljs-keyword,
+[data-theme="dark"] .prose pre code .hljs-keyword,
+.dark .prose pre code .hljs-type,
+[data-theme="dark"] .prose pre code .hljs-type,
+.dark .editor-preview-content pre code .hljs-keyword,
+[data-theme="dark"] .editor-preview-content pre code .hljs-keyword,
+.dark .hljs-keyword,
+[data-theme="dark"] .hljs-keyword,
+.dark .hljs-type,
+[data-theme="dark"] .hljs-type {
+  color: #ff7b72 !important;
+}
+
+.dark .article-viewer-container pre code .hljs-title,
+[data-theme="dark"] .article-viewer-container pre code .hljs-title,
+.dark .article-viewer-container pre code .hljs-title.function_,
+[data-theme="dark"] .article-viewer-container pre code .hljs-title.function_,
+.dark .article-viewer-container pre code .hljs-title.class_,
+[data-theme="dark"] .article-viewer-container pre code .hljs-title.class_,
+.dark .prose pre code .hljs-title,
+[data-theme="dark"] .prose pre code .hljs-title,
+.dark .prose pre code .hljs-title.function_,
+[data-theme="dark"] .prose pre code .hljs-title.function_,
+.dark .editor-preview-content pre code .hljs-title,
+[data-theme="dark"] .editor-preview-content pre code .hljs-title,
+.dark .hljs-title,
+[data-theme="dark"] .hljs-title {
+  color: #d2a8ff !important;
+}
+
+.dark .article-viewer-container pre code .hljs-string,
+[data-theme="dark"] .article-viewer-container pre code .hljs-string,
+.dark .article-viewer-container pre code .hljs-meta .hljs-string,
+[data-theme="dark"] .article-viewer-container pre code .hljs-meta .hljs-string,
+.dark .prose pre code .hljs-string,
+[data-theme="dark"] .prose pre code .hljs-string,
+.dark .editor-preview-content pre code .hljs-string,
+[data-theme="dark"] .editor-preview-content pre code .hljs-string,
+.dark .hljs-string,
+[data-theme="dark"] .hljs-string {
+  color: #a5d6ff !important;
+}
+
+.dark .article-viewer-container pre code .hljs-number,
+[data-theme="dark"] .article-viewer-container pre code .hljs-number,
+.dark .article-viewer-container pre code .hljs-literal,
+[data-theme="dark"] .article-viewer-container pre code .hljs-literal,
+.dark .article-viewer-container pre code .hljs-operator,
+[data-theme="dark"] .article-viewer-container pre code .hljs-operator,
+.dark .article-viewer-container pre code .hljs-variable,
+[data-theme="dark"] .article-viewer-container pre code .hljs-variable,
+.dark .prose pre code .hljs-number,
+[data-theme="dark"] .prose pre code .hljs-number,
+.dark .prose pre code .hljs-operator,
+[data-theme="dark"] .prose pre code .hljs-operator,
+.dark .editor-preview-content pre code .hljs-number,
+[data-theme="dark"] .editor-preview-content pre code .hljs-number,
+.dark .hljs-number,
+[data-theme="dark"] .hljs-number,
+.dark .hljs-operator,
+[data-theme="dark"] .hljs-operator {
+  color: #79c0ff !important;
+}
+
+.dark .article-viewer-container pre code .hljs-comment,
+[data-theme="dark"] .article-viewer-container pre code .hljs-comment,
+.dark .article-viewer-container pre code .hljs-quote,
+[data-theme="dark"] .article-viewer-container pre code .hljs-quote,
+.dark .prose pre code .hljs-comment,
+[data-theme="dark"] .prose pre code .hljs-comment,
+.dark .editor-preview-content pre code .hljs-comment,
+[data-theme="dark"] .editor-preview-content pre code .hljs-comment,
+.dark .hljs-comment,
+[data-theme="dark"] .hljs-comment {
+  color: #8b949e !important;
+}
+
+.dark .article-viewer-container pre code .hljs-built_in,
+[data-theme="dark"] .article-viewer-container pre code .hljs-built_in,
+.dark .article-viewer-container pre code .hljs-symbol,
+[data-theme="dark"] .article-viewer-container pre code .hljs-symbol,
+.dark .prose pre code .hljs-built_in,
+[data-theme="dark"] .prose pre code .hljs-built_in,
+.dark .editor-preview-content pre code .hljs-built_in,
+[data-theme="dark"] .editor-preview-content pre code .hljs-built_in,
+.dark .hljs-built_in,
+[data-theme="dark"] .hljs-built_in {
+  color: #ffa657 !important;
+}
+
+.dark .article-viewer-container pre code .hljs-meta,
+[data-theme="dark"] .article-viewer-container pre code .hljs-meta,
+.dark .prose pre code .hljs-meta,
+[data-theme="dark"] .prose pre code .hljs-meta,
+.dark .editor-preview-content pre code .hljs-meta,
+[data-theme="dark"] .editor-preview-content pre code .hljs-meta,
+.dark .hljs-meta,
+[data-theme="dark"] .hljs-meta {
+  color: #79c0ff !important;
+}
+
+.dark .article-viewer-container pre code .hljs-params,
+[data-theme="dark"] .article-viewer-container pre code .hljs-params,
+.dark .article-viewer-container pre code .hljs-punctuation,
+[data-theme="dark"] .article-viewer-container pre code .hljs-punctuation,
+.dark .article-viewer-container pre code .hljs-property,
+[data-theme="dark"] .article-viewer-container pre code .hljs-property,
+.dark .prose pre code .hljs-params,
+[data-theme="dark"] .prose pre code .hljs-params,
+.dark .editor-preview-content pre code .hljs-params,
+[data-theme="dark"] .editor-preview-content pre code .hljs-params,
+.dark .hljs-params,
+[data-theme="dark"] .hljs-params {
+  color: #e4e4e7 !important;
+}
+
+/* Inline Code Pills (Matching reference screenshot) */
 .prose :not(pre) > code,
 .article-viewer-container :not(pre) > code {
-  font-family: var(--font-mono), monospace;
-  font-size: 0.88em;
-  padding: 2px 6px;
-  border-radius: 5px;
-  background-color: var(--notion-sidebar-bg);
-  border: 1px solid var(--notion-border);
-  color: var(--notion-text-primary);
+  font-family:
+    var(--font-mono), ui-monospace, SFMono-Regular, "JetBrains Mono", Consolas,
+    monospace !important;
+  font-size: 0.86em !important;
+  font-weight: 550 !important;
+  padding: 2.5px 6.5px !important;
+  border-radius: 5px !important;
+  background-color: #f8fafc !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  color: #991b1b !important;
+  word-break: break-word !important;
+}
+
+.dark .article-viewer-container :not(pre) > code,
+[data-theme="dark"] .article-viewer-container :not(pre) > code,
+.dark .prose :not(pre) > code,
+[data-theme="dark"] .prose :not(pre) > code {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  color: #fca5a5 !important;
 }
 
 /* Mermaid Diagrams */
@@ -1632,7 +2026,9 @@ article img {
   display: block;
   border: 1px solid var(--notion-border);
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .article-viewer-container img:hover,
@@ -1695,5 +2091,3 @@ article img {
   object-fit: contain;
   margin: 0;
 }
-
-
