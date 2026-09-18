@@ -667,8 +667,8 @@ main,
 article,
 .nextra-content {
   color: var(--notion-text-body) !important;
-  font-size: 1.02rem !important;
-  line-height: 1.62 !important;
+  font-size: 1.08rem !important;
+  line-height: 1.64 !important;
   max-width: 100% !important;
   box-sizing: border-box !important;
 }
@@ -676,7 +676,7 @@ article,
 /* Headings with clear hierarchy and optical balance */
 article h1 {
   color: var(--notion-text-primary) !important;
-  font-size: clamp(1.7rem, 4vw, 2.2rem) !important;
+  font-size: clamp(1.85rem, 4.2vw, 2.38rem) !important;
   font-weight: 700 !important;
   letter-spacing: -0.025em !important;
   line-height: 1.22 !important;
@@ -688,7 +688,7 @@ article h1 {
 
 article h2 {
   color: var(--notion-text-primary) !important;
-  font-size: clamp(1.3rem, 3vw, 1.52rem) !important;
+  font-size: clamp(1.42rem, 3.2vw, 1.68rem) !important;
   font-weight: 650 !important;
   letter-spacing: -0.02em !important;
   line-height: 1.3 !important;
@@ -700,7 +700,7 @@ article h2 {
 
 article h3 {
   color: var(--notion-text-primary) !important;
-  font-size: clamp(1.1rem, 2.5vw, 1.22rem) !important;
+  font-size: clamp(1.2rem, 2.6vw, 1.34rem) !important;
   font-weight: 600 !important;
   letter-spacing: -0.015em !important;
   line-height: 1.35 !important;
@@ -714,7 +714,7 @@ article h4,
 article h5,
 article h6 {
   color: var(--notion-text-primary) !important;
-  font-size: 1.04rem !important;
+  font-size: 1.12rem !important;
   font-weight: 600 !important;
   margin-top: 1.4rem !important;
   margin-bottom: 0.35rem !important;
@@ -725,8 +725,8 @@ article h6 {
 /* Paragraphs & Lists - Distinct breathing room */
 article p {
   color: var(--notion-text-body) !important;
-  font-size: 1.02rem !important;
-  line-height: 1.6 !important;
+  font-size: 1.08rem !important;
+  line-height: 1.62 !important;
   margin-top: 0 !important;
   margin-bottom: 1.15rem !important;
   word-break: break-word !important;
@@ -744,8 +744,8 @@ article ol {
 
 article li {
   color: var(--notion-text-body) !important;
-  font-size: 1.01rem !important;
-  line-height: 1.58 !important;
+  font-size: 1.07rem !important;
+  line-height: 1.6 !important;
   margin-bottom: 0.4rem !important;
   word-break: break-word !important;
   overflow-wrap: break-word !important;
@@ -805,7 +805,7 @@ article code:not(pre code) {
   border: 1px solid var(--notion-border) !important;
   border-radius: 4px !important;
   padding: 0.15em 0.4em !important;
-  font-size: 0.9em !important;
+  font-size: 0.92em !important;
   font-weight: 500 !important;
   word-break: break-word !important;
   overflow-wrap: break-word !important;
@@ -821,7 +821,7 @@ article
   border: 1px solid var(--notion-border) !important;
   border-radius: 8px !important;
   background-color: var(--notion-card-bg) !important;
-  font-size: 0.925rem !important;
+  font-size: 0.98rem !important;
   line-height: 1.6 !important;
   padding: 14px 16px !important;
   overflow-x: auto !important;
@@ -852,7 +852,7 @@ article table {
   max-width: 100% !important;
   border-collapse: collapse !important;
   margin: 1.75rem 0 !important;
-  font-size: 0.94rem !important;
+  font-size: 1.0rem !important;
   color: var(--notion-text-body) !important;
   display: block !important;
   overflow-x: auto !important;
@@ -1004,7 +1004,7 @@ article img {
 }
 
 .article-viewer-container h1 {
-  font-size: clamp(2.18rem, 4.2vw, 2.68rem) !important;
+  font-size: clamp(2.32rem, 4.5vw, 2.88rem) !important;
   font-weight: 700 !important;
   line-height: 1.18 !important;
   letter-spacing: -0.022em !important;
@@ -1014,8 +1014,8 @@ article img {
 }
 
 .article-viewer-container p {
-  font-size: 1.21rem !important;
-  line-height: 1.55 !important;
+  font-size: 1.28rem !important;
+  line-height: 1.58 !important;
   letter-spacing: -0.003em !important;
   margin-top: 0 !important;
   margin-bottom: 1.15rem !important;
@@ -1023,8 +1023,8 @@ article img {
 }
 
 .article-viewer-container li {
-  font-size: 1.18rem !important;
-  line-height: 1.52 !important;
+  font-size: 1.25rem !important;
+  line-height: 1.55 !important;
   letter-spacing: -0.003em !important;
   margin-bottom: 0.45rem !important;
   color: var(--notion-text-primary) !important;
@@ -1037,7 +1037,7 @@ article img {
 }
 
 .article-viewer-container h2 {
-  font-size: clamp(1.5rem, 3vw, 1.76rem) !important;
+  font-size: clamp(1.62rem, 3.2vw, 1.92rem) !important;
   font-weight: 700 !important;
   line-height: 1.26 !important;
   letter-spacing: -0.015em !important;
@@ -1047,7 +1047,7 @@ article img {
 }
 
 .article-viewer-container h3 {
-  font-size: clamp(1.26rem, 2.5vw, 1.42rem) !important;
+  font-size: clamp(1.36rem, 2.7vw, 1.54rem) !important;
   font-weight: 650 !important;
   line-height: 1.3 !important;
   letter-spacing: -0.012em !important;
@@ -1059,7 +1059,7 @@ article img {
 .article-viewer-container h4,
 .article-viewer-container h5,
 .article-viewer-container h6 {
-  font-size: 1.15rem !important;
+  font-size: 1.22rem !important;
   font-weight: 600 !important;
   line-height: 1.35 !important;
   color: var(--notion-text-primary) !important;
@@ -1069,7 +1069,7 @@ article img {
 
 /* Blockquote: Crisp solid vertical bar, non-italicized bold/medium serif */
 .article-viewer-container blockquote {
-  font-size: 1.18rem !important;
+  font-size: 1.25rem !important;
   font-weight: 600 !important;
   font-style: normal !important;
   line-height: 1.5 !important;
@@ -1098,7 +1098,7 @@ article img {
 
 .article-viewer-container th {
   font-family: inherit !important;
-  font-size: 1.15rem !important;
+  font-size: 1.22rem !important;
   font-weight: 700 !important;
   color: var(--notion-text-primary) !important;
   text-align: left !important;
@@ -1111,7 +1111,7 @@ article img {
 
 .article-viewer-container td {
   font-family: inherit !important;
-  font-size: 1.15rem !important;
+  font-size: 1.22rem !important;
   line-height: 1.48 !important;
   color: var(--notion-text-primary) !important;
   padding: 12px 14px 12px 0 !important;
@@ -1125,14 +1125,14 @@ article img {
   font-family:
     var(--font-mono), ui-monospace, SFMono-Regular, "JetBrains Mono", Consolas,
     monospace !important;
-  font-size: 0.88em !important;
+  font-size: 0.90em !important;
 }
 
 .article-viewer-container pre {
   font-family:
     var(--font-mono), ui-monospace, SFMono-Regular, "JetBrains Mono", Consolas,
     monospace !important;
-  font-size: 14px !important;
+  font-size: 14.75px !important;
 }
 
 .article-viewer-container pre code,
@@ -1141,6 +1141,170 @@ article img {
     var(--font-mono), ui-monospace, SFMono-Regular, "JetBrains Mono", Consolas,
     monospace !important;
   font-size: inherit !important;
+}
+
+/* -------------------------------------------------------------------------
+   RESPONSIVE ARTICLE TYPOGRAPHY (MOBILE & TABLET <= 767.98px)
+   Balances high readability with mobile screen proportions (no awkward line wraps)
+   ------------------------------------------------------------------------- */
+@media (max-width: 767.98px) {
+  /* Mobile Headings - scaled to prevent excessive multi-line wrapping */
+  .article-viewer-container h1,
+  article h1 {
+    font-size: clamp(1.68rem, 5.8vw, 2.15rem) !important;
+    line-height: 1.22 !important;
+    letter-spacing: -0.02em !important;
+    margin-top: 0 !important;
+    margin-bottom: 0.75rem !important;
+  }
+
+  .article-viewer-container h2,
+  article h2 {
+    font-size: clamp(1.32rem, 4.2vw, 1.52rem) !important;
+    line-height: 1.28 !important;
+    letter-spacing: -0.015em !important;
+    margin-top: 1.65rem !important;
+    margin-bottom: 0.65rem !important;
+  }
+
+  .article-viewer-container h3,
+  article h3 {
+    font-size: clamp(1.15rem, 3.2vw, 1.28rem) !important;
+    line-height: 1.32 !important;
+    letter-spacing: -0.012em !important;
+    margin-top: 1.4rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  .article-viewer-container h4,
+  .article-viewer-container h5,
+  .article-viewer-container h6,
+  article h4,
+  article h5,
+  article h6 {
+    font-size: 1.08rem !important;
+    line-height: 1.35 !important;
+    margin-top: 1.2rem !important;
+    margin-bottom: 0.35rem !important;
+  }
+
+  /* Mobile Paragraphs - 18px equivalent for ideal mobile reading cadence (45-55 chars/line) */
+  .article-viewer-container p {
+    font-size: 1.125rem !important;
+    line-height: 1.62 !important;
+    letter-spacing: -0.002em !important;
+    margin-bottom: 1rem !important;
+  }
+
+  article p {
+    font-size: 1.04rem !important;
+    line-height: 1.62 !important;
+    margin-bottom: 1rem !important;
+  }
+
+  /* Mobile Lists - comfortable tap & reading spacing */
+  .article-viewer-container li {
+    font-size: 1.10rem !important;
+    line-height: 1.55 !important;
+    margin-bottom: 0.4rem !important;
+  }
+
+  article li {
+    font-size: 1.02rem !important;
+    line-height: 1.55 !important;
+    margin-bottom: 0.35rem !important;
+  }
+
+  /* Mobile Blockquotes - compact indentation to preserve horizontal screen width */
+  .article-viewer-container blockquote {
+    font-size: 1.10rem !important;
+    line-height: 1.52 !important;
+    padding-left: 1rem !important;
+    margin: 1.15rem 0 !important;
+    border-left-width: 3px !important;
+  }
+
+  article blockquote {
+    font-size: 1.02rem !important;
+    line-height: 1.52 !important;
+    padding-left: 0.95rem !important;
+    margin: 1.15rem 0 !important;
+  }
+
+  /* Mobile Tables - scaled typography & compact cell padding to minimize horizontal scroll */
+  .article-viewer-container table,
+  article table {
+    font-size: 0.92rem !important;
+    margin: 1.25rem 0 !important;
+  }
+
+  .article-viewer-container th,
+  article th {
+    font-size: 0.95rem !important;
+    padding: 8px 10px 8px 0 !important;
+  }
+
+  .article-viewer-container td,
+  article td {
+    font-size: 0.92rem !important;
+    line-height: 1.45 !important;
+    padding: 9px 10px 9px 0 !important;
+  }
+
+  /* Mobile Code Blocks - compact font size to maximize visible code on narrow screens */
+  .article-viewer-container pre,
+  .editor-preview-content pre,
+  .prose pre:has(.hljs),
+  .prose pre:has(code[class*="language-"]),
+  .prose pre.hljs,
+  article pre:not(.article-viewer-container pre):not(:has(.hljs)):not(.editor-preview-content pre) {
+    font-size: 13.2px !important;
+    line-height: 1.48 !important;
+    padding: 12px 14px !important;
+    border-radius: 6px !important;
+    margin: 1em 0 !important;
+  }
+
+  .prose :not(pre) > code,
+  .article-viewer-container :not(pre) > code,
+  article code:not(pre code) {
+    font-size: 0.86em !important;
+    padding: 2px 5px !important;
+  }
+}
+
+/* Extra small mobile viewports (< 480px) like small iPhones & Androids */
+@media (max-width: 480px) {
+  .article-viewer-container h1,
+  article h1 {
+    font-size: clamp(1.55rem, 5.2vw, 1.85rem) !important;
+    line-height: 1.2 !important;
+  }
+
+  .article-viewer-container h2,
+  article h2 {
+    font-size: clamp(1.24rem, 3.8vw, 1.42rem) !important;
+  }
+
+  .article-viewer-container p {
+    font-size: 1.08rem !important;
+    line-height: 1.6 !important;
+  }
+
+  .article-viewer-container li {
+    font-size: 1.05rem !important;
+    line-height: 1.52 !important;
+  }
+
+  .article-viewer-container pre,
+  .editor-preview-content pre,
+  .prose pre:has(.hljs),
+  .prose pre:has(code[class*="language-"]),
+  .prose pre.hljs,
+  article pre:not(.article-viewer-container pre):not(:has(.hljs)):not(.editor-preview-content pre) {
+    font-size: 12.5px !important;
+    padding: 10px 12px !important;
+  }
 }
 
 /* -------------------------------------------------------------------------
@@ -1387,7 +1551,7 @@ article img {
 }
 
 .editor-preview-doc-title {
-  font-size: 2.1rem;
+  font-size: 2.25rem;
   font-weight: 700;
   line-height: 1.25;
   color: var(--notion-text-primary);
@@ -1558,7 +1722,7 @@ article img {
   }
 
   .editor-preview-doc-title {
-    font-size: 1.55rem;
+    font-size: 1.68rem;
   }
 
   /* Floating/bottom back to edit action */
@@ -1633,7 +1797,7 @@ article img {
   border-radius: 8px !important;
   padding: 16px 18px !important;
   font-family: var(--font-mono), monospace !important;
-  font-size: 14px !important;
+  font-size: 14.75px !important;
   line-height: 1.52 !important;
   overflow-x: auto !important;
   margin: 1.25em 0 !important;
@@ -1939,7 +2103,7 @@ code.hljs {
   font-family:
     var(--font-mono), ui-monospace, SFMono-Regular, "JetBrains Mono", Consolas,
     monospace !important;
-  font-size: 0.86em !important;
+  font-size: 0.90em !important;
   font-weight: 550 !important;
   padding: 2.5px 6.5px !important;
   border-radius: 5px !important;
