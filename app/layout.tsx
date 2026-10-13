@@ -53,39 +53,25 @@ export default async function RootLayout({
       "nodejs",
       "system-design",
       "handwritten",
+      "dsa-tricks",
+      "misc",
     ]);
 
     const pageMap = rawPageMap
       .filter((item: any) => {
-        const name = item.name || item.route || "";
+        const name = (item.name || item.route || "").toLowerCase();
         return (
           !name.startsWith("[") &&
           name !== "create" &&
           item.route !== "/create" &&
           name !== "articles" &&
-          item.route !== "/articles"
+          item.route !== "/articles" &&
+          name !== "index" &&
+          item.route !== "/"
         );
       })
       .map((item: any) => {
         const name = item.name || "";
-        if (item.route === "/" || name === "index") {
-          return {
-            ...item,
-            type: "doc",
-            frontMatter: {
-              ...(item.frontMatter || {}),
-              sidebar: true,
-              theme: {
-                ...(item.frontMatter?.theme || {}),
-                sidebar: true,
-              },
-            },
-            theme: {
-              ...(item.theme || {}),
-              sidebar: true,
-            },
-          };
-        }
         if (flatSections.has(name)) {
           const { children, ...rest } = item;
           return rest;
@@ -107,11 +93,13 @@ export default async function RootLayout({
       });
 
       const existingNames = new Set(
-        pageMap.map((item: any) => item.name || item.route?.replace(/^\//, "")),
+        pageMap.map((item: any) =>
+          (item.name || item.route?.replace(/^\//, "") || "").toLowerCase(),
+        ),
       );
 
       for (const sub of dbSubjects) {
-        if (!existingNames.has(sub.slug)) {
+        if (!existingNames.has(sub.slug.toLowerCase())) {
           pageMap.push({
             name: sub.slug,
             route: `/${sub.slug}`,
@@ -125,6 +113,31 @@ export default async function RootLayout({
     } catch (dbErr) {
       console.error("Error fetching db subjects for sidebar:", dbErr);
     }
+
+    // Desired sidebar order:
+    // Dsa, Dsa-list, Dsa-tricks, nodejs, frontend, backend, databases, system design, misc, handwritten notes
+    const desiredOrder = [
+      "dsa",
+      "dsa-list",
+      "dsa-tricks",
+      "nodejs",
+      "frontend",
+      "backend",
+      "databases",
+      "system-design",
+      "misc",
+      "handwritten",
+    ];
+
+    const orderMap = new Map(desiredOrder.map((slug, idx) => [slug, idx]));
+
+    const sortedPageMap = pageMap.sort((a: any, b: any) => {
+      const keyA = (a.name || a.route?.replace(/^\//, "") || "").toLowerCase();
+      const keyB = (b.name || b.route?.replace(/^\//, "") || "").toLowerCase();
+      const orderA = orderMap.has(keyA) ? orderMap.get(keyA)! : 999;
+      const orderB = orderMap.has(keyB) ? orderMap.get(keyB)! : 999;
+      return orderA - orderB;
+    });
 
     return (
       <html
@@ -201,7 +214,7 @@ export default async function RootLayout({
                 </div>
               </Navbar>
             }
-            pageMap={pageMap}
+            pageMap={sortedPageMap}
             footer={null}
           >
             {children}
